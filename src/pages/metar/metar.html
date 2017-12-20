@@ -1,0 +1,24 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>METARs</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+	<h3 padding>Favorites</h3>
+	<ion-list>
+		<button ion-item *ngFor="let station of stations" [navPush]="metarDetailsPage" [navParams]="{metar: station}">
+			<h2>{{ station.ident | uppercase }}</h2>
+			<p>{{ station.raw }}</p>
+		</button>
+	</ion-list>
+	<h3 padding>Local</h3>
+	<ion-list>
+		<button ion-item *ngFor="let station of stations" (click)="itemSelected(station)">
+			{{ station.ident }}
+		</button>
+	</ion-list>
+</ion-content>
