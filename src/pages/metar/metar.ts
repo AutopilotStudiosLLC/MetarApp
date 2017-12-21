@@ -1,8 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {MetarDetailsPage} from "./metarDetails/metarDetails";
 import 'rxjs/Rx';
-import {HttpClient} from "@angular/common/http";
 import {Station} from "../../models/station.model";
 import {AddsService} from "../../services/adds.service";
 
@@ -12,7 +11,7 @@ import {AddsService} from "../../services/adds.service";
 	templateUrl: 'metar.html',
 	providers: [AddsService]
 })
-export class MetarPage implements OnInit {
+export class MetarPage {
 
 	metarDetailsPage = MetarDetailsPage;
 
@@ -22,7 +21,7 @@ export class MetarPage implements OnInit {
 	local: Station[] = [];
 	recent: Station[] = [];
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private http: HttpClient,
+	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private addsService: AddsService, private alertCtrl: AlertController) {
 	}
 
@@ -30,16 +29,36 @@ export class MetarPage implements OnInit {
 		this.navCtrl.push(MetarDetailsPage, {metar: metar})
 	}
 
-	ngOnInit() {
-		let stationResult = this.addsService.getMetars('KMAN')
-			.subscribe((station) => this.recent.push(station),
-				() => {
-					const alert = this.alertCtrl.create({
-						title: 'Error',
-						message: 'Unable to find the requested station.',
-						buttons: ['Ok']
-					});
-					alert.present();
+	ionViewWillEnter() {
+		let ident = 'KMAN';
+		this.addsService.getMetars(ident)
+			.subscribe((station) => {
+				let recent = this.recent.find((element) => {
+					if(element.ident === ident) return true;
 				});
+				if(!recent)
+					this.recent.push(station);
+			});
+	}
+
+	onStationSearch(ident: string) {
+		this.addsService.getMetars(ident)
+			.subscribe(
+			(station) => {
+				let recent = this.recent.find((element) => {
+					if (element.ident === ident) return true;
+				});
+				if (!recent)
+					this.recent.push(station);
+				this.navCtrl.push(MetarDetailsPage, {station: station, metar: station.getLatestMetar()})
+			},
+			() => {
+				const alert = this.alertCtrl.create({
+					title: 'Error',
+					message: 'Unable to find the requested station.',
+					buttons: ['Ok']
+				});
+				alert.present();
+			});
 	}
 }

@@ -8,12 +8,16 @@
 
 
 <ion-content>
-	<ion-list>
-		<ion-item>
-			<ion-label stacked>Enter Airpot Ident</ion-label>
-			<ion-input type="text"></ion-input>
-		</ion-item>
-	</ion-list>
+	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
+		<ion-list>
+			<ion-item>
+				<ion-label stacked>Find METAR</ion-label>
+				<ion-input type="text" name="ident" placeholder="KDEN" ngModel required></ion-input>
+			</ion-item>
+		</ion-list>
+		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
+	</form>
+
 
 	<div *ngIf="recent.length > 0">
 		<h5 padding-left>Recent</h5>
