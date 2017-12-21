@@ -5,7 +5,7 @@ import {Metar} from "../models/metar.model";
 
 @Injectable()
 export class AddsService {
-	//private baseUri = 'https://aviationweather.gov/adds/dataserver_current';
+	//private static baseUri = 'https://aviationweather.gov/adds/dataserver_current/httpparam';
 	private static baseUri = 'http://localhost:8100/api/httpparam';
 	private static metarParams = 'dataSource=metars&requestType=retrieve&format=xml'; //&compression=gzip';
 	private stations: Station[] = [];
