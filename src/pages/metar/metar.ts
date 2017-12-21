@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {MetarDetailsPage} from "./metarDetails/metarDetails";
 import 'rxjs/Rx';
 import {HttpClient} from "@angular/common/http";
@@ -23,7 +23,7 @@ export class MetarPage implements OnInit {
 	recent: Station[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private http: HttpClient,
-				private addsService: AddsService) {
+				private addsService: AddsService, private alertCtrl: AlertController) {
 	}
 
 	itemSelected(metar) {
@@ -31,7 +31,15 @@ export class MetarPage implements OnInit {
 	}
 
 	ngOnInit() {
-		this.addsService.getMetars('KMAN')
-			.subscribe((station) => this.recent.push(station));
+		let stationResult = this.addsService.getMetars('KMAN')
+			.subscribe((station) => this.recent.push(station),
+				() => {
+					const alert = this.alertCtrl.create({
+						title: 'Error',
+						message: 'Unable to find the requested station.',
+						buttons: ['Ok']
+					});
+					alert.present();
+				});
 	}
 }
