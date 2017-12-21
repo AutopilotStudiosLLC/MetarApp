@@ -33,12 +33,20 @@ export class MetarPage {
 		let ident = 'KMAN';
 		this.addsService.getMetars(ident)
 			.subscribe((station) => {
-				let recent = this.recent.find((element) => {
-					if(element.ident === ident) return true;
+					let recent = this.recent.find((element) => {
+						if(element.ident === ident) return true;
+					});
+					if(!recent)
+						this.recent.push(station);
+				},
+				() => {
+					const alert = this.alertCtrl.create({
+						title: 'Error',
+						message: 'Unable to find the requested station.',
+						buttons: ['Ok']
+					});
+					alert.present();
 				});
-				if(!recent)
-					this.recent.push(station);
-			});
 	}
 
 	onStationSearch(ident: string) {
