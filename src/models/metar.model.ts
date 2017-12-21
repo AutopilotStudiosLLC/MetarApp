@@ -1,4 +1,3 @@
-import {DateTimeData, parseDate} from "ionic-angular/es2015/util/datetime-util";
 import * as moment from 'moment';
 
 export class Metar {
