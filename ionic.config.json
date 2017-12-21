@@ -8,7 +8,7 @@
 	"proxies": [
 		{
 			"path": "/api",
-			"proxyUrl": "http://cors.api.com/api"
+			"proxyUrl": "https://aviationweather.gov/adds/dataserver_current"
 		}
 	]
 }

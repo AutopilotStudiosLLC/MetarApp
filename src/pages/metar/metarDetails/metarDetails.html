@@ -8,5 +8,41 @@
 
 
 <ion-content padding>
-	<p>Metar Details</p>
+	<p> {{ metar.raw }}</p>
+
+	<ion-list>
+		<ion-item>
+			<ion-icon name="clock" item-start></ion-icon>
+			{{ metar.observationTime.local().format("MMM Do, h:mm A Z") }}
+		</ion-item>
+		<ion-item>
+			<ion-icon name="pin" item-start></ion-icon>
+			{{ metar.latitude }} N {{ metar.longitude }} {{ metar.longitude < 0 ? 'W' : 'E' }}
+		</ion-item>
+		<ion-item>
+			{{ metar.flightCategory }}
+		</ion-item>
+		<ion-item>
+			<ion-icon name="thermometer" item-start></ion-icon>
+			{{ metar.temperature }} C / {{ metar.temperature * (9/5) + 32 }} F
+		</ion-item>
+		<ion-item>
+			<ion-icon name="water" item-start></ion-icon>
+			{{ metar.dewpoint }} C / {{ metar.dewpoint * (9/5) + 32 }} F
+		</ion-item>
+		<ion-item>
+			<ion-icon name="flag" item-start></ion-icon>
+			{{ metar.windDirection }} @ {{ metar.windSpeed }} kts
+		</ion-item>
+		<ion-item>
+			<ion-icon name="eye" item-start></ion-icon>
+			{{ metar.visibility }} mi
+		</ion-item>
+		<ion-item>
+			Alt {{ metar.altimeter }}
+		</ion-item>
+		<ion-item>
+			Elevation {{ (metar.elevation * 3.28).toFixed(2) }} ft
+		</ion-item>
+	</ion-list>
 </ion-content>

@@ -8,16 +8,39 @@
 
 
 <ion-content>
-	<h3 padding>Favorites</h3>
 	<ion-list>
-		<button ion-item *ngFor="let station of stations" [navPush]="metarDetailsPage" [navParams]="{metar: station}">
+		<ion-item>
+			<ion-label stacked>Enter Airpot Ident</ion-label>
+			<ion-input type="text"></ion-input>
+		</ion-item>
+	</ion-list>
+
+	<div *ngIf="recent.length > 0">
+		<h5 padding-left>Recent</h5>
+		<ion-list>
+			<button ion-item
+					*ngFor="let station of recent"
+					[navPush]="metarDetailsPage"
+					[navParams]="{station: station, metar: station.getLatestMetar()}">
+				<h2>{{ station.ident | uppercase }}</h2>
+				<p>{{ station.getLatestMetar()?.raw }}</p>
+			</button>
+		</ion-list>
+	</div>
+
+	<h5 padding-left>Favorites</h5>
+	<ion-list>
+		<button ion-item
+				*ngFor="let station of favorites"
+				[navPush]="metarDetailsPage"
+				[navParams]="{station: station, metar: station.getLatestMetar()}">
 			<h2>{{ station.ident | uppercase }}</h2>
-			<p>{{ station.raw }}</p>
+			<p>{{ station.getLatestMetar()?.raw }}</p>
 		</button>
 	</ion-list>
-	<h3 padding>Local</h3>
+	<h5 padding-left>Local</h5>
 	<ion-list>
-		<button ion-item *ngFor="let station of stations" (click)="itemSelected(station)">
+		<button ion-item *ngFor="let station of local" (click)="itemSelected(station)">
 			{{ station.ident }}
 		</button>
 	</ion-list>
