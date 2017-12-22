@@ -60,7 +60,7 @@ export class MetarPage {
 					this.recent.push(station);
 				this.navCtrl.push(MetarDetailsPage, {station: station, metar: station.getLatestMetar()})
 			},
-			() => {
+			(error) => {
 				const alert = this.alertCtrl.create({
 					title: 'Error',
 					message: 'Unable to find the requested station.',

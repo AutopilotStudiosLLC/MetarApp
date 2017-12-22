@@ -16,14 +16,14 @@ export class AddsService {
 		this.stations.push(station);
 	}
 
-	addMetarToStationByIdent(ident:string, metar: Metar): Station {
+	addMetarToStationByIdent(ident:string, metars: Metar[]): Station {
 		let station = this.stations.find((element) => {
 			if(element.ident === ident) return true;
 		});
 		if(station) {
-			station.addMetar(metar);
+			station.addMetarArray(metars);
 		} else {
-			station = new Station(metar.ident, [metar]);
+			station = new Station(ident, metars);
 			this.stations.push(station);
 		}
 		return station;
@@ -36,7 +36,6 @@ export class AddsService {
 			)
 			.map(
 				(response) => {
-					console.log(response);
 					const metar = Metar.parseXMLToMetar(response);
 					const station = this.addMetarToStationByIdent(ident, metar);
 					console.log(station);

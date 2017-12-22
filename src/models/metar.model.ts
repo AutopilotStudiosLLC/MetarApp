@@ -21,43 +21,51 @@ export class Metar {
 	{}
 
 	static parseXMLToMetar(xml: string) {
+		let metars: Metar[] = [];
 		let parser = new DOMParser();
 		const xmlDoc = parser.parseFromString(xml, 'text/xml');
-		const raw = this.getXMLValue(xmlDoc.getElementsByTagName('raw_text'));
-		const ident = this.getXMLValue(xmlDoc.getElementsByTagName('station_id'));
-		const observationTime = moment.utc(this.getXMLValue(xmlDoc.getElementsByTagName('observation_time')));
-		const latitude = parseFloat(this.getXMLValue(xmlDoc.getElementsByTagName('latitude')));
-		const longitude = parseFloat(this.getXMLValue(xmlDoc.getElementsByTagName('longitude')));
-		const temperature = parseFloat(this.getXMLValue(xmlDoc.getElementsByTagName('temp_c')));
-		const dewpoint = parseFloat(this.getXMLValue(xmlDoc.getElementsByTagName('dewpoint_c')));
-		const windDirection = parseInt(this.getXMLValue(xmlDoc.getElementsByTagName('wind_dir_degrees')));
-		const windSpeed = parseFloat(this.getXMLValue(xmlDoc.getElementsByTagName('wind_speed_kt')));
-		const visibility = parseInt(this.getXMLValue(xmlDoc.getElementsByTagName('visibility_statute_mi')));
-		const altimeter = parseFloat(this.getXMLValue(xmlDoc.getElementsByTagName('altim_in_hg')));
-		const autonomousStation = this.getXMLValue(xmlDoc.getElementsByTagName('auto')) === 'true' ? true : false;
-		const skyCondition = this.parseSkyCondition(xmlDoc.getElementsByTagName('sky_condition'));
-		const flightCategory = this.getXMLValue(xmlDoc.getElementsByTagName('flight_category'));
-		const metarType = this.getXMLValue(xmlDoc.getElementsByTagName('metar_type'));
-		const elevation = parseInt(this.getXMLValue(xmlDoc.getElementsByTagName('elevation_m')));
+		let metarsXML = xmlDoc.getElementsByTagName('METAR');
+		for(let x = 0; x < metarsXML.length; x++) {
+			const raw = this.getXMLValue(metarsXML[x].getElementsByTagName('raw_text'));
+			const ident = this.getXMLValue(metarsXML[x].getElementsByTagName('station_id'));
+			const observationTime = moment.utc(this.getXMLValue(metarsXML[x].getElementsByTagName('observation_time')));
+			const latitude = parseFloat(this.getXMLValue(metarsXML[x].getElementsByTagName('latitude')));
+			const longitude = parseFloat(this.getXMLValue(metarsXML[x].getElementsByTagName('longitude')));
+			const temperature = parseFloat(this.getXMLValue(metarsXML[x].getElementsByTagName('temp_c')));
+			const dewpoint = parseFloat(this.getXMLValue(metarsXML[x].getElementsByTagName('dewpoint_c')));
+			const windDirection = parseInt(this.getXMLValue(metarsXML[x].getElementsByTagName('wind_dir_degrees')));
+			const windSpeed = parseFloat(this.getXMLValue(metarsXML[x].getElementsByTagName('wind_speed_kt')));
+			const visibility = parseInt(this.getXMLValue(metarsXML[x].getElementsByTagName('visibility_statute_mi')));
+			const altimeter = parseFloat(this.getXMLValue(metarsXML[x].getElementsByTagName('altim_in_hg')));
+			const autonomousStation = this.getXMLValue(metarsXML[x].getElementsByTagName('auto')) === 'true' ? true : false;
+			const skyCondition = this.parseSkyCondition(metarsXML[x].getElementsByTagName('sky_condition'));
+			const flightCategory = this.getXMLValue(metarsXML[x].getElementsByTagName('flight_category'));
+			const metarType = this.getXMLValue(metarsXML[x].getElementsByTagName('metar_type'));
+			const elevation = parseInt(this.getXMLValue(metarsXML[x].getElementsByTagName('elevation_m')));
 
-		return new Metar(raw,
-			ident,
-			observationTime,
-			latitude,
-			longitude,
-			temperature,
-			dewpoint,
-			windDirection,
-			windSpeed,
-			visibility,
-			altimeter,
-			autonomousStation,
-			//skyCondition,
-			null,
-			flightCategory,
-			metarType,
-			elevation
-		);
+			let metar = new Metar(raw,
+				ident,
+				observationTime,
+				latitude,
+				longitude,
+				temperature,
+				dewpoint,
+				windDirection,
+				windSpeed,
+				visibility,
+				altimeter,
+				autonomousStation,
+				//skyCondition,
+				null,
+				flightCategory,
+				metarType,
+				elevation
+			);
+
+			metars.push(metar);
+		}
+
+		return metars;
 	}
 
 	static getXMLValue(tag) {

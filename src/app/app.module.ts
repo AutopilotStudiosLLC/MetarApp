@@ -14,6 +14,7 @@ import {TafPage} from "../pages/taf/taf";
 import {SearchPage} from "../pages/search/search";
 import {MetarDetailsPage} from "../pages/metar/metarDetails/metarDetails";
 import {HttpClientModule} from "@angular/common/http";
+import {MetarHistoryPage} from "../pages/metar/metar-history/metar-history";
 
 @NgModule({
 	declarations: [
@@ -23,6 +24,7 @@ import {HttpClientModule} from "@angular/common/http";
 		TabsPage,
 		MetarPage,
 		MetarDetailsPage,
+		MetarHistoryPage,
 		TafPage,
 		SearchPage
 	],
@@ -39,6 +41,7 @@ import {HttpClientModule} from "@angular/common/http";
 		TabsPage,
 		MetarPage,
 		MetarDetailsPage,
+		MetarHistoryPage,
 		TafPage,
 		SearchPage
 	],

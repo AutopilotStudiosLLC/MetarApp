@@ -13,7 +13,26 @@ export class Station {
 	}
 
 	public addMetar(metar: Metar) {
-		return this.metars.push(metar);
+		if(metar.ident == this.ident) {
+			let found = this.metars.find((element) => {
+				return element.observationTime.isSame(metar.observationTime);
+			});
+			if(!found)
+				return this.metars.push(metar);
+		}
+		return false;
+	}
+
+	public addMetarArray(metars: Metar[]) {
+		metars.forEach((metar) => {
+			if(metar.ident == this.ident) {
+				let found = this.metars.find((element) => {
+						return element.observationTime.isSame(metar.observationTime);
+					});
+				if(!found)
+					this.metars.push(metar);
+			}
+		})
 	}
 
 	public setMetars(metars: Metar[]) {
@@ -42,5 +61,13 @@ export class Station {
 		);
 
 		return this.latestMetar;
+	}
+
+	public getMetars(): Metar[] {
+		return this.metars.slice();
+	}
+
+	public getTafs(): Taf[] {
+		return this.tafs.slice();
 	}
 }

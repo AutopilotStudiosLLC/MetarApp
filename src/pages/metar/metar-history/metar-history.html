@@ -1,0 +1,41 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>{{ station.ident }} METAR History</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-card *ngFor="let metar of station.getMetars()">
+		<ion-card-header>
+			{{ metar.observationTime.local().format("MMM Do, h:mm A") }}
+		</ion-card-header>
+		<ion-card-content>
+			<ion-grid>
+				<ion-row>
+					<ion-col col-6 col-md-4 col-lg-2>
+						{{ metar.flightCategory }}
+					</ion-col>
+					<ion-col col-6 col-md-4 col-lg-2>
+						<ion-icon name="thermometer" item-start></ion-icon>
+						{{ metar.temperature }} C / {{ metar.temperature * (9/5) + 32 }} F
+					</ion-col>
+					<ion-col col-6 col-md-4 col-lg-2>
+						<ion-icon name="water" item-start></ion-icon>
+						{{ metar.dewpoint }} C / {{ metar.dewpoint * (9/5) + 32 }} F
+					</ion-col>
+					<ion-col col-6 col-md-4 col-lg-2>
+						<ion-icon name="flag" item-start></ion-icon>
+						{{ metar.windDirection }} @ {{ metar.windSpeed }} kts
+					</ion-col>
+					<ion-col col-6 col-md-4 col-lg-2>
+						<ion-icon name="eye" item-start></ion-icon>
+						{{ metar.visibility }} mi
+					</ion-col>
+				</ion-row>
+			</ion-grid>
+		</ion-card-content>
+	</ion-card>
+</ion-content>
