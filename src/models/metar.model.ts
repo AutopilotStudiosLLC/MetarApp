@@ -13,14 +13,14 @@ export class Metar {
 		public windSpeed?: number,
 		public visibility?: number,
 		public altimeter?: number,
-		public autonomousStation?: boolean,
-		public skyCondition?: string,
+		public qualityControl?: MetarQualityControl,
+		public skyCondition?: MetarSkyCondition,
 		public flightCategory?: string,
 		public metarType?: string,
 		public elevation?: number)
 	{}
 
-	static parseXMLToMetar(xml: string) {
+	/*static parseXMLToMetar(xml: string) {
 		let metars: Metar[] = [];
 		let parser = new DOMParser();
 		const xmlDoc = parser.parseFromString(xml, 'text/xml');
@@ -79,5 +79,5 @@ export class Metar {
 
 	static parseSkyCondition(skyNodes) {
 		console.log(skyNodes);
-	}
+	}*/
 }
