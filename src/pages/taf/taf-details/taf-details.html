@@ -1,0 +1,52 @@
+<ion-header>
+
+	<ion-navbar>
+		<ion-title>{{ station.ident }} TAF</ion-title>
+	</ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-grid>
+		<ion-row>
+			<ion-col col-12 col-md-6>
+				<p> {{ taf.raw }}</p>
+
+				<ion-list>
+					<ion-item>
+						<ion-icon name="clock" item-start></ion-icon>
+						Issued {{ taf.issueTime.local().format("MMM Do, h:mm A Z") }}
+					</ion-item>
+					<ion-item>
+						<ion-icon name="clock" item-start></ion-icon>
+						Bulletin Time {{ taf.bulletinTime.local().format("MMM Do, h:mm A Z") }}
+					</ion-item>
+					<ion-item>
+						<ion-icon name="clock" item-start></ion-icon>
+						From {{ taf.validFrom.local().format("MMM Do, h:mm A Z") }}
+						To {{ taf.validTo.local().format("MMM Do, h:mm A Z") }}
+					</ion-item>
+					<ion-item>
+						<ion-icon name="pin" item-start></ion-icon>
+						{{ taf.latitude }} N {{ taf.longitude }} {{ taf.longitude < 0 ? 'W' : 'E' }}
+					</ion-item>
+					<ion-item>
+						Remarks {{ taf.remarks }}
+					</ion-item>
+					<ion-item>
+						Elevation {{ (taf.elevation * 3.28).toFixed(0) }} ft
+					</ion-item>
+				</ion-list>
+			</ion-col>
+			<ion-col col-12 col-md-6>
+				<button ion-button icon-left>
+					<ion-icon name="heart"></ion-icon>
+					Favorite
+				</button>
+				<button ion-button
+						(click)="onViewHistory()">TAF History</button>
+			</ion-col>
+		</ion-row>
+	</ion-grid>
+</ion-content>

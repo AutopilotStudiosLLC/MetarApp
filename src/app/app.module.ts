@@ -15,6 +15,8 @@ import {SearchPage} from "../pages/search/search";
 import {MetarDetailsPage} from "../pages/metar/metarDetails/metarDetails";
 import {HttpClientModule} from "@angular/common/http";
 import {MetarHistoryPage} from "../pages/metar/metar-history/metar-history";
+import {TafDetailsPage} from "../pages/taf/taf-details/taf-details";
+import {AddsService} from "../services/adds.service";
 
 @NgModule({
 	declarations: [
@@ -26,6 +28,7 @@ import {MetarHistoryPage} from "../pages/metar/metar-history/metar-history";
 		MetarDetailsPage,
 		MetarHistoryPage,
 		TafPage,
+		TafDetailsPage,
 		SearchPage
 	],
 	imports: [
@@ -43,11 +46,13 @@ import {MetarHistoryPage} from "../pages/metar/metar-history/metar-history";
 		MetarDetailsPage,
 		MetarHistoryPage,
 		TafPage,
+		TafDetailsPage,
 		SearchPage
 	],
 	providers: [
 		StatusBar,
 		SplashScreen,
+		AddsService,
 		{provide: ErrorHandler, useClass: IonicErrorHandler}
 	]
 })

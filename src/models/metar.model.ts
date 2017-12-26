@@ -14,7 +14,7 @@ export class Metar {
 		public visibility?: number,
 		public altimeter?: number,
 		public qualityControl?: MetarQualityControl,
-		public skyCondition?: MetarSkyCondition,
+		public skyCondition?: SkyCondition,
 		public flightCategory?: string,
 		public metarType?: string,
 		public elevation?: number)

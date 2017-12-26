@@ -45,7 +45,7 @@
 						Alt {{ metar.altimeter }}
 					</ion-item>
 					<ion-item>
-						Elevation {{ (metar.elevation * 3.28).toFixed(2) }} ft
+						Elevation {{ (metar.elevation * 3.28)?.toFixed(0) }} ft
 					</ion-item>
 				</ion-list>
 			</ion-col>

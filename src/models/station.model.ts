@@ -2,7 +2,8 @@ import {Metar} from "./metar.model";
 import {Taf} from "./taf.model";
 
 export class Station {
-	private latestMetar:Metar;
+	private latestMetar: Metar;
+	private latestTaf: Taf;
 
 	constructor(
 		public ident: string,
@@ -65,6 +66,57 @@ export class Station {
 
 	public getMetars(): Metar[] {
 		return this.metars.slice();
+	}
+
+	public addTaf(taf: Taf) {
+		if(taf.ident == this.ident) {
+			let found = this.tafs.find((element) => {
+				return element.issueTime.isSame(taf.issueTime);
+			});
+			if(!found)
+				return this.tafs.push(taf);
+		}
+		return false;
+	}
+
+	public addTafArray(tafs: Taf[]) {
+		tafs.forEach((taf) => {
+			if(taf.ident == this.ident) {
+				let found = this.tafs.find((element) => {
+					return element.issueTime.isSame(taf.issueTime);
+				});
+				if(!found)
+					this.tafs.push(taf);
+			}
+		})
+	}
+
+	public setTafs(tafs: Taf[]) {
+		this.tafs = tafs;
+	}
+
+	public removeTafs(taf: Taf) {
+		let index = this.tafs.findIndex((el) => el === taf);
+		this.tafs.splice(index, 1);
+	}
+
+	public clearTafs() {
+		this.tafs = [];
+	}
+
+	public getLatestTaf(): Taf
+	{
+		if(this.latestTaf)
+			return this.latestTaf;
+
+		const latest = this.tafs.reduce((time, el) =>
+			el.issueTime >= time.issueTime ? el.issueTime : time, this.tafs[0]);
+
+		this.latestTaf = this.tafs.find(
+			(element) => (element.issueTime == latest)
+		);
+
+		return this.latestTaf;
 	}
 
 	public getTafs(): Taf[] {

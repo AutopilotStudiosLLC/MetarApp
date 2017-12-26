@@ -15,6 +15,8 @@ export class MetarPage {
 
 	metarDetailsPage = MetarDetailsPage;
 
+	stationString: string;
+
 	favorites: Station[] = [
 		//new Station("KMAN")
 	];
@@ -50,6 +52,7 @@ export class MetarPage {
 	}
 
 	onStationSearch(ident: string) {
+		ident = ident.toUpperCase();
 		this.addsService.getMetars(ident)
 			.subscribe(
 			(station) => {
@@ -68,5 +71,9 @@ export class MetarPage {
 				});
 				alert.present();
 			});
+	}
+
+	onInputText() {
+		this.stationString = this.stationString.toUpperCase();
 	}
 }

@@ -11,8 +11,10 @@
 	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
 		<ion-list>
 			<ion-item>
-				<ion-label stacked>Find METAR</ion-label>
-				<ion-input type="text" name="ident" placeholder="KDEN" ngModel required></ion-input>
+				<ion-label stacked>Find Station</ion-label>
+				<ion-input type="text" name="ident" placeholder="KDEN"
+						   [(ngModel)]="stationString" required
+						   (keyup)="onInputText()"></ion-input>
 			</ion-item>
 		</ion-list>
 		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>

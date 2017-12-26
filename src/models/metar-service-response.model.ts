@@ -21,7 +21,7 @@ class MetarJsonResponse {
 		public altim_in_hg: number,
 		public quality_control_flags: MetarQualityControl,
 		public wx_string: string,
-		public sky_condition: MetarSkyCondition,
+		public sky_condition: SkyCondition,
 		public flight_category: string,
 		public metar_type: string,
 		public elevation_m: number

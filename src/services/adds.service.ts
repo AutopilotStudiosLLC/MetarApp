@@ -4,12 +4,14 @@ import {Injectable} from "@angular/core";
 import {Metar} from "../models/metar.model";
 import {MetarServiceResponse} from "../models/metar-service-response.model";
 import * as moment from 'moment';
+import {TafServiceResponse} from "../models/taf-service-response.model";
+import {Taf} from "../models/taf.model";
 
 @Injectable()
 export class AddsService {
 	//private static baseUri = 'https://aviationweather.gov/adds/dataserver_current/httpparam';
-	//private static baseUri = 'https://aviationweather.autopilotstudios.com/weather';
-	private static baseUri = 'http://localhost:8100/api';
+	private static baseUri = 'https://aviationweather.autopilotstudios.com/weather';
+	//private static baseUri = 'http://localhost:8100/api';
 	private stations: Station[] = [];
 
 	constructor(private http: HttpClient) {};
@@ -66,6 +68,42 @@ export class AddsService {
 							dataMetar.elevation_m
 						);
 						station.addMetar(metar);
+					}
+					console.log(station);
+					return station;
+				}
+			);
+	}
+
+	getTafs(ident) {
+		return this.http.get(
+			AddsService.baseUri+'/taf/'+ident,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: TafServiceResponse) => {
+					console.log(response);
+					const data = response;
+					const station = this.getStation(ident);
+					for (let x in data.TAF) {
+						console.log('Enter');
+						console.log(data.TAF[x]);
+						let dataTaf = data.TAF[x];
+						let taf = new Taf(
+							dataTaf.station_id,
+							dataTaf.raw_text,
+							moment.utc(dataTaf.issue_time),
+							moment.utc(dataTaf.bulletin_time),
+							moment.utc(dataTaf.valid_time_from),
+							moment.utc(dataTaf.valid_time_to),
+							dataTaf.remarks,
+							dataTaf.latitude,
+							dataTaf.longitude,
+							dataTaf.elevation_m,
+							//Taf.MapForecasts(dataTaf.forecasts)
+						);
+						station.addTaf(taf);
+						console.log(station);
 					}
 					return station;
 				}
