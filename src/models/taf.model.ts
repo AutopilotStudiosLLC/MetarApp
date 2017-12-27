@@ -14,23 +14,24 @@ export class Taf {
 		public latitude: number,
 		public longitude: number,
 		public elevation: number,
-		public forcasts?: Forecast[]
+		public forecasts?: Forecast[]
 	) {}
 
 	public static MapForecasts(casts: ForecastResponse[]): Forecast[] {
 		let forecasts: Forecast[] = [];
 		casts.forEach((element) => {
-			forecasts.push(new Forecast(
+			let forecast = new Forecast(
 				moment.utc(element.fcst_time_from),
 				moment.utc(element.fcst_time_to),
 				element.change_indicator,
 				element.wind_dir_degrees,
 				element.wind_speed_kt,
 				element.visibility_statute_mi,
-				element.sky_condition
-			));
+				Forecast.mapSkyConditions(element.sky_condition)
+			);
+			forecasts.push(forecast);
 		});
-
+		console.log(forecasts);
 		return forecasts;
 	}
 }

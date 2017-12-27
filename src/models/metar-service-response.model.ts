@@ -1,3 +1,6 @@
+import {MetarQualityControl} from "./metar-quality-control.model";
+import {SkyCondition} from "./sky-condition.model";
+
 export class MetarServiceResponse {
 	constructor(
 		public results: number,

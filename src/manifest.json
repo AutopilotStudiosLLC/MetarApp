@@ -1,6 +1,6 @@
 {
-  "name": "Ionic",
-  "short_name": "Ionic",
+  "name": "Aviation Weather",
+  "short_name": "AvWeather",
   "start_url": "index.html",
   "display": "standalone",
   "icons": [{

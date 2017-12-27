@@ -44,7 +44,6 @@ export class AddsService {
 			)
 			.map(
 				(response: MetarServiceResponse) => {
-					console.log(response);
 					const data = response;
 					const station = this.getStation(ident);
 					for (let x in data.METAR) {
@@ -69,7 +68,6 @@ export class AddsService {
 						);
 						station.addMetar(metar);
 					}
-					console.log(station);
 					return station;
 				}
 			);
@@ -82,12 +80,9 @@ export class AddsService {
 		)
 			.map(
 				(response: TafServiceResponse) => {
-					console.log(response);
 					const data = response;
 					const station = this.getStation(ident);
 					for (let x in data.TAF) {
-						console.log('Enter');
-						console.log(data.TAF[x]);
 						let dataTaf = data.TAF[x];
 						let taf = new Taf(
 							dataTaf.station_id,
@@ -100,10 +95,9 @@ export class AddsService {
 							dataTaf.latitude,
 							dataTaf.longitude,
 							dataTaf.elevation_m,
-							//Taf.MapForecasts(dataTaf.forecasts)
+							Taf.MapForecasts(dataTaf.forecast)
 						);
 						station.addTaf(taf);
-						console.log(station);
 					}
 					return station;
 				}

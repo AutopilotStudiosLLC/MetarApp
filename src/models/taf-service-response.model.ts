@@ -1,3 +1,5 @@
+import {SkyCondition} from "./sky-condition.model";
+
 export class TafServiceResponse {
 	constructor(
 		public results: number,
@@ -18,7 +20,7 @@ class TafJsonResponse {
 		public latitude: number,
 		public longitude: number,
 		public elevation_m: number,
-		public forecasts: ForecastResponse[]
+		public forecast: ForecastResponse[]
 	)
 	{}
 }
@@ -32,6 +34,6 @@ export class ForecastResponse {
 		public wind_speed_kt: number,
 		public visibility_statute_mi: number,
 		public wx_string: string,
-		public sky_condition: SkyCondition[]
+		public sky_condition: SkyCondition[] = []
 	) {}
 }

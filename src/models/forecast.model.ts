@@ -1,4 +1,5 @@
 import * as moment from "moment";
+import {SkyCondition} from "./sky-condition.model";
 
 export class Forecast {
 	constructor(
@@ -6,8 +7,15 @@ export class Forecast {
 		public toTime: moment.Moment,
 		public changeIndicator: string,
 		public windDirection: number,
-		public wind_speed_kt: number,
+		public windSpeed: number,
 		public visibility: number,
-		public skyCondition: SkyCondition[]
+		public skyConditions: SkyCondition[] = []
 	) {}
+
+	public static mapSkyConditions(skyCondition: SkyCondition[]): SkyCondition[] {
+		if(Array.isArray(skyCondition))
+			return skyCondition;
+		else
+			return [skyCondition];
+	}
 }

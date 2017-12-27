@@ -42,10 +42,10 @@ export class TafPage {
 					if(!recent)
 						this.recent.push(station);
 				},
-				() => {
+				(error) => {
 					const alert = this.alertCtrl.create({
 						title: 'Error',
-						message: 'Unable to find the requested station.',
+						message: 'Unable to find the requested station.' + error.message,
 						buttons: ['Ok']
 					});
 					alert.present();
@@ -66,7 +66,7 @@ export class TafPage {
 				(error) => {
 					const alert = this.alertCtrl.create({
 						title: 'Error',
-						message: 'Unable to find the requested station.',
+						message: 'Unable to find the requested station.' + error.message,
 						buttons: ['Ok']
 					});
 					alert.present();
