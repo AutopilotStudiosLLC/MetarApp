@@ -17,9 +17,9 @@
 					</ion-item>
 					<ion-item>
 						<ion-icon name="thermometer" item-start></ion-icon>
-						{{ metar.temperature }} C / {{ metar.temperature * (9/5) + 32 }} F &nbsp;&nbsp;
+						{{ metar.temperature }} C / {{ (metar.temperature * (9/5) + 32).toFixed(1) }} F &nbsp;&nbsp;
 						<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-						{{ metar.dewpoint }} C / {{ metar.dewpoint * (9/5) + 32 }} F
+						{{ metar.dewpoint }} C / {{ (metar.dewpoint * (9/5) + 32).toFixed(1) }} F
 					</ion-item>
 					<ion-item>
 						<ion-icon name="flag" item-start></ion-icon>
