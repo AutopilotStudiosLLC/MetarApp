@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, ItemSliding, NavController, NavParams} from 'ionic-angular';
 import {MetarDetailsPage} from "./metarDetails/metarDetails";
 import 'rxjs/Rx';
 import {Station} from "../../models/station.model";
@@ -75,5 +75,17 @@ export class MetarPage {
 
 	onInputText() {
 		this.stationString = this.stationString.toUpperCase();
+	}
+
+	onAddToFavorites(slidingItem: ItemSliding, station:Station) {
+		slidingItem.close();
+		this.favorites.push(station);
+		this.onRemoveRecent(station);
+	}
+
+	onRemoveRecent(station:Station) {
+		this.recent.splice(this.recent.findIndex(
+			(el) => el === station),
+			1);
 	}
 }
