@@ -2,15 +2,25 @@ import {Metar} from "./metar.model";
 import {Taf} from "./taf.model";
 
 export class Station {
+	public latitude:number;
+	public longitude:number;
+	public elevation:number;
+	public name:string;
+	public state:string;
+	public country:string;
 	private latestMetar: Metar;
 	private latestTaf: Taf;
+	private isMetarSupported: boolean;
+	private isTafSupported: boolean;
 
 	constructor(
 		public ident: string,
-		public metars: Metar[] = [],
-		public tafs: Taf[] = []
+		private metars: Metar[] = [],
+		private tafs: Taf[] = []
 		)
 	{
+		if(metars.length > 0) this.isMetarSupported = true;
+		if(tafs.length > 0) this.isTafSupported = true;
 	}
 
 	public addMetar(metar: Metar) {

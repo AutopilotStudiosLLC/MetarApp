@@ -1,9 +1,10 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, ItemSliding, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, ItemSliding, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {MetarDetailsPage} from "./metarDetails/metarDetails";
 import 'rxjs/Rx';
 import {Station} from "../../models/station.model";
 import {AddsService} from "../../services/adds.service";
+import {StationService} from "../../services/station.service";
 
 @IonicPage()
 @Component({
@@ -24,7 +25,8 @@ export class MetarPage {
 	recent: Station[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
-				private addsService: AddsService, private alertCtrl: AlertController) {
+				private addsService: AddsService, private alertCtrl: AlertController,
+				private stationService: StationService, private loadingCtrl:LoadingController) {
 	}
 
 	itemSelected(metar) {
@@ -53,9 +55,14 @@ export class MetarPage {
 
 	onStationSearch(ident: string) {
 		ident = ident.toUpperCase();
+		const loading = this.loadingCtrl.create({
+			"content": "Searching for station..."
+		});
+		loading.present();
 		this.addsService.getMetars(ident)
 			.subscribe(
 			(station) => {
+				loading.dismiss();
 				let recent = this.recent.find((element) => {
 					if (element.ident === ident) return true;
 				});
@@ -64,6 +71,7 @@ export class MetarPage {
 				this.navCtrl.push(MetarDetailsPage, {station: station, metar: station.getLatestMetar()})
 			},
 			(error) => {
+				loading.dismiss();
 				const alert = this.alertCtrl.create({
 					title: 'Error',
 					message: 'Unable to find the requested station.',
@@ -79,7 +87,8 @@ export class MetarPage {
 
 	onAddToFavorites(slidingItem: ItemSliding, station:Station) {
 		slidingItem.close();
-		this.favorites.push(station);
+		this.stationService.addToFavorites(station);
+		this.favorites = this.stationService.getFavorites();
 		this.onRemoveRecent(station);
 	}
 

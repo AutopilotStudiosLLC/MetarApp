@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import {TafDetailsPage} from "./taf-details/taf-details";
 import {Station} from "../../models/station.model";
 import {AddsService} from "../../services/adds.service";
@@ -29,7 +29,8 @@ export class TafPage {
 	recent: Station[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
-				private addsService: AddsService, private alertCtrl: AlertController) {
+				private addsService: AddsService, private alertCtrl: AlertController,
+				private loadingCtrl: LoadingController) {
 	}
 
 	ionViewWillEnter() {
@@ -53,9 +54,14 @@ export class TafPage {
 	}
 
 	onStationSearch(ident: string) {
+		const loading = this.loadingCtrl.create({
+			"content": "Searching for station..."
+		});
+		loading.present();
 		this.addsService.getTafs(ident)
 			.subscribe(
 				(station) => {
+					loading.dismiss();
 					let recent = this.recent.find((element) => {
 						if (element.ident === ident) return true;
 					});
@@ -64,6 +70,7 @@ export class TafPage {
 					this.navCtrl.push(this.tafDetailsPage, {station: station, taf: station.getLatestTaf()})
 				},
 				(error) => {
+					loading.dismiss();
 					const alert = this.alertCtrl.create({
 						title: 'Error',
 						message: 'Unable to find the requested station.' + error.message,

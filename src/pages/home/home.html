@@ -5,6 +5,18 @@
 </ion-header>
 
 <ion-content padding>
+	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
+		<ion-list>
+			<ion-item>
+				<ion-label stacked>Find Station</ion-label>
+				<ion-input type="text" name="ident" placeholder="KDEN"
+						   [(ngModel)]="stationString" required
+						   (keyup)="onInputText()"></ion-input>
+			</ion-item>
+		</ion-list>
+		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
+	</form>
+
 	<h2>Favorite Stations</h2>
 	<ion-card *ngFor="let station of favorites">
 		<ion-card-header>
