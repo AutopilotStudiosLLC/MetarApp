@@ -2,21 +2,21 @@ import {Metar} from "./metar.model";
 import {Taf} from "./taf.model";
 
 export class Station {
-	public latitude:number;
-	public longitude:number;
-	public elevation:number;
-	public name:string;
-	public state:string;
-	public country:string;
 	private latestMetar: Metar;
 	private latestTaf: Taf;
-	private isMetarSupported: boolean;
-	private isTafSupported: boolean;
 
 	constructor(
 		public ident: string,
 		private metars: Metar[] = [],
-		private tafs: Taf[] = []
+		private tafs: Taf[] = [],
+		public latitude?:number,
+		public longitude?:number,
+		public elevation?:number,
+		public name?:string,
+		public state?:string,
+		public country?:string,
+		public isMetarSupported: boolean = false,
+		public isTafSupported: boolean = false
 		)
 	{
 		if(metars.length > 0) this.isMetarSupported = true;
@@ -131,5 +131,26 @@ export class Station {
 
 	public getTafs(): Taf[] {
 		return this.tafs.slice();
+	}
+
+	public updateWith(station:Station) {
+		this.addMetarArray(station.metars);
+		this.addTafArray(station.tafs);
+		if(station.longitude)
+			this.longitude = station.longitude;
+		if(station.latitude)
+			this.latitude = station.latitude;
+		if(station.elevation)
+			this.elevation = station.elevation;
+		if(station.name)
+			this.name = station.name;
+		if(station.state)
+			this.state = station.state;
+		if(station.country)
+			this.country = station.country;
+		if(station.isMetarSupported)
+			this.isMetarSupported = station.isMetarSupported;
+		if(station.isTafSupported)
+			this.isTafSupported = station.isTafSupported;
 	}
 }

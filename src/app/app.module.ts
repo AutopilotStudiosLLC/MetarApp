@@ -81,8 +81,8 @@ export class MyErrorHandler implements ErrorHandler {
 		StatusBar,
 		SplashScreen,
 		Geolocation,
-		AddsService,
 		StationService,
+		AddsService,
 		IonicErrorHandler,
 		[{ provide: ErrorHandler, useClass: MyErrorHandler }]
 	]

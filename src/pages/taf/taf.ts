@@ -3,6 +3,7 @@ import {AlertController, IonicPage, LoadingController, NavController, NavParams}
 import {TafDetailsPage} from "./taf-details/taf-details";
 import {Station} from "../../models/station.model";
 import {AddsService} from "../../services/adds.service";
+import {StationService} from "../../services/station.service";
 
 /**
  * Generated class for the TafPage page.
@@ -22,35 +23,18 @@ export class TafPage {
 
 	stationString: string;
 
-	favorites: Station[] = [
-		//new Station("KMAN")
-	];
+	favorites: Station[] = [];
 	local: Station[] = [];
 	recent: Station[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private addsService: AddsService, private alertCtrl: AlertController,
-				private loadingCtrl: LoadingController) {
+				private loadingCtrl: LoadingController, private stationService: StationService) {
 	}
 
 	ionViewWillEnter() {
-		let ident = 'KBOI';
-		this.addsService.getTafs(ident)
-			.subscribe((station) => {
-					let recent = this.recent.find((element) => {
-						if(element.ident === ident) return true;
-					});
-					if(!recent)
-						this.recent.push(station);
-				},
-				(error) => {
-					const alert = this.alertCtrl.create({
-						title: 'Error',
-						message: 'Unable to find the requested station.' + error.message,
-						buttons: ['Ok']
-					});
-					alert.present();
-				});
+		this.recent = this.stationService.getRecent();
+		this.favorites = this.stationService.getFavorites();
 	}
 
 	onStationSearch(ident: string) {
@@ -58,15 +42,14 @@ export class TafPage {
 			"content": "Searching for station..."
 		});
 		loading.present();
+		const station = this.stationService.getStation(ident);
 		this.addsService.getTafs(ident)
 			.subscribe(
-				(station) => {
+				(tafs) => {
 					loading.dismiss();
-					let recent = this.recent.find((element) => {
-						if (element.ident === ident) return true;
-					});
-					if (!recent)
-						this.recent.push(station);
+					station.addTafArray(tafs);
+					this.stationService.addToRecent(station);
+					this.recent = this.stationService.getRecent();
 					this.navCtrl.push(this.tafDetailsPage, {station: station, taf: station.getLatestTaf()})
 				},
 				(error) => {

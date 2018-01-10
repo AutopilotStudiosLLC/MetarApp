@@ -1,4 +1,3 @@
-import {Station} from "../models/station.model";
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Metar} from "../models/metar.model";
@@ -6,69 +5,70 @@ import {MetarServiceResponse} from "../models/metar-service-response.model";
 import * as moment from 'moment';
 import {TafServiceResponse} from "../models/taf-service-response.model";
 import {Taf} from "../models/taf.model";
+import {Station} from "../models/station.model";
+import {StationServiceResponse} from "../models/station-service-response.model";
+import {SingleStationServiceResponse} from "../models/single-station-service-response.model";
 
 @Injectable()
 export class AddsService {
-	//private static baseUri = 'https://aviationweather.gov/adds/dataserver_current/httpparam';
 	private static baseUri = 'https://aviationweather.autopilotstudios.com/';
-	//private static baseUri = 'http://localhost:8100/api';
-	private stations: Station[] = [];
+	//private stations: Station[] = [];
 
 	constructor(private http: HttpClient) {};
 
-	addStation(station:Station) {
-		this.stations.push(station);
-	}
-
-	addMetarToStationByIdent(ident:string, metars: Metar[]): Station {
-		let station = this.getStation(ident);
-		station.addMetarArray(metars);
-		return station;
-	}
-
-	getStation(ident): Station {
-		let station = this.stations.find((element) => {
-			if(element.ident === ident) return true;
-		});
-		if(!station) {
-			station = new Station(ident);
-		}
-		this.stations.push(station);
-		return station;
-	}
-
-	getLocal(type:string, latitude:number, longitude:number, distance:number, ident?:string){
+	getStation(ident) {
 		return this.http.get(
-			AddsService.baseUri+'metar/local/'+ident+'?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
+			AddsService.baseUri+'station/info/'+ident,
 			{responseType: 'json'}
 		)
 			.map(
-				(response: MetarServiceResponse) => {
-					const data = response;
-					const station = this.getStation(ident);
-					for (let x in data.METAR) {
-						let dataMetar = data.METAR[x];
-						let metar = new Metar(
-							dataMetar.raw_text,
-							dataMetar.station_id,
-							moment.utc(dataMetar.observation_time),
-							dataMetar.latitude,
-							dataMetar.longitude,
-							dataMetar.temp_c,
-							dataMetar.dewpoint_c,
-							dataMetar.wind_dir_degrees,
-							dataMetar.wind_speed_kt,
-							dataMetar.visibility_statute_mi,
-							dataMetar.altim_in_hg,
-							dataMetar.quality_control_flags,
-							dataMetar.sky_condition,
-							dataMetar.flight_category,
-							dataMetar.metar_type,
-							dataMetar.elevation_m
-						);
-						station.addMetar(metar);
-					}
+				(response: SingleStationServiceResponse) => {
+					let dataStation = response.Station;
+					let station = new Station(
+						dataStation.station_id,
+						[],
+						[],
+						dataStation.latitude,
+						dataStation.longitude,
+						dataStation.elevation_m,
+						dataStation.site,
+						dataStation.state,
+						dataStation.country,
+						!!dataStation.site_type.METAR,
+						!!dataStation.site_type.TAF
+					);
 					return station;
+				}
+			);
+	}
+
+	getLocal(type:string, latitude:number, longitude:number, distance:number){
+		return this.http.get(
+			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: StationServiceResponse) => {
+					const data = response;
+					let stations: Station[] = [];
+					for (let x in data.Station) {
+						let dataStation = data.Station[x];
+						let station = new Station(
+							dataStation.station_id,
+							[],
+							[],
+							dataStation.latitude,
+							dataStation.longitude,
+							dataStation.elevation_m,
+							dataStation.site,
+							dataStation.state,
+							dataStation.country,
+							!!dataStation.site_type.METAR,
+							!!dataStation.site_type.TAF
+						);
+						stations.push(station);
+					}
+					return stations;
 				}
 			);
 	}
@@ -81,7 +81,7 @@ export class AddsService {
 			.map(
 				(response: MetarServiceResponse) => {
 					const data = response;
-					const station = this.getStation(ident);
+					let metars: Metar[] = [];
 					for (let x in data.METAR) {
 						let dataMetar = data.METAR[x];
 						let metar = new Metar(
@@ -102,9 +102,9 @@ export class AddsService {
 							dataMetar.metar_type,
 							dataMetar.elevation_m
 						);
-						station.addMetar(metar);
+						metars.push(metar);
 					}
-					return station;
+					return metars;
 				}
 			);
 	}
@@ -117,7 +117,7 @@ export class AddsService {
 			.map(
 				(response: TafServiceResponse) => {
 					const data = response;
-					const station = this.getStation(ident);
+					let tafs: Taf[] = [];
 					for (let x in data.TAF) {
 						let dataTaf = data.TAF[x];
 						let taf = new Taf(
@@ -133,9 +133,9 @@ export class AddsService {
 							dataTaf.elevation_m,
 							Taf.MapForecasts(dataTaf.forecast)
 						);
-						station.addTaf(taf);
+						tafs.push(taf);
 					}
-					return station;
+					return tafs;
 				}
 			);
 	}

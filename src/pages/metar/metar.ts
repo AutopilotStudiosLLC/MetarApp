@@ -34,23 +34,8 @@ export class MetarPage {
 	}
 
 	ionViewWillEnter() {
-		let ident = 'KMAN';
-		this.addsService.getMetars(ident)
-			.subscribe((station) => {
-					let recent = this.recent.find((element) => {
-						if(element.ident === ident) return true;
-					});
-					if(!recent)
-						this.recent.push(station);
-				},
-				() => {
-					const alert = this.alertCtrl.create({
-						title: 'Error',
-						message: 'Unable to find the requested station.',
-						buttons: ['Ok']
-					});
-					alert.present();
-				});
+		this.recent = this.stationService.getRecent();
+		this.favorites = this.stationService.getFavorites();
 	}
 
 	onStationSearch(ident: string) {
@@ -59,15 +44,14 @@ export class MetarPage {
 			"content": "Searching for station..."
 		});
 		loading.present();
+		const station = this.stationService.getStation(ident);
 		this.addsService.getMetars(ident)
 			.subscribe(
-			(station) => {
+			(metars) => {
 				loading.dismiss();
-				let recent = this.recent.find((element) => {
-					if (element.ident === ident) return true;
-				});
-				if (!recent)
-					this.recent.push(station);
+				station.addMetarArray(metars);
+				this.stationService.addToRecent(station);
+				this.recent = this.stationService.getRecent();
 				this.navCtrl.push(MetarDetailsPage, {station: station, metar: station.getLatestMetar()})
 			},
 			(error) => {
@@ -89,6 +73,7 @@ export class MetarPage {
 		slidingItem.close();
 		this.stationService.addToFavorites(station);
 		this.favorites = this.stationService.getFavorites();
+
 		this.onRemoveRecent(station);
 	}
 

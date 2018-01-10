@@ -17,8 +17,14 @@
 		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
 	</form>
 
-	<h2>Favorite Stations</h2>
-	<ion-card *ngFor="let station of favorites">
+	<h4>Recent Stations</h4>
+	<ion-card *ngFor="let station of recent">
+		<button ion-button clear small float-right color="danger">
+			<ion-icon name="trash"></ion-icon>
+		</button>
+		<button ion-button clear small float-right>
+			<ion-icon name="heart"></ion-icon>
+		</button>
 		<ion-card-header>
 			{{ station.ident }}
 		</ion-card-header>
@@ -27,15 +33,40 @@
 					[navPush]="metarDetailsPage"
 					[navParams]="{station: station, metar: station.getLatestMetar()}">
 				<ion-icon name="thermometer"></ion-icon>
-				Get Metars
+				Current
+			</button>
+			<button ion-button icon-left outline small
+					color="secondary"
+					[navPush]="metarDetailsPage"
+					[navParams]="{station: station, metar: station.getLatestTaf()}">
+				<ion-icon name="clock"></ion-icon>
+				Forecast
+			</button>
+		</ion-card-content>
+	</ion-card>
+
+	<h4>Favorite Stations</h4>
+	<ion-card *ngFor="let station of favorites">
+		<ion-card-header>
+			{{ station.ident }}
+			<button ion-button>
+				<ion-icon name="heart"></ion-icon>
+				Favorite
+			</button>
+		</ion-card-header>
+		<ion-card-content>
+			<button ion-button icon-left outline small
+					[navPush]="metarDetailsPage"
+					[navParams]="{station: station, metar: station.getLatestMetar()}">
+				<ion-icon name="thermometer"></ion-icon>
+				Current
 			</button>
 			<button ion-button icon-left outline small
 					[navPush]="metarDetailsPage"
 					[navParams]="{station: station, metar: station.getLatestTaf()}">
 				<ion-icon name="clock"></ion-icon>
-				Get Forecasts
+				Forecast
 			</button>
 		</ion-card-content>
 	</ion-card>
-
 </ion-content>
