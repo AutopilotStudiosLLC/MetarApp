@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
 import {Metar} from "../../../models/metar.model";
 import {Station} from "../../../models/station.model";
 import {MetarHistoryPage} from "../metar-history/metar-history";
@@ -20,12 +20,22 @@ export class MetarDetailsPage {
 	toFahrenheit = Utility.toFahrenheit;
 	metersToFeet = Utility.metersToFeet;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams) {
+	constructor(public navCtrl: NavController, public navParams: NavParams,
+				private alertCtrl: AlertController) {
 	}
 
 	ionViewWillLoad() {
 		this.station = this.navParams.get('station');
 		this.metar = this.navParams.get('metar');
+		if(!this.station || !this.metar) {
+			const alert = this.alertCtrl.create({
+				title: 'Error',
+				message: 'Unable to find current station conditions. Please try again.',
+				buttons: ['Ok']
+			});
+			alert.present();
+			this.navCtrl.goToRoot({});
+		}
 	}
 
 	onViewHistory() {

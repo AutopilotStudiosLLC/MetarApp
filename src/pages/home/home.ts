@@ -4,6 +4,9 @@ import {Station} from "../../models/station.model";
 import {MetarDetailsPage} from "../metar/metarDetails/metarDetails";
 import {StationService} from "../../services/station.service";
 import {AddsService} from "../../services/adds.service";
+import {TafDetailsPage} from "../taf/taf-details/taf-details";
+import {Utility} from "../../models/utility.model";
+import {SkyCondition} from "../../models/sky-condition.model";
 
 @Component({
 	selector: 'page-home',
@@ -11,11 +14,17 @@ import {AddsService} from "../../services/adds.service";
 })
 export class HomePage {
 	metarDetailsPage = MetarDetailsPage;
+	tafDetailsPage = TafDetailsPage;
+
+	getSkyConditionPhrase = SkyCondition.getSkyConditionPhrase;
+	toFahrenheit = Utility.toFahrenheit;
+	metersToFeet = Utility.metersToFeet;
 
 	stationString: string;
 
 	favorites: Station[] = [];
 	recent: Station[] = [];
+	localStations: Station[] = [];
 
 
 	constructor(public navCtrl: NavController, private stationService: StationService,
@@ -27,6 +36,12 @@ export class HomePage {
 	ionViewWillEnter() {
 		this.recent = this.stationService.getRecent();
 		this.favorites = this.stationService.getFavorites();
+		this.stationService.getLocalStations()
+			.then((locale) => {
+				locale.subscribe((stations) => {
+					this.localStations = stations;
+				});
+			});
 	}
 
 	onStationSearch(ident: string) {
@@ -41,12 +56,13 @@ export class HomePage {
 					loading.dismiss();
 					this.stationService.addToRecent(station);
 					this.recent = this.stationService.getRecent();
+					this.stationString = '';
 				},
 				(error) => {
 					loading.dismiss();
 					const alert = this.alertCtrl.create({
 						title: 'Error',
-						message: 'Unable to find the requested station.' + error.message,
+						message: 'Unable to find the requested station.',
 						buttons: ['Ok']
 					});
 					alert.present();
@@ -57,4 +73,124 @@ export class HomePage {
 		this.stationString = this.stationString.toUpperCase();
 	}
 
+	onRemoveFromRecent(station) {
+		const alert = this.alertCtrl.create({
+			title: 'Remove Station?',
+			message: 'Are you sure you want to remove '+station.ident+' from recent stations?',
+			buttons: [
+				{
+					text: 'Yes',
+					handler: () => {
+						this.stationService.removeRecent(station);
+						this.recent = this.stationService.getRecent();
+					}
+				},
+				{
+					text: 'No',
+					role: 'cancel'
+				}
+			]
+		});
+		alert.present();
+	}
+
+	onRemoveFromFavorites(station) {
+		const alert = this.alertCtrl.create({
+			title: 'Remove Station?',
+			message: 'Are you sure you want to remove '+station.ident+' from favorite stations?',
+			buttons: [
+				{
+					text: 'Yes',
+					handler: () => {
+						this.stationService.removeFavorite(station);
+						this.favorites = this.stationService.getFavorites();
+					}
+				},
+				{
+					text: 'No',
+					role: 'cancel'
+				}
+			]
+		});
+		alert.present();
+	}
+
+	onAddToFavorites(station) {
+		this.stationService.addToFavorites(station);
+		this.favorites = this.stationService.getFavorites();
+		this.stationService.removeRecent(station);
+		this.recent = this.stationService.getRecent();
+	}
+
+	onViewCurrentConditions(station: Station) {
+		let metar = station.getLatestMetar();
+		if(metar)
+			this.navCtrl.push(this.metarDetailsPage, {station:station, metar:metar});
+		else {
+			const loading = this.loadingCtrl.create({
+				"content": "Finding Current Weather Conditions..."
+			});
+			loading.present();
+			this.addsService.getMetars(station.ident).subscribe(
+				(currentMetars) => {
+					loading.dismiss();
+					if(currentMetars.length > 0) {
+						station.addMetarArray(currentMetars);
+						this.navCtrl.push(this.metarDetailsPage, {station: station, metar: station.getLatestMetar()});
+					} else {
+						const alert = this.alertCtrl.create({
+							title: 'Error',
+							message: 'Unable to find current station conditions. Please try again.',
+							buttons: ['Ok']
+						});
+						alert.present();
+					}
+				},
+				() => {
+					loading.dismiss();
+					const alert = this.alertCtrl.create({
+						title: 'Error',
+						message: 'Unable to find current station conditions. Please try again.',
+						buttons: ['Ok']
+					});
+					alert.present();
+				});
+		}
+	}
+
+	onViewForecastConditions(station: Station) {
+		let taf = station.getLatestTaf();
+		if(taf)
+			this.navCtrl.push(this.tafDetailsPage, {station:station, taf:taf});
+		else {
+			const loading = this.loadingCtrl.create({
+				"content": "Finding Current Weather Conditions..."
+			});
+			loading.present();
+			this.addsService.getTafs(station.ident).subscribe(
+				(currentTafs) => {
+					loading.dismiss();
+					if(currentTafs.length > 0) {
+						station.addTafArray(currentTafs);
+						this.navCtrl.push(this.tafDetailsPage, {station: station, taf: station.getLatestTaf()});
+					} else {
+						const alert = this.alertCtrl.create({
+							title: 'Error',
+							message: 'Unable to find current station forecast. Please try again.',
+							buttons: ['Ok']
+						});
+						alert.present();
+					}
+				},
+				() => {
+					loading.dismiss();
+					const alert = this.alertCtrl.create({
+						title: 'Error',
+						message: 'Unable to find current station conditions. Please try again.',
+						buttons: ['Ok']
+					});
+					alert.present();
+				});
+		}
+	}
 }

@@ -1,7 +1,7 @@
 <ion-header>
 
 	<ion-navbar>
-		<ion-title>{{ metar.ident }} METAR</ion-title>
+		<ion-title>{{ station.ident }} METAR</ion-title>
 	</ion-navbar>
 
 </ion-header>
@@ -13,44 +13,44 @@
 			<ion-col col-12 col-md-6>
 				<ion-list>
 					<ion-item>
-						{{ metar.flightCategory }}
+						{{ metar?.flightCategory }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="thermometer" item-start></ion-icon>
-						{{ metar.temperature }} C / {{ toFahrenheit(metar.temperature) }} F &nbsp;&nbsp;
+						{{ metar?.temperature }} C / {{ toFahrenheit(metar?.temperature) }} F &nbsp;&nbsp;
 						<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-						{{ metar.dewpoint }} C / {{ toFahrenheit(metar.dewpoint) }} F
+						{{ metar?.dewpoint }} C / {{ toFahrenheit(metar?.dewpoint) }} F
 					</ion-item>
 					<ion-item>
 						<ion-icon name="flag" item-start></ion-icon>
-						{{ metar.windDirection }} @ {{ metar.windSpeed }} kts
+						{{ metar?.windDirection }} @ {{ metar?.windSpeed }} kts
 					</ion-item>
 					<ion-item>
 						<ion-icon name="eye" item-start></ion-icon>
-						{{ metar.visibility }} mi
+						{{ metar?.visibility }} mi
 					</ion-item>
 					<ion-item>
 						<ion-icon name="cloud" item-start></ion-icon>
-						{{ (metar.skyCondition.sky_cover) ? getSkyConditionPhrase(metar.skyCondition.sky_cover) : null }}
-						{{ (metar.skyCondition.cloud_base_ft_agl) ? '@ '+metar.skyCondition.cloud_base_ft_agl+' AGL' : null }}
+						{{ (metar?.skyCondition.sky_cover) ? getSkyConditionPhrase(metar?.skyCondition.sky_cover) : null }}
+						{{ (metar?.skyCondition.cloud_base_ft_agl) ? '@ '+metar?.skyCondition.cloud_base_ft_agl+' AGL' : null }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
-						{{ metar.observationTime.local().format("MMM Do, h:mm A") }}
+						{{ metar?.observationTime.local().format("MMM Do, h:mm A") }}
 					</ion-item>
 					<ion-item>
-						Alt {{ metar.altimeter }}
+						Alt {{ metar?.altimeter }}
 					</ion-item>
 					<ion-item>
-						Elevation {{ metersToFeet(metar.elevation) }} ft
+						Elevation {{ metersToFeet(metar?.elevation) }} ft
 					</ion-item>
 					<ion-item>
 						<ion-icon name="pin" item-start></ion-icon>
-						{{ metar.latitude }} N {{ metar.longitude }} {{ metar.longitude < 0 ? 'W' : 'E' }}
+						{{ metar?.latitude }} N {{ metar?.longitude }} {{ metar?.longitude < 0 ? 'W' : 'E' }}
 					</ion-item>
 				</ion-list>
 
-				<p> {{ metar.raw }}</p>
+				<p> {{ metar?.raw }}</p>
 			</ion-col>
 			<ion-col col-12 col-md-6>
 				<button ion-button icon-left>

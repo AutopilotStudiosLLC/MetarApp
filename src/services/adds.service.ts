@@ -42,7 +42,7 @@ export class AddsService {
 			);
 	}
 
-	getLocal(type:string, latitude:number, longitude:number, distance:number){
+	getLocalStations(latitude:number, longitude:number, distance:number){
 		return this.http.get(
 			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
 			{responseType: 'json'}
@@ -68,6 +68,68 @@ export class AddsService {
 						);
 						stations.push(station);
 					}
+					return stations;
+				}
+			);
+	}
+
+	getLocalMetars(type:string, latitude:number, longitude:number, distance:number){
+		return this.http.get(
+			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: MetarServiceResponse) => {
+					const data = response;
+					let stations: Station[] = [];
+					/*for (let x in data.Station) {
+						let dataStation = data.Station[x];
+						let station = new Station(
+							dataStation.station_id,
+							[],
+							[],
+							dataStation.latitude,
+							dataStation.longitude,
+							dataStation.elevation_m,
+							dataStation.site,
+							dataStation.state,
+							dataStation.country,
+							!!dataStation.site_type.METAR,
+							!!dataStation.site_type.TAF
+						);
+						stations.push(station);
+					}*/
+					return stations;
+				}
+			);
+	}
+
+	getLocalTafs(type:string, latitude:number, longitude:number, distance:number){
+		return this.http.get(
+			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: TafServiceResponse) => {
+					const data = response;
+					let stations: Station[] = [];
+					/*for (let x in data.Station) {
+						let dataStation = data.Station[x];
+						let station = new Station(
+							dataStation.station_id,
+							[],
+							[],
+							dataStation.latitude,
+							dataStation.longitude,
+							dataStation.elevation_m,
+							dataStation.site,
+							dataStation.state,
+							dataStation.country,
+							!!dataStation.site_type.METAR,
+							!!dataStation.site_type.TAF
+						);
+						stations.push(station);
+					}*/
 					return stations;
 				}
 			);
