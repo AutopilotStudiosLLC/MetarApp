@@ -29,10 +29,10 @@
 						<ion-icon name="eye" item-start></ion-icon>
 						{{ metar?.visibility }} mi
 					</ion-item>
-					<ion-item>
+					<ion-item *ngFor="let skyCondition of metar?.getSkyConditions()">
 						<ion-icon name="cloud" item-start></ion-icon>
-						{{ (metar?.skyCondition.sky_cover) ? getSkyConditionPhrase(metar?.skyCondition.sky_cover) : null }}
-						{{ (metar?.skyCondition.cloud_base_ft_agl) ? '@ '+metar?.skyCondition.cloud_base_ft_agl+' AGL' : null }}
+						{{ (skyCondition.sky_cover) ? getSkyConditionPhrase(skyCondition.sky_cover) : null }}
+						{{ (skyCondition.cloud_base_ft_agl) ? '@ '+skyCondition.cloud_base_ft_agl+' AGL' : null }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>

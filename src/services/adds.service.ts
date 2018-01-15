@@ -137,7 +137,7 @@ export class AddsService {
 
 	getMetars(ident, hoursBeforeNow:number = 3) {
 		return this.http.get(
-				AddsService.baseUri+'weather/metar/'+ident+'/'+hoursBeforeNow,
+				AddsService.baseUri+'metar/recent/'+ident+'/'+hoursBeforeNow,
 				{responseType: 'json'}
 			)
 			.map(

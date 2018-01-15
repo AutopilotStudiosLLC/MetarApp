@@ -56,12 +56,13 @@
 							<ion-icon name="eye" item-start></ion-icon>
 							{{ station.getLatestMetar()?.visibility }} mi
 						</ion-col>
-						<ion-col>
+					</ion-row>
+					<ion-row *ngIf="station.getLatestMetar()">
+						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
 							<ion-icon name="cloud" item-start></ion-icon>
-							{{ (station.getLatestMetar()?.skyCondition.sky_cover) ?
-							getSkyConditionPhrase(station.getLatestMetar()?.skyCondition.sky_cover) : null }}
-							{{ (station.getLatestMetar()?.skyCondition.cloud_base_ft_agl) ? '@
-							'+station.getLatestMetar()?.skyCondition.cloud_base_ft_agl+' AGL' : null }}
+							{{ (skyCondition.sky_cover) ?
+							getSkyConditionPhrase(skyCondition.sky_cover) : null }}
+							{{ (skyCondition.cloud_base_ft_agl) ? '@ ' + skyCondition.cloud_base_ft_agl+' AGL' : null }}
 						</ion-col>
 					</ion-row>
 				</ion-card-content>
@@ -86,7 +87,7 @@
 								color="dark"
 								(click)="onAddToFlightPlan(station)">
 							<ion-icon name="navigate"></ion-icon>
-							Add to Plan
+							Plan
 						</button>
 					</ion-col>
 				</ion-row>
@@ -127,12 +128,13 @@
 							<ion-icon name="eye" item-start></ion-icon>
 							{{ station.getLatestMetar()?.visibility }} mi
 						</ion-col>
-						<ion-col>
+					</ion-row>
+					<ion-row *ngIf="station.getLatestMetar()">
+						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
 							<ion-icon name="cloud" item-start></ion-icon>
-							{{ (station.getLatestMetar()?.skyCondition.sky_cover) ?
-							getSkyConditionPhrase(station.getLatestMetar()?.skyCondition.sky_cover) : null }}
-							{{ (station.getLatestMetar()?.skyCondition.cloud_base_ft_agl) ? '@
-							'+station.getLatestMetar()?.skyCondition.cloud_base_ft_agl+' AGL' : null }}
+							{{ (skyCondition.sky_cover) ?
+							getSkyConditionPhrase(skyCondition.sky_cover) : null }}
+							{{ (skyCondition.cloud_base_ft_agl) ? '@ ' + skyCondition.cloud_base_ft_agl+' AGL' : null }}
 						</ion-col>
 					</ion-row>
 				</ion-card-content>
@@ -157,7 +159,7 @@
 								color="dark"
 								(click)="onAddToFlightPlan(station)">
 							<ion-icon name="navigate"></ion-icon>
-							Add to Plan
+							Plan
 						</button>
 					</ion-col>
 				</ion-row>
@@ -198,12 +200,13 @@
 							<ion-icon name="eye" item-start></ion-icon>
 							{{ station.getLatestMetar()?.visibility }} mi
 						</ion-col>
-						<ion-col>
+					</ion-row>
+					<ion-row *ngIf="station.getLatestMetar()">
+						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
 							<ion-icon name="cloud" item-start></ion-icon>
-							{{ (station.getLatestMetar()?.skyCondition.sky_cover) ?
-							getSkyConditionPhrase(station.getLatestMetar()?.skyCondition.sky_cover) : null }}
-							{{ (station.getLatestMetar()?.skyCondition.cloud_base_ft_agl) ? '@
-							'+station.getLatestMetar()?.skyCondition.cloud_base_ft_agl+' AGL' : null }}
+							{{ (skyCondition.sky_cover) ?
+							getSkyConditionPhrase(skyCondition.sky_cover) : null }}
+							{{ (skyCondition.cloud_base_ft_agl) ? '@ ' + skyCondition.cloud_base_ft_agl+' AGL' : null }}
 						</ion-col>
 					</ion-row>
 				</ion-card-content>
