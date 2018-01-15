@@ -30,6 +30,17 @@ export class Metar {
 		}
 	}
 
+	public getFlightCategoryColor() {
+		switch(this.flightCategory) {
+			case 'VFR':
+				return 'green';
+			case 'MVFR':
+				return 'blue';
+			case 'IFR':
+				return 'red';
+		}
+	}
+
 	public getWeatherPhenomenon() {
 		//@todo Incomplete Function
 	}
