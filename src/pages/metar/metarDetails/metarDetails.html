@@ -31,8 +31,7 @@
 					</ion-item>
 					<ion-item *ngFor="let skyCondition of metar?.getSkyConditions()">
 						<ion-icon name="cloud" item-start></ion-icon>
-						{{ (skyCondition.sky_cover) ? getSkyConditionPhrase(skyCondition.sky_cover) : null }}
-						{{ (skyCondition.cloud_base_ft_agl) ? '@ '+skyCondition.cloud_base_ft_agl+' AGL' : null }}
+						{{ skyCondition.getSkyConditionString() }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>

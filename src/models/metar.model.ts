@@ -3,6 +3,8 @@ import {SkyCondition} from "./sky-condition.model";
 import {MetarQualityControl} from "./metar-quality-control.model";
 
 export class Metar {
+	public skyCondition: SkyCondition[] = [];
+
 	constructor(
 		public raw: string,
 		public ident: string,
@@ -16,11 +18,32 @@ export class Metar {
 		public visibility?: number,
 		public altimeter?: number,
 		public qualityControl?: MetarQualityControl,
-		public skyCondition?: SkyCondition,
 		public flightCategory?: string,
 		public metarType?: string,
 		public elevation?: number)
 	{}
+
+	public addSkyConditions(skyConditions) {
+		this.skyCondition = [];
+		if(Array.isArray(skyConditions)) {
+			skyConditions.forEach((element) => {
+				this.skyCondition.push(
+					new SkyCondition(
+						element.sky_cover,
+						element.cloud_base_ft_agl
+					)
+				);
+			});
+			return this.skyCondition;
+		} else {
+			this.skyCondition.push(
+				new SkyCondition(
+					skyConditions.sky_cover,
+					skyConditions.cloud_base_ft_agl
+				)
+			);
+		}
+	}
 
 	public getSkyConditions() {
 		if(Array.isArray(this.skyCondition)) {
@@ -37,6 +60,7 @@ export class Metar {
 			case 'MVFR':
 				return 'blue';
 			case 'IFR':
+			case 'LIFR':
 				return 'red';
 		}
 	}

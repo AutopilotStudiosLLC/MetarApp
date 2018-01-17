@@ -159,11 +159,11 @@ export class AddsService {
 							dataMetar.visibility_statute_mi,
 							dataMetar.altim_in_hg,
 							dataMetar.quality_control_flags,
-							dataMetar.sky_condition,
 							dataMetar.flight_category,
 							dataMetar.metar_type,
 							dataMetar.elevation_m
 						);
+						metar.addSkyConditions(dataMetar.sky_condition);
 						metars.push(metar);
 					}
 					return metars;

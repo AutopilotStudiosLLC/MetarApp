@@ -60,9 +60,7 @@
 					<ion-row *ngIf="station.getLatestMetar()">
 						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
 							<ion-icon name="cloud" item-start></ion-icon>
-							{{ (skyCondition.sky_cover) ?
-							getSkyConditionPhrase(skyCondition.sky_cover) : null }}
-							{{ (skyCondition.cloud_base_ft_agl) ? '@ ' + skyCondition.cloud_base_ft_agl+' AGL' : null }}
+							{{ skyCondition.getSkyConditionString() }}
 						</ion-col>
 					</ion-row>
 				</ion-card-content>
@@ -132,9 +130,7 @@
 					<ion-row *ngIf="station.getLatestMetar()">
 						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
 							<ion-icon name="cloud" item-start></ion-icon>
-							{{ (skyCondition.sky_cover) ?
-							getSkyConditionPhrase(skyCondition.sky_cover) : null }}
-							{{ (skyCondition.cloud_base_ft_agl) ? '@ ' + skyCondition.cloud_base_ft_agl+' AGL' : null }}
+							{{ skyCondition.getSkyConditionString() }}
 						</ion-col>
 					</ion-row>
 				</ion-card-content>
@@ -204,9 +200,7 @@
 					<ion-row *ngIf="station.getLatestMetar()">
 						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
 							<ion-icon name="cloud" item-start></ion-icon>
-							{{ (skyCondition.sky_cover) ?
-							getSkyConditionPhrase(skyCondition.sky_cover) : null }}
-							{{ (skyCondition.cloud_base_ft_agl) ? '@ ' + skyCondition.cloud_base_ft_agl+' AGL' : null }}
+							{{ skyCondition.getSkyConditionString() }}
 						</ion-col>
 					</ion-row>
 				</ion-card-content>
