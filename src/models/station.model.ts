@@ -4,6 +4,7 @@ import {Taf} from "./taf.model";
 export class Station {
 	private latestMetar: Metar;
 	private latestTaf: Taf;
+	private distance: number;
 
 	constructor(
 		public ident: string,
@@ -152,5 +153,35 @@ export class Station {
 			this.isMetarSupported = station.isMetarSupported;
 		if(station.isTafSupported)
 			this.isTafSupported = station.isTafSupported;
+	}
+
+	public static calculateDistance(sourceLatitude, sourceLongitude, destinationLatitude, destinationLongitude) {
+		let selfLatitude = sourceLatitude * Math.PI / 180;
+		let destLatitude = destinationLatitude * Math.PI / 180;
+		let deltaTheta = (destinationLongitude - sourceLongitude) * Math.PI / 180;
+		let R = 6371; // Radius of Earth in Kilometers
+		return Math.acos( Math.sin(selfLatitude) * Math.sin(destLatitude) + Math.cos(selfLatitude) * Math.cos(destLatitude) * Math.cos(deltaTheta) ) * R;
+	}
+
+	public setDistanceFromSource(sourceLatitude, sourceLongitude) {
+		this.setDistance(Station.calculateDistance(sourceLatitude, sourceLongitude, this.latitude, this.longitude));
+	}
+	public getDistanceInKm(precision:number = 10) {
+		let factor = Math.pow(10, precision);
+		return Math.round(this.distance * factor) / factor;
+	}
+	public getDistanceInMiles() {
+
+	}
+	public getDistanceInStatuteMiles(precision:number = 10) {
+		let factor = Math.pow(10, precision);
+		return Math.round((this.distance * 0.621371) * factor) / factor;
+	}
+	public setDistance(distance: number) {
+		this.distance = distance;
+	}
+
+	public getDistanceFromLocation(destinationLatitude, destinationLongitude) {
+		return Station.calculateDistance(this.latitude, this.longitude, destinationLatitude, destinationLongitude);
 	}
 }

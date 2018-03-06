@@ -79,16 +79,21 @@ export class StationService {
 
 	public getLocalStations(): Promise<Observable<Station[]>> {
 		return this.geolocation.getCurrentPosition().then((resp) => {
+			const latitude = resp.coords.latitude;
+			const longitude = resp.coords.longitude;
 			return this.addsService.getLocalStations(resp.coords.latitude, resp.coords.longitude, 50)
 				.map((stations)=>{
 					stations.forEach((station) => {
 						let master = this.getStation(station.ident);
 						master.updateWith(station);
-						let found = this.localStations.find((element) => {
-							return master === element;
-						});
-						if(!found)
-							this.localStations.push(master);
+						if(master.isMetarSupported || master.isTafSupported) {
+							let found = this.localStations.find((element) => {
+								return master === element;
+							});
+							master.setDistanceFromSource(latitude, longitude);
+							if (!found)
+								this.localStations.push(master);
+						}
 					});
 					this.localStations.forEach((station, index) => {
 						let found = stations.find((element) => station.ident == element.ident);

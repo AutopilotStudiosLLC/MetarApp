@@ -26,7 +26,6 @@ export class HomePage {
 	recent: Station[] = [];
 	localStations: Station[] = [];
 
-
 	constructor(public navCtrl: NavController, private stationService: StationService,
 				private loadingCtrl: LoadingController, private alertCtrl: AlertController,
 				private addsService: AddsService) {
@@ -40,6 +39,7 @@ export class HomePage {
 			.then((locale) => {
 				locale.subscribe((stations) => {
 					this.localStations = stations;
+					this.sortLocalStationsByDistance();
 				});
 			});
 	}
@@ -139,7 +139,7 @@ export class HomePage {
 						this.navCtrl.push(this.metarDetailsPage, {station: station, metar: station.getLatestMetar()});
 					} else {
 						const alert = this.alertCtrl.create({
-							title: 'Error',
+							title: 'Squawk 7700',
 							message: 'Unable to find current station conditions. Please try again.',
 							buttons: ['Ok']
 						});
@@ -149,7 +149,7 @@ export class HomePage {
 				() => {
 					loading.dismiss();
 					const alert = this.alertCtrl.create({
-						title: 'Error',
+						title: 'Squawk 7700',
 						message: 'Unable to find current station conditions. Please try again.',
 						buttons: ['Ok']
 					});
@@ -175,7 +175,7 @@ export class HomePage {
 						this.navCtrl.push(this.tafDetailsPage, {station: station, taf: station.getLatestTaf()});
 					} else {
 						const alert = this.alertCtrl.create({
-							title: 'Error',
+							title: 'Squawk 7700',
 							message: 'Unable to find current station forecast. Please try again.',
 							buttons: ['Ok']
 						});
@@ -185,12 +185,34 @@ export class HomePage {
 				() => {
 					loading.dismiss();
 					const alert = this.alertCtrl.create({
-						title: 'Error',
+						title: 'Squawk 7700',
 						message: 'Unable to find current station conditions. Please try again.',
 						buttons: ['Ok']
 					});
 					alert.present();
 				});
 		}
+	}
+
+	onAddToFlightPlan() {
+		const alert = this.alertCtrl.create({
+			title: 'Coming Soon',
+			message: 'This feature is not done yet. We\'ll get back to you shortly',
+			buttons: ['Ok']
+		});
+		alert.present();
+	}
+
+	sortLocalStationsByDistance() {
+		this.localStations.sort((a: Station, b: Station) => {
+			if (a.getDistanceInKm() < b.getDistanceInKm()) {
+				return -1;
+			} else if (a.getDistanceInKm() > b.getDistanceInKm()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+		return this.localStations;
 	}
 }

@@ -34,7 +34,7 @@
 				</ion-card-header>
 				<ion-card-content>
 					<ion-row no-padding *ngIf="station.getLatestMetar()">
-						<ion-col>
+						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
 							{{ station.getLatestMetar()?.flightCategory }}
 						</ion-col>
 						<ion-col>
@@ -104,7 +104,7 @@
 				</ion-card-header>
 				<ion-card-content>
 					<ion-row no-padding *ngIf="station.getLatestMetar()">
-						<ion-col>
+						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
 							{{ station.getLatestMetar()?.flightCategory }}
 						</ion-col>
 						<ion-col>
@@ -171,10 +171,11 @@
 				</button>
 				<ion-card-header>
 					<h1>{{ station.ident }}</h1>
+					({{ station.getDistanceInStatuteMiles(1) | number }} sm)
 				</ion-card-header>
 				<ion-card-content>
 					<ion-row no-padding *ngIf="station.getLatestMetar()">
-						<ion-col>
+						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
 							{{ station.getLatestMetar()?.flightCategory }}
 						</ion-col>
 						<ion-col>
