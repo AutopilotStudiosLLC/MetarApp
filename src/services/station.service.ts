@@ -95,8 +95,10 @@ export class StationService {
 		let index = this.recent.findIndex((element) => {
 			if (element.ident === station.ident) return true;
 		});
-		if (index >= 0)
+		if (index >= 0) {
 			this.recent.splice(index, 1);
+			this.saveRecent();
+		}
 	}
 
 	public getLocalStations(): Promise<Observable<Station[]>> {
