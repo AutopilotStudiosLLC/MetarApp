@@ -11,7 +11,7 @@
 				<ion-label stacked>Find Station</ion-label>
 				<ion-input type="text" name="ident" placeholder="KDEN"
 						   [(ngModel)]="stationString" required
-						   (keyup)="onInputText()"></ion-input>
+						   (input)="onInputText()"></ion-input>
 			</ion-item>
 		</ion-list>
 		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
