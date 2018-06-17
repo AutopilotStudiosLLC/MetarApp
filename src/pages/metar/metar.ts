@@ -70,11 +70,17 @@ export class MetarPage {
 	}
 
 	onAddToFavorites(slidingItem: ItemSliding, station:Station) {
-		slidingItem.close();
-		this.stationService.addToFavorites(station);
-		this.favorites = this.stationService.getFavorites();
+		console.log(station);
+		//slidingItem.close();
+		//this.stationService.addToFavorites(station);
+		//this.favorites = this.stationService.getFavorites();
 
-		this.onRemoveRecent(station);
+		//this.onRemoveRecent(station);
+
+		/*this.stationService.addToFavorites(station);
+		this.favorites = this.stationService.getFavorites();
+		this.stationService.removeRecent(station);
+		this.recent = this.stationService.getRecent();*/
 	}
 
 	onRemoveRecent(station:Station) {

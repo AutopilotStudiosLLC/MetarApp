@@ -188,4 +188,14 @@ export class Station {
 	public getDistanceFromLocation(destinationLatitude, destinationLongitude) {
 		return Station.calculateDistance(this.latitude, this.longitude, destinationLatitude, destinationLongitude);
 	}
+
+	public sleep() {
+		this.metars.forEach(metar => metar.sleep());
+		this.tafs.forEach(taf => taf.sleep());
+	}
+
+	public wakeup() {
+		this.metars.forEach(metar => metar.wakeup());
+		this.tafs.forEach(taf => taf.wakeup());
+	}
 }

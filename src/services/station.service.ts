@@ -48,7 +48,8 @@ export class StationService {
 		if(!foundFavorite) {
 			this.favorites.push(station);
 			this.saveFavorites()
-				.catch( () => {
+				.catch( (err) => {
+					console.log(err);
 					this.favorites.splice(this.favorites.indexOf(station), 1);
 				});
 		}
@@ -130,18 +131,37 @@ export class StationService {
 	}
 
 	private saveFavorites() {
-		return this.storage.set('favorites', this.favorites);
+		let favoriteList = [];
+		this.favorites.forEach((el) => {
+			favoriteList.push({
+				ident: el.ident,
+				isMetarSupported: el.isMetarSupported,
+				isTafSupported: el.isTafSupported
+			});
+		});
+		return this.storage.set('favorites', favoriteList);
 	}
 	private saveRecent() {
-		return this.storage.set('recent', this.recent);
+		let recentList = [];
+		this.recent.forEach((el:Station) => {
+			recentList.push({
+				ident: el.ident,
+				isMetarSupported: el.isMetarSupported,
+				isTafSupported: el.isTafSupported
+			});
+		});
+		return this.storage.set('recent', recentList);
 	}
 
 	public loadFavorites() {
 		return this.storage.get('favorites')
-			.then((stations: object[]) => {
+			.then((stations: Station[]) => {
 				if(stations) {
 					let revivedStations = stations.map(x => {
-						return Object.assign(new Station(), x);
+						let station = this.getStation(x.ident);
+						station.isMetarSupported = x.isMetarSupported;
+						station.isTafSupported = x.isTafSupported;
+						return station;
 					});
 					this.favorites = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {
@@ -157,7 +177,10 @@ export class StationService {
 			.then((stations: Station[]) => {
 				if(stations) {
 					let revivedStations = stations.map(x => {
-						return Object.assign(new Station(), x);
+						let station = this.getStation(x.ident);
+						station.isMetarSupported = x.isMetarSupported;
+						station.isTafSupported = x.isTafSupported;
+						return station;
 					});
 					this.recent = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {

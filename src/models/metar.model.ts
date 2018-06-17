@@ -4,6 +4,7 @@ import {MetarQualityControl} from "./metar-quality-control.model";
 
 export class Metar {
 	public skyCondition: SkyCondition[] = [];
+	private observationTimeString = null;
 
 	constructor(
 		public raw: string,
@@ -120,5 +121,14 @@ export class Metar {
 			case 'VA':
 				return 'Volcanic Ash';
 		}
+	}
+
+	public sleep() {
+		this.observationTimeString = this.observationTime.format();
+		this.observationTime = null;
+	}
+
+	public wakeup() {
+		this.observationTime = moment(this.observationTimeString);
 	}
 }

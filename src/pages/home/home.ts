@@ -186,7 +186,7 @@ export class HomePage {
 			this.navCtrl.push(this.tafDetailsPage, {station:station, taf:taf});
 		else {
 			const loading = this.loadingCtrl.create({
-				"content": "Finding Current Weather Conditions..."
+				"content": "Finding Forecasted Weather Conditions..."
 			});
 			loading.present();
 			this.addsService.getTafs(station.ident).subscribe(

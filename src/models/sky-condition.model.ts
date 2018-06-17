@@ -7,7 +7,7 @@ export class SkyCondition {
 	public getSkyConditionString():string {
 		let str = (this.sky_cover) ? SkyCondition.getSkyConditionPhrase(this.sky_cover) : null;
 		if(this.cloud_base_ft_agl > 0)
-			str += (this.cloud_base_ft_agl) ? '@ '+this.cloud_base_ft_agl+' AGL' : null;
+			str += (this.cloud_base_ft_agl) ? ' @ ' + this.cloud_base_ft_agl + ' AGL' : null;
 		return str;
 	}
 

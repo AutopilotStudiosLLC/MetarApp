@@ -46,6 +46,7 @@ export class MetarDetailsPage {
 	}
 
 	onAddToFavorites(station) {
+		console.log(station);
 		this.stationService.addToFavorites(station);
 		this.stationService.removeRecent(station);
 		this.inFavorites = true;
