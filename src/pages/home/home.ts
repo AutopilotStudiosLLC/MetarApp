@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {AlertController, LoadingController, NavController, Platform} from 'ionic-angular';
 import {Station} from "../../models/station.model";
 import {MetarDetailsPage} from "../metar/metarDetails/metarDetails";
@@ -12,7 +12,7 @@ import {SkyCondition} from "../../models/sky-condition.model";
 	selector: 'page-home',
 	templateUrl: 'home.html'
 })
-export class HomePage implements OnInit {
+export class HomePage {
 	metarDetailsPage = MetarDetailsPage;
 	tafDetailsPage = TafDetailsPage;
 
@@ -31,10 +31,6 @@ export class HomePage implements OnInit {
 	constructor(public navCtrl: NavController, private stationService: StationService,
 				private loadingCtrl: LoadingController, private alertCtrl: AlertController,
 				private addsService: AddsService, private platform: Platform) {
-
-	}
-
-	ngOnInit() {
 
 	}
 
