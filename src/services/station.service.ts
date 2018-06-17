@@ -50,6 +50,10 @@ export class StationService {
 		return true;
 	}
 
+	public isInFavorites(station:Station) {
+		return this.favorites.find((element) => element.ident == station.ident) != null;
+	}
+
 	public removeFavorite(station: Station) {
 		let index = this.favorites.findIndex((element) => {
 			if (element.ident === station.ident) return true;
