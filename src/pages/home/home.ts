@@ -70,7 +70,10 @@ export class HomePage {
 	}
 
 	onInputText() {
-		this.stationString = this.stationString.toUpperCase();
+		if (this.stationString != null)
+		{
+			this.stationString = this.stationString.toUpperCase();
+		}
 	}
 
 	onRemoveFromRecent(station) {
