@@ -31,7 +31,6 @@ export class Taf {
 			);
 			forecasts.push(forecast);
 		});
-		console.log(forecasts);
 		return forecasts;
 	}
 }

@@ -20,6 +20,7 @@ import {AddsService} from "../services/adds.service";
 import { Pro } from '@ionic/pro';
 import {StationService} from "../services/station.service";
 import {Geolocation} from "@ionic-native/geolocation";
+import {IonicStorageModule} from "@ionic/storage";
 
 const IonicPro = Pro.init('f377509b', {
 	appVersion: "0.0.1"
@@ -62,6 +63,7 @@ export class MyErrorHandler implements ErrorHandler {
 	imports: [
 		BrowserModule,
 		HttpClientModule,
+		IonicStorageModule.forRoot(),
 		IonicModule.forRoot(MyApp)
 	],
 	bootstrap: [IonicApp],

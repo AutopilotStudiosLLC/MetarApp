@@ -20,7 +20,8 @@
 	<ion-row>
 		<ion-col col-12 col-md-6 col-lg-4>
 			<h2 *ngIf="recent.length > 0">Recent Stations</h2>
-			<ion-card *ngFor="let station of recent">
+			<ion-card *ngFor="let station of recent"
+					  [color]="station.getLatestMetar()?.getFlightCategoryColor()">
 				<button ion-button clear small float-right color="danger"
 						(click)="onRemoveFromRecent(station)">
 					<ion-icon name="trash"></ion-icon>
@@ -94,7 +95,8 @@
 
 		<ion-col col-12 col-md-6 col-lg-4>
 			<h2 *ngIf="favorites.length > 0">Favorite Stations</h2>
-			<ion-card *ngFor="let station of favorites">
+			<ion-card *ngFor="let station of favorites"
+					  [color]="station.getLatestMetar()?.getFlightCategoryColor()">
 				<button ion-button clear small float-right color="danger"
 						(click)="onRemoveFromFavorites(station)">
 					<ion-icon name="trash"></ion-icon>
@@ -164,7 +166,8 @@
 
 		<ion-col col-12 col-md-6 col-lg-4>
 			<h2 *ngIf="localStations.length > 0">Local Stations</h2>
-			<ion-card *ngFor="let station of localStations">
+			<ion-card *ngFor="let station of localStations"
+					  [color]="station.getLatestMetar()?.getFlightCategoryColor()">
 				<button ion-button clear small float-right
 						(click)="onAddToFavorites(station)">
 					<ion-icon name="heart"></ion-icon>

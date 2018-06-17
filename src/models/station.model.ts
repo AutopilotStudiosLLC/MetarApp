@@ -7,7 +7,7 @@ export class Station {
 	private distance: number;
 
 	constructor(
-		public ident: string,
+		public ident?: string,
 		private metars: Metar[] = [],
 		private tafs: Taf[] = [],
 		public latitude?:number,
@@ -22,6 +22,10 @@ export class Station {
 	{
 		if(metars.length > 0) this.isMetarSupported = true;
 		if(tafs.length > 0) this.isTafSupported = true;
+	}
+
+	public static create() {
+
 	}
 
 	public addMetar(metar: Metar) {

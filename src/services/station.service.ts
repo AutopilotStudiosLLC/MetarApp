@@ -3,6 +3,7 @@ import {Station} from "../models/station.model";
 import {AddsService} from "./adds.service";
 import {Geolocation} from "@ionic-native/geolocation";
 import {Observable} from "rxjs/Observable";
+import {Storage} from "@ionic/storage";
 
 @Injectable()
 export class StationService {
@@ -12,7 +13,7 @@ export class StationService {
 	private recent: Station[] = [];
 	private localStations: Station[] = [];
 
-	constructor(private addsService:AddsService, private geolocation:Geolocation) {
+	constructor(private addsService:AddsService, private geolocation:Geolocation, private storage:Storage) {
 	}
 
 	public getStation(ident: string) {
@@ -46,6 +47,10 @@ export class StationService {
 		}
 		if(!foundFavorite) {
 			this.favorites.push(station);
+			this.saveFavorites()
+				.catch( () => {
+					this.favorites.splice(this.favorites.indexOf(station), 1);
+				});
 		}
 		return true;
 	}
@@ -54,17 +59,30 @@ export class StationService {
 		let index = this.favorites.findIndex((element) => {
 			if (element.ident === station.ident) return true;
 		});
-		if (index >= 0)
+		if (index >= 0) {
 			this.favorites.splice(index, 1);
+			this.saveFavorites();
+		}
 	}
 
 	public addToRecent(station:Station) {
 		let recent = this.recent.find((element) => {
 			if (element.ident === station.ident) return true;
 		});
-		if (!recent)
-			this.recent.push(station);
-		else {
+		if (!recent) {
+			let removedStation = null;
+			if (this.recent.length > 5) {
+				removedStation = this.recent.pop();
+			}
+			this.recent.unshift(station);
+			this.saveRecent()
+				.catch(() => {
+					if(removedStation) {
+						this.recent.push(removedStation);
+					}
+					this.recent.splice(this.recent.indexOf(station), 1);
+				});
+		} else {
 			recent.updateWith(station);
 		}
 	}
@@ -103,5 +121,39 @@ export class StationService {
 					return this.localStations;
 				});
 		});
+	}
+
+	private saveFavorites() {
+		return this.storage.set('favorites', this.favorites);
+	}
+	private saveRecent() {
+		return this.storage.set('recent', this.recent);
+	}
+
+	public loadFavorites() {
+		return this.storage.get('favorites')
+			.then((stations: object[]) => {
+				let revivedStations = stations.map(x => {
+					return Object.assign(new Station(), x);
+				});
+				this.favorites = revivedStations != null ? revivedStations : [];
+				for(let x in revivedStations) {
+					this.addToFavorites(revivedStations[x]);
+				}
+			});
+	}
+
+	public loadRecent() {
+		return this.storage.get('recent')
+			.then((stations: Station[]) => {
+				let revivedStations = stations.map(x => {
+					return Object.assign(new Station(), x);
+				});
+				this.recent = revivedStations != null ? revivedStations : [];
+				for(let x in revivedStations) {
+					this.addToRecent(revivedStations[x]);
+				}
+			})
+			.catch();
 	}
 }

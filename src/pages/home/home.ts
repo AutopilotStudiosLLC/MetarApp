@@ -1,5 +1,5 @@
-import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController} from 'ionic-angular';
+import {Component, OnInit} from '@angular/core';
+import {AlertController, LoadingController, NavController, Platform} from 'ionic-angular';
 import {Station} from "../../models/station.model";
 import {MetarDetailsPage} from "../metar/metarDetails/metarDetails";
 import {StationService} from "../../services/station.service";
@@ -12,7 +12,7 @@ import {SkyCondition} from "../../models/sky-condition.model";
 	selector: 'page-home',
 	templateUrl: 'home.html'
 })
-export class HomePage {
+export class HomePage implements OnInit {
 	metarDetailsPage = MetarDetailsPage;
 	tafDetailsPage = TafDetailsPage;
 
@@ -22,19 +22,45 @@ export class HomePage {
 
 	stationString: string;
 
+	lastUpdated: Date;
+
 	favorites: Station[] = [];
 	recent: Station[] = [];
 	localStations: Station[] = [];
 
 	constructor(public navCtrl: NavController, private stationService: StationService,
 				private loadingCtrl: LoadingController, private alertCtrl: AlertController,
-				private addsService: AddsService) {
+				private addsService: AddsService, private platform: Platform) {
+
+	}
+
+	ngOnInit() {
 
 	}
 
 	ionViewWillEnter() {
-		this.recent = this.stationService.getRecent();
-		this.favorites = this.stationService.getFavorites();
+		this.stationService.loadFavorites()
+			.then(() => {
+				this.favorites = this.stationService.getFavorites();
+			});
+		this.stationService.loadRecent()
+			.then(() => {
+				this.recent = this.stationService.getRecent();
+			});
+
+		this.platform.resume.subscribe(() => {
+			this.updateLocals();
+		});
+
+		this.updateLocals();
+		setInterval(() => {
+			this.updateLocals();
+			this.lastUpdated = new Date();
+		}, 1000*60*5);
+		this.lastUpdated = new Date();
+	}
+
+	updateLocals() {
 		this.stationService.getLocalStations()
 			.then((locale) => {
 				locale.subscribe((stations) => {
