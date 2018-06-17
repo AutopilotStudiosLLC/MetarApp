@@ -137,25 +137,30 @@ export class StationService {
 	public loadFavorites() {
 		return this.storage.get('favorites')
 			.then((stations: object[]) => {
-				let revivedStations = stations.map(x => {
-					return Object.assign(new Station(), x);
-				});
-				this.favorites = revivedStations != null ? revivedStations : [];
-				for(let x in revivedStations) {
-					this.addToFavorites(revivedStations[x]);
+				if(stations) {
+					let revivedStations = stations.map(x => {
+						return Object.assign(new Station(), x);
+					});
+					this.favorites = revivedStations != null ? revivedStations : [];
+					for (let x in revivedStations) {
+						this.addToFavorites(revivedStations[x]);
+					}
 				}
-			});
+			})
+			.catch();
 	}
 
 	public loadRecent() {
 		return this.storage.get('recent')
 			.then((stations: Station[]) => {
-				let revivedStations = stations.map(x => {
-					return Object.assign(new Station(), x);
-				});
-				this.recent = revivedStations != null ? revivedStations : [];
-				for(let x in revivedStations) {
-					this.addToRecent(revivedStations[x]);
+				if(stations) {
+					let revivedStations = stations.map(x => {
+						return Object.assign(new Station(), x);
+					});
+					this.recent = revivedStations != null ? revivedStations : [];
+					for (let x in revivedStations) {
+						this.addToRecent(revivedStations[x]);
+					}
 				}
 			})
 			.catch();
