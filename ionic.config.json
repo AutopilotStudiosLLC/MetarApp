@@ -1,14 +1,14 @@
 {
   "name": "Aviation Weather",
-  "app_id": "f377509b",
-  "type": "ionic-angular",
   "integrations": {
     "cordova": {}
   },
+  "type": "ionic-angular",
   "proxies": [
     {
       "path": "/api",
       "proxyUrl": "https://aviationweather.autopilotstudios.com/weather"
     }
-  ]
+  ],
+  "id": "f377509b"
 }
