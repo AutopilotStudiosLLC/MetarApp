@@ -5,6 +5,7 @@ import {MetarQualityControl} from "./metar-quality-control.model";
 export class Metar {
 	public skyCondition: SkyCondition[] = [];
 	private observationTimeString = null;
+	public windGusts: number = null;
 
 	constructor(
 		public raw: string,
@@ -100,6 +101,10 @@ export class Metar {
 				return 'Ice Crystals';
 			case 'PL':
 				return 'Ice Pellets';
+			case 'PRESRR':
+				return 'Pressure Rising Rapidly';
+			case 'PRESFR':
+				return 'Presure Falling Rapidly';
 			case 'PO':
 				return 'Dust/Sand Whirls';
 			case 'RA':

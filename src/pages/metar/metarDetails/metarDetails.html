@@ -24,6 +24,7 @@
 					<ion-item>
 						<ion-icon name="flag" item-start></ion-icon>
 						{{ metar?.windDirection }} @ {{ metar?.windSpeed }} kts
+						<span *ngIf="metar?.windGusts" class="wind-gusts"> Gusts {{ metar?.windGusts }} kts</span>
 					</ion-item>
 					<ion-item>
 						<ion-icon name="eye" item-start></ion-icon>

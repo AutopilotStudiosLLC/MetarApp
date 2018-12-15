@@ -163,6 +163,9 @@ export class AddsService {
 							dataMetar.metar_type,
 							dataMetar.elevation_m
 						);
+						if(dataMetar.wind_gust_kt) {
+							metar.windGusts = dataMetar.wind_gust_kt;
+						}
 						metar.addSkyConditions(dataMetar.sky_condition);
 						metars.push(metar);
 					}
