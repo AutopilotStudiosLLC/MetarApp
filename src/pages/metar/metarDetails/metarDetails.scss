@@ -3,4 +3,18 @@ page-metar-details {
 		color: color($colors, danger);
 		font-weight: bold;
 	}
-}
+	span.weather-visibility {
+		color: color($colors, danger);
+		font-weight: bold;
+	}
+
+	span.observation-recent {
+		color: color($colors, green);
+	}
+	span.observation-aging {
+		color: color($colors, warning);
+	}
+	span.observation-outdated {
+		color: color($colors, danger);
+	}
+};

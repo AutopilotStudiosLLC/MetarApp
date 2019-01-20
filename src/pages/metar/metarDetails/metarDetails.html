@@ -29,6 +29,9 @@
 					<ion-item>
 						<ion-icon name="eye" item-start></ion-icon>
 						{{ metar?.visibility }} mi
+						<span *ngFor="let condition of metar?.getImportantVisibilityConditions()" class="weather-visibility">
+							{{ condition }}
+						</span>
 					</ion-item>
 					<ion-item *ngFor="let skyCondition of metar?.getSkyConditions()">
 						<ion-icon name="cloud" item-start></ion-icon>
@@ -37,6 +40,9 @@
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
 						{{ metar?.observationTime.local().format("MMM Do, h:mm A") }}
+						<span [class]="metar?.getObservationTimeColor()">
+							({{ metar?.getObservationTimeFromNow() }} m)
+						</span>
 					</ion-item>
 					<ion-item>
 						Alt {{ metar?.altimeter }}
@@ -49,7 +55,15 @@
 						{{ metar?.latitude }} N {{ metar?.longitude }} {{ metar?.longitude < 0 ? 'W' : 'E' }}
 					</ion-item>
 				</ion-list>
-
+				<div *ngIf="metar?.weatherConditions.length > 0">
+					<h4>Additional Weather Conditions</h4>
+					<ion-list>
+						<ion-item *ngFor="let condition of metar?.getWeatherConditions()">
+							{{ condition }}
+						</ion-item>
+					</ion-list>
+				</div>
+				<h4>Raw Text</h4>
 				<p> {{ metar?.raw }}</p>
 			</ion-col>
 			<ion-col col-12 col-md-6>

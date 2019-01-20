@@ -167,6 +167,7 @@ export class AddsService {
 							metar.windGusts = dataMetar.wind_gust_kt;
 						}
 						metar.addSkyConditions(dataMetar.sky_condition);
+						metar.processWeatherPhenomenon();
 						metars.push(metar);
 					}
 					return metars;
