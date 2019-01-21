@@ -11,7 +11,7 @@ import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
 import {MetarPage} from "../pages/metar/metar";
 import {TafPage} from "../pages/taf/taf";
-import {SearchPage} from "../pages/search/search";
+import {FlightPlanPage} from "../pages/flight-plan/flight-plan";
 import {MetarDetailsPage} from "../pages/metar/metarDetails/metarDetails";
 import {HttpClientModule} from "@angular/common/http";
 import {MetarHistoryPage} from "../pages/metar/metar-history/metar-history";
@@ -21,6 +21,7 @@ import { Pro } from '@ionic/pro';
 import {StationService} from "../services/station.service";
 import {Geolocation} from "@ionic-native/geolocation";
 import {IonicStorageModule} from "@ionic/storage";
+import {FlightPlanService} from "../services/flight-plan.service";
 
 const IonicPro = Pro.init('f377509b', {
 	appVersion: "0.0.1"
@@ -58,7 +59,7 @@ export class MyErrorHandler implements ErrorHandler {
 		MetarHistoryPage,
 		TafPage,
 		TafDetailsPage,
-		SearchPage
+		FlightPlanPage
 	],
 	imports: [
 		BrowserModule,
@@ -77,13 +78,14 @@ export class MyErrorHandler implements ErrorHandler {
 		MetarHistoryPage,
 		TafPage,
 		TafDetailsPage,
-		SearchPage
+		FlightPlanPage
 	],
 	providers: [
 		StatusBar,
 		SplashScreen,
 		Geolocation,
 		StationService,
+		FlightPlanService,
 		AddsService,
 		IonicErrorHandler,
 		[{ provide: ErrorHandler, useClass: MyErrorHandler }]

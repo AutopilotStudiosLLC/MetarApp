@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { HomePage } from '../home/home';
-import {SearchPage} from "../search/search";
+import {FlightPlanPage} from "../flight-plan/flight-plan";
 import {MetarPage} from "../metar/metar";
 import {TafPage} from "../taf/taf";
 
@@ -11,7 +11,7 @@ import {TafPage} from "../taf/taf";
 export class TabsPage {
 
   homeRoot = HomePage;
-  searchRoot = SearchPage;
+  flightPlanRoot = FlightPlanPage;
   metarRoot = MetarPage;
   tafRoot = TafPage;
 

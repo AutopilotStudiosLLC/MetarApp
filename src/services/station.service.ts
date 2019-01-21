@@ -146,6 +146,12 @@ export class StationService {
 		this.recent.forEach((el:Station) => {
 			recentList.push({
 				ident: el.ident,
+				latitude: el.latitude,
+				longitude: el.longitude,
+				elevation: el.elevation,
+				name: el.name,
+				state: el.state,
+				country: el.country,
 				isMetarSupported: el.isMetarSupported,
 				isTafSupported: el.isTafSupported
 			});
@@ -178,6 +184,12 @@ export class StationService {
 				if(stations) {
 					let revivedStations = stations.map(x => {
 						let station = this.getStation(x.ident);
+						station.latitude = x.latitude;
+						station.longitude = x.longitude;
+						station.elevation = x.elevation;
+						station.name = x.name;
+						station.state = x.state;
+						station.country = x.country;
 						station.isMetarSupported = x.isMetarSupported;
 						station.isTafSupported = x.isTafSupported;
 						return station;

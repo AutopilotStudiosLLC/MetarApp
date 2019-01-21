@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Flight Plan</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
+		<ion-list>
+			<ion-item>
+				<ion-label stacked>Find Station</ion-label>
+				<ion-input type="text" name="ident" placeholder="KDEN"
+						   [(ngModel)]="stationString" required
+						   (input)="onInputText()"></ion-input>
+			</ion-item>
+		</ion-list>
+		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
+	</form>
+
+	<ion-list>
+		<ion-item *ngFor="let station of flightPlanService.getStations()">
+			<ion-icon name="arrow-round-forward" item-start></ion-icon>
+			{{ station.ident }}
+			<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
+		</ion-item>
+	</ion-list>
+</ion-content>

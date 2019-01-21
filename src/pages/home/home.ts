@@ -7,6 +7,7 @@ import {AddsService} from "../../services/adds.service";
 import {TafDetailsPage} from "../taf/taf-details/taf-details";
 import {Utility} from "../../models/utility.model";
 import {SkyCondition} from "../../models/sky-condition.model";
+import {FlightPlanService} from "../../services/flight-plan.service";
 
 @Component({
 	selector: 'page-home',
@@ -30,7 +31,8 @@ export class HomePage {
 
 	constructor(public navCtrl: NavController, private stationService: StationService,
 				private loadingCtrl: LoadingController, private alertCtrl: AlertController,
-				private addsService: AddsService, private platform: Platform) {
+				private addsService: AddsService, private platform: Platform,
+				private flightPlanService: FlightPlanService) {
 
 	}
 
@@ -216,10 +218,11 @@ export class HomePage {
 		}
 	}
 
-	onAddToFlightPlan() {
+	onAddToFlightPlan(station: Station) {
+		this.flightPlanService.addStation(station);
 		const alert = this.alertCtrl.create({
-			title: 'Coming Soon',
-			message: 'This feature is not done yet. We\'ll get back to you shortly',
+			title: 'Added to Flight Plan',
+			message: 'This station was added to the flight plan.',
 			buttons: ['Ok']
 		});
 		alert.present();

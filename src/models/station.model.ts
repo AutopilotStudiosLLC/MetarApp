@@ -159,6 +159,9 @@ export class Station {
 			this.isTafSupported = station.isTafSupported;
 	}
 
+	/**
+	 * Calculate the distance from one point to another in Kilometers.
+	 */
 	public static calculateDistance(sourceLatitude, sourceLongitude, destinationLatitude, destinationLongitude) {
 		let selfLatitude = sourceLatitude * Math.PI / 180;
 		let destLatitude = destinationLatitude * Math.PI / 180;
