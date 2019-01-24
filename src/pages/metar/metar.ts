@@ -18,9 +18,7 @@ export class MetarPage {
 
 	stationString: string;
 
-	favorites: Station[] = [
-		//new Station("KMAN")
-	];
+	favorites: Station[] = [];
 	local: Station[] = [];
 	recent: Station[] = [];
 

@@ -9,7 +9,7 @@ export class MetarServiceResponse {
 	{}
 }
 
-class MetarJsonResponse {
+export class MetarJsonResponse {
 	constructor(
 		public raw_text: string,
 		public station_id: string,

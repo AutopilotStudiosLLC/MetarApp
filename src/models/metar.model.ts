@@ -69,7 +69,7 @@ export class Metar {
 				);
 			});
 			return this.skyCondition;
-		} else {
+		} else if(skyConditions) {
 			this.skyCondition.push(
 				new SkyCondition(
 					skyConditions.sky_cover,

@@ -1,7 +1,7 @@
 import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {Metar} from "../models/metar.model";
-import {MetarServiceResponse} from "../models/metar-service-response.model";
+import {MetarServiceResponse, MetarJsonResponse} from "../models/metar-service-response.model";
 import * as moment from 'moment';
 import {TafServiceResponse} from "../models/taf-service-response.model";
 import {Taf} from "../models/taf.model";
@@ -175,6 +175,24 @@ export class AddsService {
 			);
 	}
 
+	getMetarsFromStationList(stationString, hoursBeforeNow:number = 3) {
+		return this.http.get(
+			AddsService.baseUri+'metar/list?stations='+stationString+'&hoursBeforeNow='+hoursBeforeNow,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: MetarServiceResponse) => {
+					const data = response;
+					let metars: Metar[] = [];
+					for (let x in data.METAR) {
+						const metar = this.mapMetarResponseToModel(data.METAR[x]);
+						metars.push(metar);
+					}
+					return metars;
+				}
+			);
+	}
+
 	getTafs(ident) {
 		return this.http.get(
 			AddsService.baseUri+'weather/taf/'+ident,
@@ -204,5 +222,32 @@ export class AddsService {
 					return tafs;
 				}
 			);
+	}
+
+	private mapMetarResponseToModel(metarJsonResponse: MetarJsonResponse): Metar {
+		let metar = new Metar(
+			metarJsonResponse.raw_text,
+			metarJsonResponse.station_id,
+			moment.utc(metarJsonResponse.observation_time),
+			metarJsonResponse.latitude,
+			metarJsonResponse.longitude,
+			metarJsonResponse.temp_c,
+			metarJsonResponse.dewpoint_c,
+			metarJsonResponse.wind_dir_degrees,
+			metarJsonResponse.wind_speed_kt,
+			metarJsonResponse.visibility_statute_mi,
+			metarJsonResponse.altim_in_hg,
+			metarJsonResponse.quality_control_flags,
+			metarJsonResponse.flight_category,
+			metarJsonResponse.metar_type,
+			metarJsonResponse.elevation_m
+		);
+		if(metarJsonResponse.wind_gust_kt) {
+			metar.windGusts = metarJsonResponse.wind_gust_kt;
+		}
+		metar.addSkyConditions(metarJsonResponse.sky_condition);
+		metar.processWeatherPhenomenon();
+
+		return metar;
 	}
 }

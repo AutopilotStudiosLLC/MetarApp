@@ -64,6 +64,7 @@ export class HomePage {
 				locale.subscribe((stations) => {
 					this.localStations = stations;
 					this.sortLocalStationsByDistance();
+					this.getLocalStationMetars();
 				});
 			});
 	}
@@ -239,5 +240,19 @@ export class HomePage {
 			}
 		});
 		return this.localStations;
+	}
+
+	private getLocalStationMetars() {
+		let stationArray = this.localStations.map((el) => el.ident);
+
+		const stationString = stationArray.join(',');
+
+		this.addsService.getMetarsFromStationList(stationString, 2)
+			.subscribe((metars) => {
+				metars.forEach((metar) => {
+					const station = this.stationService.getStation(metar.ident);
+					station.addMetar(metar);
+				});
+			});
 	}
 }

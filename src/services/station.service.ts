@@ -135,6 +135,12 @@ export class StationService {
 		this.favorites.forEach((el) => {
 			favoriteList.push({
 				ident: el.ident,
+				latitude: el.latitude,
+				longitude: el.longitude,
+				elevation: el.elevation,
+				name: el.name,
+				state: el.state,
+				country: el.country,
 				isMetarSupported: el.isMetarSupported,
 				isTafSupported: el.isTafSupported
 			});
@@ -163,12 +169,30 @@ export class StationService {
 		return this.storage.get('favorites')
 			.then((stations: Station[]) => {
 				if(stations) {
-					let revivedStations = stations.map(x => {
+					let stationIdentArray = [];
+					stations.forEach((el) => stationIdentArray.push(el.ident));
+
+					let revivedStations = stations.map((x) => {
 						let station = this.getStation(x.ident);
+						station.latitude = x.latitude;
+						station.longitude = x.longitude;
+						station.elevation = x.elevation;
+						station.name = x.name;
+						station.state = x.state;
+						station.country = x.country;
 						station.isMetarSupported = x.isMetarSupported;
 						station.isTafSupported = x.isTafSupported;
 						return station;
 					});
+
+					const stationString = stationIdentArray.join(',');
+					this.addsService.getMetarsFromStationList(stationString, 2)
+						.subscribe((metars) => {
+							revivedStations.forEach((station) => {
+								station.addMetarArray(metars.filter((el) => el.ident === station.ident));
+							})
+						});
+
 					this.favorites = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {
 						this.addToFavorites(revivedStations[x]);
@@ -182,6 +206,9 @@ export class StationService {
 		return this.storage.get('recent')
 			.then((stations: Station[]) => {
 				if(stations) {
+					let stationIdentArray = [];
+					stations.forEach((el) => stationIdentArray.push(el.ident));
+
 					let revivedStations = stations.map(x => {
 						let station = this.getStation(x.ident);
 						station.latitude = x.latitude;
@@ -194,6 +221,15 @@ export class StationService {
 						station.isTafSupported = x.isTafSupported;
 						return station;
 					});
+
+					const stationString = stationIdentArray.join(',');
+					this.addsService.getMetarsFromStationList(stationString, 2)
+						.subscribe((metars) => {
+							revivedStations.forEach((station) => {
+								station.addMetarArray(metars.filter((el) => el.ident === station.ident));
+							})
+						});
+
 					this.recent = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {
 						this.addToRecent(revivedStations[x]);
