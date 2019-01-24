@@ -185,13 +185,15 @@ export class StationService {
 						return station;
 					});
 
-					const stationString = stationIdentArray.join(',');
-					this.addsService.getMetarsFromStationList(stationString, 2)
-						.subscribe((metars) => {
-							revivedStations.forEach((station) => {
-								station.addMetarArray(metars.filter((el) => el.ident === station.ident));
-							})
-						});
+					if(stationIdentArray.length > 0) {
+						const stationString = stationIdentArray.join(',');
+						this.addsService.getMetarsFromStationList(stationString, 2)
+							.subscribe((metars) => {
+								revivedStations.forEach((station) => {
+									station.addMetarArray(metars.filter((el) => el.ident === station.ident));
+								})
+							});
+					}
 
 					this.favorites = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {
@@ -222,13 +224,15 @@ export class StationService {
 						return station;
 					});
 
-					const stationString = stationIdentArray.join(',');
-					this.addsService.getMetarsFromStationList(stationString, 2)
-						.subscribe((metars) => {
-							revivedStations.forEach((station) => {
-								station.addMetarArray(metars.filter((el) => el.ident === station.ident));
-							})
-						});
+					if(stationIdentArray.length > 0) {
+						const stationString = stationIdentArray.join(',');
+						this.addsService.getMetarsFromStationList(stationString, 2)
+							.subscribe((metars) => {
+								revivedStations.forEach((station) => {
+									station.addMetarArray(metars.filter((el) => el.ident === station.ident));
+								})
+							});
+					}
 
 					this.recent = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {

@@ -150,6 +150,7 @@
 					</ion-col>
 					<ion-col text-right>
 						<button ion-button icon-left clear small
+								*ngIf="station.latitude && station.longitude"
 								color="dark"
 								(click)="onAddToFlightPlan(station)">
 							<ion-icon name="navigate"></ion-icon>

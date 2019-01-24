@@ -20,9 +20,26 @@
 
 	<ion-list>
 		<ion-item *ngFor="let station of flightPlanService.getStations()">
-			<ion-icon name="arrow-round-forward" item-start></ion-icon>
-			{{ station.ident }}
+			<h2>
+				<ion-icon name="arrow-round-forward" item-start></ion-icon>
+				{{ station.ident }}
+				<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
+					{{ station.getLatestMetar()?.flightCategory }}
+				</ion-col>
+				<ion-col>
+					{{ station.getLatestMetar()?.visibility }} mi
+				</ion-col>
+			</h2>
 			<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
+			<p>
+				<ion-icon name="flag" item-start></ion-icon>
+				{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
+				kts
+			</p>
+			<p *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
+				<ion-icon name="cloud" item-start></ion-icon>
+				{{ skyCondition.getSkyConditionString() }}
+			</p>
 		</ion-item>
 	</ion-list>
 </ion-content>
