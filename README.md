@@ -1,3 +1,9 @@
+## Initial Installation
+
+```
+npm install -g ionic cordova
+npm install
+```
 
 ## Run local Ionic Server
 ```$xslt
