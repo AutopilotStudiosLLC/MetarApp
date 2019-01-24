@@ -28,10 +28,10 @@
 									<ion-icon name="flag" item-start></ion-icon>
 									{{ forecast.windDirection }} @ {{ forecast.windSpeed }} kts
 								</ion-col>
-								<ion-col col-12 col-md-6 col-lg-4 col-sm-12>
+								<ion-col col-12 col-md-6 col-lg-4 col-sm-12 *ngIf="forecast.skyConditions.length > 0">
 									<p *ngFor="let skyCondition of forecast.skyConditions">
-										{{ (skyCondition.sky_cover) ? getSkyConditionPhrase(skyCondition.sky_cover) : null }}
-										{{ (skyCondition.cloud_base_ft_agl) ? '@ '+skyCondition.cloud_base_ft_agl+' AGL' : null }}
+										{{ (skyCondition?.sky_cover) ? getSkyConditionPhrase(skyCondition?.sky_cover) : null }}
+										{{ (skyCondition?.cloud_base_ft_agl) ? '@ '+skyCondition?.cloud_base_ft_agl+' AGL' : null }}
 									</p>
 								</ion-col>
 							</ion-row>
