@@ -18,7 +18,7 @@
 		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
 	</form>
 
-	<ion-list>
+	<ion-list reorder="true" (ionItemReorder)="reorderFlightPlanStations($event)">
 		<ion-item *ngFor="let station of flightPlanService.getStations()">
 			<h2>
 				<ion-icon name="arrow-round-forward" item-start></ion-icon>

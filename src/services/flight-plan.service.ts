@@ -1,4 +1,5 @@
 import {Station} from "../models/station.model";
+import {reorderArray} from "ionic-angular";
 
 export class FlightPlanService {
 	private stations: Station[] = [];
@@ -11,6 +12,17 @@ export class FlightPlanService {
 
 	public getStations() {
 		return this.stations.slice();
+	}
+
+	public getStation(ident: string) {
+		let station = this.stations.find((el) => el.ident == ident);
+		if(station)
+			return station;
+		else {
+			station = new Station(ident);
+			this.stations.push(station);
+			return station;
+		}
 	}
 
 	public distanceToRoutePoint(station: Station): number {
@@ -33,5 +45,9 @@ export class FlightPlanService {
 	public totalEstimatedRouteDistance(): number {
 		//@todo incomplete method
 		return 0;
+	}
+
+	public reorderStations(indexes) {
+		this.stations = reorderArray(this.stations, indexes);
 	}
 }

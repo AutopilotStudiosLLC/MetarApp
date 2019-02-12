@@ -1,11 +1,11 @@
 export class StationServiceResponse {
 	constructor(
 		public results: number,
-		public Station: StationResponse[]
+		public Station: StationResponse[] | StationResponse
 	) {}
 }
 
-class StationResponse {
+export class StationResponse {
 	constructor(
 		public station_id:string,
 		public latitude: number,

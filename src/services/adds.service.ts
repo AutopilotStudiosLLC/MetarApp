@@ -6,7 +6,7 @@ import * as moment from 'moment';
 import {TafServiceResponse} from "../models/taf-service-response.model";
 import {Taf} from "../models/taf.model";
 import {Station} from "../models/station.model";
-import {StationServiceResponse} from "../models/station-service-response.model";
+import {StationServiceResponse, StationResponse} from "../models/station-service-response.model";
 import {SingleStationServiceResponse} from "../models/single-station-service-response.model";
 
 @Injectable()
@@ -42,6 +42,31 @@ export class AddsService {
 			);
 	}
 
+	getStationsFromList(stationString) {
+		return this.http.get(
+			AddsService.baseUri+'station/list?stations='+stationString,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: StationServiceResponse) => {
+					let stations: Station[] = [];
+					if(Array.isArray(response.Station)) {
+						response.Station.forEach((el) => {
+							const station = this.mapStationResponseToModel(el);
+							stations.push(station);
+						});
+					} else {
+						if(response.Station) {
+							const station = this.mapStationResponseToModel(response.Station);
+							stations.push(station);
+						}
+					}
+
+					return stations;
+				}
+			);
+	}
+
 	getLocalStations(latitude:number, longitude:number, distance:number){
 		return this.http.get(
 			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
@@ -68,37 +93,6 @@ export class AddsService {
 						);
 						stations.push(station);
 					}
-					return stations;
-				}
-			);
-	}
-
-	getLocalMetars(type:string, latitude:number, longitude:number, distance:number){
-		return this.http.get(
-			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
-			{responseType: 'json'}
-		)
-			.map(
-				(response: MetarServiceResponse) => {
-					const data = response;
-					let stations: Station[] = [];
-					/*for (let x in data.Station) {
-						let dataStation = data.Station[x];
-						let station = new Station(
-							dataStation.station_id,
-							[],
-							[],
-							dataStation.latitude,
-							dataStation.longitude,
-							dataStation.elevation_m,
-							dataStation.site,
-							dataStation.state,
-							dataStation.country,
-							!!dataStation.site_type.METAR,
-							!!dataStation.site_type.TAF
-						);
-						stations.push(station);
-					}*/
 					return stations;
 				}
 			);
@@ -249,5 +243,23 @@ export class AddsService {
 		metar.processWeatherPhenomenon();
 
 		return metar;
+	}
+
+	private mapStationResponseToModel(stationJsonResponse: StationResponse): Station {
+		let station = new Station(
+			stationJsonResponse.station_id,
+			[],
+			[],
+			stationJsonResponse.latitude,
+			stationJsonResponse.longitude,
+			stationJsonResponse.elevation_m,
+			stationJsonResponse.site,
+			stationJsonResponse.state,
+			stationJsonResponse.country,
+			!!stationJsonResponse.site_type.METAR,
+			!!stationJsonResponse.site_type.TAF
+		);
+
+		return station;
 	}
 }
