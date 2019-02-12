@@ -24,7 +24,7 @@ export class AddsService {
 			.map(
 				(response: SingleStationServiceResponse) => {
 					let dataStation = response.Station;
-					return new Station(
+					let station = new Station(
 						dataStation.station_id,
 						[],
 						[],
@@ -37,6 +37,7 @@ export class AddsService {
 						!!dataStation.site_type.METAR,
 						!!dataStation.site_type.TAF
 					);
+					return station;
 				}
 			);
 	}
