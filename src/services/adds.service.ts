@@ -52,12 +52,12 @@ export class AddsService {
 					let stations: Station[] = [];
 					if(Array.isArray(response.Station)) {
 						response.Station.forEach((el) => {
-							const station = this.mapStationResponseToModel(el);
+							const station = AddsService.mapStationResponseToModel(el);
 							stations.push(station);
 						});
 					} else {
 						if(response.Station) {
-							const station = this.mapStationResponseToModel(response.Station);
+							const station = AddsService.mapStationResponseToModel(response.Station);
 							stations.push(station);
 						}
 					}
@@ -179,7 +179,7 @@ export class AddsService {
 					const data = response;
 					let metars: Metar[] = [];
 					for (let x in data.METAR) {
-						const metar = this.mapMetarResponseToModel(data.METAR[x]);
+						const metar = AddsService.mapMetarResponseToModel(data.METAR[x]);
 						metars.push(metar);
 					}
 					return metars;
@@ -218,7 +218,7 @@ export class AddsService {
 			);
 	}
 
-	private mapMetarResponseToModel(metarJsonResponse: MetarJsonResponse): Metar {
+	public static mapMetarResponseToModel(metarJsonResponse: MetarJsonResponse): Metar {
 		let metar = new Metar(
 			metarJsonResponse.raw_text,
 			metarJsonResponse.station_id,
@@ -245,7 +245,7 @@ export class AddsService {
 		return metar;
 	}
 
-	private mapStationResponseToModel(stationJsonResponse: StationResponse): Station {
+	public static mapStationResponseToModel(stationJsonResponse: StationResponse): Station {
 		let station = new Station(
 			stationJsonResponse.station_id,
 			[],

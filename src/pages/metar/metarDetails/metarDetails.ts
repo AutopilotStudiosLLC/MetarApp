@@ -6,6 +6,9 @@ import {MetarHistoryPage} from "../metar-history/metar-history";
 import {SkyCondition} from "../../../models/sky-condition.model";
 import {Utility} from "../../../models/utility.model";
 import {StationService} from "../../../services/station.service";
+import {AddsService} from "../../../services/adds.service";
+import {MetarServiceResponse} from "../../../models/metar-service-response.model";
+import {Observable, Observer} from "rxjs";
 
 @IonicPage()
 @Component({
@@ -23,7 +26,8 @@ export class MetarDetailsPage {
 	metersToFeet = Utility.metersToFeet;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
-				private alertCtrl: AlertController, private stationService: StationService) {
+				private alertCtrl: AlertController, private stationService: StationService,
+				private addsService: AddsService) {
 	}
 
 	ionViewWillLoad() {
@@ -71,5 +75,24 @@ export class MetarDetailsPage {
 			]
 		});
 		alert.present();
+	}
+
+	getLatestMetar(): Observable<any> {
+		return Observable.create((observer: Observer<any>) => {
+			this.addsService.getMetars(this.station.ident, 2)
+				.subscribe((metars: Metar[]) => {
+					metars.forEach((metar) => {
+						this.station.addMetar(metar);
+					});
+					observer.next(metars);
+					observer.complete();
+				});
+		});
+	}
+
+	doRefresh(refresher) {
+		this.getLatestMetar().subscribe((response) => {
+			refresher.complete();
+		});
 	}
 }

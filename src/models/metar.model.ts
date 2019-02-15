@@ -14,6 +14,7 @@ export class Metar {
 	static readonly WEATHER_FUNNEL_CLOUD = 'FC';
 	static readonly WEATHER_TORNADO_WATER_SPOUT = '+FC';
 	static readonly WEATHER_FOG = 'FG';
+	static readonly WEATHER_FREEZING_FOG = 'FZFG';
 	static readonly WEATHER_SMOKE = 'FU';
 	static readonly WEATHER_HAIL = 'GR';
 	static readonly WEATHER_SMALL_HAIL_SNOW_PELLETS = 'GS';
@@ -131,6 +132,7 @@ export class Metar {
 			switch (el) {
 				case Metar.WEATHER_MIST:
 				case Metar.WEATHER_FOG:
+				case Metar.WEATHER_FREEZING_FOG:
 				case Metar.WEATHER_SMOKE:
 				case Metar.WEATHER_HAZE:
 				case Metar.WEATHER_DUST_STORM:
@@ -164,6 +166,8 @@ export class Metar {
 				return 'Tornado/Water Spout';
 			case Metar.WEATHER_FOG:
 				return 'Fog';
+			case Metar.WEATHER_FREEZING_FOG:
+				return 'Freezing Fog';
 			case Metar.WEATHER_SMOKE:
 				return 'Smoke';
 			case Metar.WEATHER_HAIL:

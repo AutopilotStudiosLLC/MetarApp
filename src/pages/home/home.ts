@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController, Platform} from 'ionic-angular';
+import {AlertController, LoadingController, NavController, Platform, ToastController} from 'ionic-angular';
 import {Station} from "../../models/station.model";
 import {MetarDetailsPage} from "../metar/metarDetails/metarDetails";
 import {StationService} from "../../services/station.service";
@@ -32,7 +32,7 @@ export class HomePage {
 	constructor(public navCtrl: NavController, private stationService: StationService,
 				private loadingCtrl: LoadingController, private alertCtrl: AlertController,
 				private addsService: AddsService, private platform: Platform,
-				private flightPlanService: FlightPlanService) {
+				private flightPlanService: FlightPlanService, private toastController: ToastController) {
 
 	}
 
@@ -221,12 +221,12 @@ export class HomePage {
 
 	onAddToFlightPlan(station: Station) {
 		this.flightPlanService.addStation(station);
-		const alert = this.alertCtrl.create({
-			title: 'Added to Flight Plan',
-			message: 'This station was added to the flight plan.',
-			buttons: ['Ok']
+		const toast = this.toastController.create({
+			message: 'Added station ' + station.ident + ' to the flight plan.',
+			duration: 3000,
+			position: 'top'
 		});
-		alert.present();
+		toast.present();
 	}
 
 	sortLocalStationsByDistance() {
