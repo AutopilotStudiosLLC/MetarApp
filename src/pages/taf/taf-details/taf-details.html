@@ -43,20 +43,60 @@
 				<ion-list>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
-						Issued {{ taf.issueTime.local().format("MMM Do, h:mm A") }}
+						<ion-grid>
+							<ion-row>
+								<ion-col col-sm-5 col-md-4 col-lg-2>
+									Issued
+								</ion-col>
+								<ion-col>
+									{{ taf.issueTime.local().format("MMM Do, h:mm A") }}
+								</ion-col>
+							</ion-row>
+						</ion-grid>
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
-						Bulletin Time {{ taf.bulletinTime.local().format("MMM Do, h:mm A") }}
+						<ion-grid>
+							<ion-row>
+								<ion-col col-sm-5 col-md-4 col-lg-2>
+									Bulletin Time
+								</ion-col>
+								<ion-col>
+									{{ taf.bulletinTime.local().format("MMM Do, h:mm A") }}
+								</ion-col>
+							</ion-row>
+						</ion-grid>
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
-						From {{ taf.validFrom.local().format("MMM Do, h:mm A") }}
-						To {{ taf.validTo.local().format("MMM Do, h:mm A") }}
+						<ion-grid>
+							<ion-row>
+								<ion-col col-sm-5 col-md-4 col-lg-2>
+									From
+								</ion-col>
+								<ion-col>
+									{{ taf.validFrom.local().format("MMM Do, h:mm A") }}
+								</ion-col>
+							</ion-row>
+							<ion-row>
+								<ion-col col-sm-5 col-md-4 col-lg-2>
+									To
+								</ion-col>
+								<ion-col>
+									{{ taf.validTo.local().format("MMM Do, h:mm A") }}
+								</ion-col>
+							</ion-row>
+						</ion-grid>
 					</ion-item>
 					<ion-item>
 						<ion-icon name="pin" item-start></ion-icon>
-						{{ taf.latitude }} N {{ taf.longitude }} {{ taf.longitude < 0 ? 'W' : 'E' }}
+						<ion-grid>
+							<ion-row>
+								<ion-col>
+									{{ taf.latitude }} N {{ taf.longitude }} {{ taf.longitude < 0 ? 'W' : 'E' }}
+								</ion-col>
+							</ion-row>
+						</ion-grid>
 					</ion-item>
 					<ion-item>
 						Remarks {{ taf.remarks }}
