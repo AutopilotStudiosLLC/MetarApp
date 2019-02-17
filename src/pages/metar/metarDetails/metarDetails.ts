@@ -3,11 +3,9 @@ import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angula
 import {Metar} from "../../../models/metar.model";
 import {Station} from "../../../models/station.model";
 import {MetarHistoryPage} from "../metar-history/metar-history";
-import {SkyCondition} from "../../../models/sky-condition.model";
 import {Utility} from "../../../models/utility.model";
 import {StationService} from "../../../services/station.service";
 import {AddsService} from "../../../services/adds.service";
-import {MetarServiceResponse} from "../../../models/metar-service-response.model";
 import {Observable, Observer} from "rxjs";
 
 @IonicPage()
@@ -19,9 +17,7 @@ export class MetarDetailsPage {
 	station: Station;
 	metar: Metar;
 	inFavorites: boolean;
-	//metarHistoryPage: MetarHistoryPage;
 
-	getSkyConditionPhrase = SkyCondition.getSkyConditionPhrase;
 	toFahrenheit = Utility.toFahrenheit;
 	metersToFeet = Utility.metersToFeet;
 
@@ -50,7 +46,6 @@ export class MetarDetailsPage {
 	}
 
 	onAddToFavorites(station) {
-		console.log(station);
 		this.stationService.addToFavorites(station);
 		this.stationService.removeRecent(station);
 		this.inFavorites = true;
@@ -92,6 +87,7 @@ export class MetarDetailsPage {
 
 	doRefresh(refresher) {
 		this.getLatestMetar().subscribe((response) => {
+			this.metar = this.station.getLatestMetar();
 			refresher.complete();
 		});
 	}

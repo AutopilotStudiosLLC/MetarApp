@@ -33,8 +33,20 @@ export class Station {
 			let found = this.metars.find((element) => {
 				return element.observationTime.isSame(metar.observationTime);
 			});
-			if(!found)
-				return this.metars.push(metar);
+			if(!found) {
+				this.metars.push(metar);
+
+				if(this.latestMetar) {
+					const latest = this.metars.reduce((time, el) =>
+						el.observationTime >= time.observationTime ? el.observationTime : time, this.metars[0]);
+
+					this.latestMetar = this.metars.find(
+						(element) => (element.observationTime == latest)
+					);
+				}
+
+				return true;
+			}
 		}
 		return false;
 	}
@@ -45,8 +57,18 @@ export class Station {
 				let found = this.metars.find((element) => {
 						return element.observationTime.isSame(metar.observationTime);
 					});
-				if(!found)
+				if(!found) {
 					this.metars.push(metar);
+
+					if(this.latestMetar) {
+						const latest = this.metars.reduce((time, el) =>
+							el.observationTime >= time.observationTime ? el.observationTime : time, this.metars[0]);
+
+						this.latestMetar = this.metars.find(
+							(element) => (element.observationTime == latest)
+						);
+					}
+				}
 			}
 		})
 	}

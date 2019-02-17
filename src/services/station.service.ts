@@ -49,7 +49,7 @@ export class StationService {
 			this.favorites.push(station);
 			this.saveFavorites()
 				.catch( (err) => {
-					console.log(err);
+					console.error(err);
 					this.favorites.splice(this.favorites.indexOf(station), 1);
 				});
 		}
