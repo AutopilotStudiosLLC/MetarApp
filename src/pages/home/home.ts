@@ -8,12 +8,14 @@ import {TafDetailsPage} from "../taf/taf-details/taf-details";
 import {Utility} from "../../models/utility.model";
 import {SkyCondition} from "../../models/sky-condition.model";
 import {FlightPlanService} from "../../services/flight-plan.service";
+import * as Constants from '../../services/constants';
 
 @Component({
 	selector: 'page-home',
 	templateUrl: 'home.html'
 })
 export class HomePage {
+	BUILD_VERSION = Constants.BUILD_VERSION;
 	metarDetailsPage = MetarDetailsPage;
 	tafDetailsPage = TafDetailsPage;
 
