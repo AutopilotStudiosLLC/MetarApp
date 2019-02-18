@@ -19,6 +19,14 @@ incompatible with Cordova.
 ionic cordova run ios -- --buildFlag="-UseModernBuildSystem=0" --device
 ```
 
+### xcode-select Fix
+
+Fix for error `xcode-select: error: tool 'xcodebuild' requires Xcode`
+
+```$xslt
+sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
+```
+
 ## Build Resources for Android/iOS (Splash and Icon)
 ```$xslt
 ionic cordova resources ios
