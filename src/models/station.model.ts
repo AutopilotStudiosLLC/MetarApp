@@ -24,10 +24,6 @@ export class Station {
 		if(tafs.length > 0) this.isTafSupported = true;
 	}
 
-	public static create() {
-
-	}
-
 	public addMetar(metar: Metar) {
 		if(metar.ident == this.ident) {
 			let found = this.metars.find((element) => {
@@ -36,14 +32,7 @@ export class Station {
 			if(!found) {
 				this.metars.push(metar);
 
-				if(this.latestMetar) {
-					const latest = this.metars.reduce((time, el) =>
-						el.observationTime >= time.observationTime ? el.observationTime : time, this.metars[0]);
-
-					this.latestMetar = this.metars.find(
-						(element) => (element.observationTime == latest)
-					);
-				}
+				this.calculateLatestMetar();
 
 				return true;
 			}
@@ -60,14 +49,7 @@ export class Station {
 				if(!found) {
 					this.metars.push(metar);
 
-					if(this.latestMetar) {
-						const latest = this.metars.reduce((time, el) =>
-							el.observationTime >= time.observationTime ? el.observationTime : time, this.metars[0]);
-
-						this.latestMetar = this.metars.find(
-							(element) => (element.observationTime == latest)
-						);
-					}
+					this.calculateLatestMetar();
 				}
 			}
 		})
@@ -75,28 +57,43 @@ export class Station {
 
 	public setMetars(metars: Metar[]) {
 		this.metars = metars;
+		this.calculateLatestMetar();
 	}
 
 	public removeMetar(metar: Metar) {
 		let index = this.metars.findIndex((el) => el === metar);
 		this.metars.splice(index, 1);
+		this.calculateLatestMetar();
 	}
 
 	public clearMetars() {
 		this.metars = [];
+		this.latestMetar = null;
+	}
+
+	private calculateLatestMetar() {
+		if(this.metars.length > 0) {
+			const latest = this.metars
+				.map(el => el.observationTime)
+				.reduce((mostRecent, element) => {
+					if (element >= mostRecent) {
+						return element;
+					} else {
+						return mostRecent;
+					}
+				}, this.metars[0].observationTime);
+
+			this.latestMetar = this.metars.find(
+				(element) => (element.observationTime == latest)
+			);
+		}
 	}
 
 	public getLatestMetar(): Metar
 	{
-		if(this.latestMetar)
-			return this.latestMetar;
-
-		const latest = this.metars.reduce((time, el) =>
-			el.observationTime >= time.observationTime ? el.observationTime : time, this.metars[0]);
-
-		this.latestMetar = this.metars.find(
-			(element) => (element.observationTime == latest)
-		);
+		if(!this.latestMetar) {
+			this.calculateLatestMetar();
+		}
 
 		return this.latestMetar;
 	}

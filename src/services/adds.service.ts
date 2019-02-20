@@ -138,31 +138,12 @@ export class AddsService {
 				(response: MetarServiceResponse) => {
 					const data = response;
 					let metars: Metar[] = [];
-					for (let x in data.METAR) {
-						let dataMetar = data.METAR[x];
-						let metar = new Metar(
-							dataMetar.raw_text,
-							dataMetar.station_id,
-							moment.utc(dataMetar.observation_time),
-							dataMetar.latitude,
-							dataMetar.longitude,
-							dataMetar.temp_c,
-							dataMetar.dewpoint_c,
-							dataMetar.wind_dir_degrees,
-							dataMetar.wind_speed_kt,
-							dataMetar.visibility_statute_mi,
-							dataMetar.altim_in_hg,
-							dataMetar.quality_control_flags,
-							dataMetar.flight_category,
-							dataMetar.metar_type,
-							dataMetar.elevation_m
-						);
-						if(dataMetar.wind_gust_kt) {
-							metar.windGusts = dataMetar.wind_gust_kt;
+					if(Array.isArray(data.METAR)) {
+						for (let x in data.METAR) {
+							metars.push(AddsService.mapMetarResponseToModel(data.METAR[x]));
 						}
-						metar.addSkyConditions(dataMetar.sky_condition);
-						metar.processWeatherPhenomenon();
-						metars.push(metar);
+					} else {
+						metars.push(AddsService.mapMetarResponseToModel(data.METAR));
 					}
 					return metars;
 				}

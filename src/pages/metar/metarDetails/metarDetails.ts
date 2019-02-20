@@ -79,6 +79,7 @@ export class MetarDetailsPage {
 					metars.forEach((metar) => {
 						this.station.addMetar(metar);
 					});
+					this.metar = this.station.getLatestMetar();
 					observer.next(metars);
 					observer.complete();
 				});
@@ -86,8 +87,7 @@ export class MetarDetailsPage {
 	}
 
 	doRefresh(refresher) {
-		this.getLatestMetar().subscribe((response) => {
-			this.metar = this.station.getLatestMetar();
+		this.getLatestMetar().subscribe((metars: Metar[]) => {
 			refresher.complete();
 		});
 	}
