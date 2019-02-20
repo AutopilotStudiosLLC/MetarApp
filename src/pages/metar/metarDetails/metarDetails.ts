@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {Metar} from "../../../models/metar.model";
 import {Station} from "../../../models/station.model";
 import {MetarHistoryPage} from "../metar-history/metar-history";
@@ -23,7 +23,23 @@ export class MetarDetailsPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private alertCtrl: AlertController, private stationService: StationService,
-				private addsService: AddsService, private toastController:ToastController) {
+				private addsService: AddsService, private toastController:ToastController,
+				private platform: Platform) {
+
+		//On Resume
+		platform.resume.subscribe(() => {
+			const metarAge = this.metar.getObservationTimeFromNow();
+			const timeRetrieved = this.metar.getRetrievalTimeFromNow();
+			if(metarAge >= 15 && timeRetrieved >= 5) {
+				this.getLatestMetar();
+				const toast = this.toastController.create({
+					message: 'Checking for new weather data.',
+					duration: 3000,
+					position: 'top'
+				});
+				toast.present();
+			}
+		})
 	}
 
 	ionViewWillLoad() {
@@ -38,19 +54,6 @@ export class MetarDetailsPage {
 			});
 			alert.present();
 			this.navCtrl.goToRoot({});
-		}
-	}
-	ionViewDidEnter() {
-		const metarAge = this.metar.getObservationTimeFromNow();
-		const timeRetrieved = this.metar.getRetrievalTimeFromNow();
-		if(metarAge >= 15 && timeRetrieved >= 5) {
-			this.getLatestMetar();
-			const toast = this.toastController.create({
-				message: 'Checking for new weather data.',
-				duration: 3000,
-				position: 'top'
-			});
-			toast.present();
 		}
 	}
 
