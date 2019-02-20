@@ -39,6 +39,7 @@ export class Metar {
 	private observationTimeString: string = null;
 	public windGusts: number = null;
 	public weatherConditions: string[] = [];
+	public retrievalTime:moment.Moment;
 
 	constructor(
 		public raw: string,
@@ -56,7 +57,9 @@ export class Metar {
 		public flightCategory?: string,
 		public metarType?: string,
 		public elevation?: number)
-	{}
+	{
+		this.retrievalTime = moment();
+	}
 
 	public addSkyConditions(skyConditions) {
 		this.skyCondition = [];
@@ -233,6 +236,10 @@ export class Metar {
 		} else {
 			return 'observation-outdated';
 		}
+	}
+
+	public getRetrievalTimeFromNow(): number {
+		return Math.abs(this.retrievalTime.diff(moment(), 'minutes'));
 	}
 
 	public sleep() {
