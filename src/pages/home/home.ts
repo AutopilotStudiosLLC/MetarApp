@@ -39,29 +39,32 @@ export class HomePage {
 	}
 
 	ionViewWillEnter() {
-		this.stationService.loadFavorites()
-			.then(() => {
-				this.favorites = this.stationService.getFavorites();
-			});
-		this.stationService.loadRecent()
-			.then(() => {
-				this.recent = this.stationService.getRecent();
-			});
+		this.updateAllStations();
 
 		this.platform.resume.subscribe(() => {
-			this.updateLocals();
+			this.updateAllStations();
 		});
 
-		this.updateLocals();
 		setInterval(() => {
-			this.updateLocals();
-			this.lastUpdated = new Date();
+			this.updateAllStations();
 		}, 1000*60*5);
-		this.lastUpdated = new Date();
 	}
 
-	updateLocals() {
-		this.stationService.getLocalStations()
+	updateAllStations(): Promise <any> {
+		const favorites = this.stationService.loadFavorites();
+		const recent = this.stationService.loadRecent();
+		const local = this.updateLocals();
+
+		return Promise.all([favorites, recent, local])
+			.then(() => {
+				this.favorites = this.stationService.getFavorites();
+				this.recent = this.stationService.getRecent();
+				this.lastUpdated = new Date();
+			});
+	}
+
+	updateLocals(): Promise <any> {
+		return this.stationService.getLocalStations()
 			.then((locale) => {
 				locale.subscribe((stations) => {
 					this.localStations = stations;
@@ -244,17 +247,28 @@ export class HomePage {
 		return this.localStations;
 	}
 
-	private getLocalStationMetars() {
+	private getLocalStationMetars(): Promise <any> {
 		let stationArray = this.localStations.map((el) => el.ident);
 
 		const stationString = stationArray.join(',');
 
-		this.addsService.getMetarsFromStationList(stationString, 2)
-			.subscribe((metars) => {
-				metars.forEach((metar) => {
-					const station = this.stationService.getStation(metar.ident);
-					station.addMetar(metar);
+		return new Promise((resolve) => {
+			this.addsService.getMetarsFromStationList(stationString, 2)
+				.subscribe((metars) => {
+					metars.forEach((metar) => {
+						const station = this.stationService.getStation(metar.ident);
+						station.addMetar(metar);
+					});
+
+					resolve(metars);
 				});
-			});
+		});
+	}
+
+	doRefresh(refresher) {
+		this.updateAllStations()
+			.then(() => {
+				refresher.complete();
+			})
 	}
 }

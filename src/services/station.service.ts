@@ -204,7 +204,7 @@ export class StationService {
 			.catch();
 	}
 
-	public loadRecent() {
+	public loadRecent(): Promise <any> {
 		return this.storage.get('recent')
 			.then((stations: Station[]) => {
 				if(stations) {
