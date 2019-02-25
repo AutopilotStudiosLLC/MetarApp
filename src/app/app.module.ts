@@ -22,6 +22,7 @@ import {StationService} from "../services/station.service";
 import {Geolocation} from "@ionic-native/geolocation";
 import {IonicStorageModule} from "@ionic/storage";
 import {FlightPlanService} from "../services/flight-plan.service";
+import {SearchBarLayout1Module} from "../components/search-bar/layout-1/search-bar-layout-1.module";
 
 const IonicPro = Pro.init('f377509b', {
 	appVersion: "0.0.1"
@@ -65,7 +66,8 @@ export class MyErrorHandler implements ErrorHandler {
 		BrowserModule,
 		HttpClientModule,
 		IonicStorageModule.forRoot(),
-		IonicModule.forRoot(MyApp)
+		IonicModule.forRoot(MyApp),
+		SearchBarLayout1Module
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [

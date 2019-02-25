@@ -4,7 +4,7 @@
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 	<ion-refresher (ionRefresh)="doRefresh($event)">
 		<ion-refresher-content
 			pullingText="Pull to refresh"
@@ -12,7 +12,7 @@
 		</ion-refresher-content>
 	</ion-refresher>
 	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
-		<ion-list>
+		<ion-list class="search-form">
 			<ion-item>
 				<ion-label stacked>Find Station</ion-label>
 				<ion-input type="text" name="ident" placeholder="KDEN"
@@ -80,7 +80,7 @@
 					</ion-col>
 					<ion-col text-center *ngIf="station.isTafSupported">
 						<button ion-button icon-left clear small
-								color="secondary"
+								color="green"
 								(click)="onViewForecastConditions(station)">
 							<ion-icon name="clock"></ion-icon>
 							Forecast
@@ -148,7 +148,7 @@
 					</ion-col>
 					<ion-col text-center *ngIf="station.isTafSupported">
 						<button ion-button icon-left clear small
-								color="secondary"
+								color="green"
 								(click)="onViewForecastConditions(station)">
 							<ion-icon name="clock"></ion-icon>
 							Forecast
@@ -220,7 +220,7 @@
 					</ion-col>
 					<ion-col text-center *ngIf="station.isTafSupported">
 						<button ion-button icon-left clear small
-								color="secondary"
+								color="green"
 								(click)="onViewForecastConditions(station)">
 							<ion-icon name="clock"></ion-icon>
 							Forecast
