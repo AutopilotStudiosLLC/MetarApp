@@ -196,15 +196,15 @@ export class Station {
 		let factor = Math.pow(10, precision);
 		return Math.round(this.distance * factor) / factor;
 	}
-	public getDistanceInMiles() {
-
-	}
 	public getDistanceInStatuteMiles(precision:number = 10) {
 		let factor = Math.pow(10, precision);
 		return Math.round((this.distance * 0.621371) * factor) / factor;
 	}
 	public setDistance(distance: number) {
 		this.distance = distance;
+	}
+	public getDistance() {
+		return this.distance;
 	}
 
 	public getDistanceFromLocation(destinationLatitude, destinationLongitude) {

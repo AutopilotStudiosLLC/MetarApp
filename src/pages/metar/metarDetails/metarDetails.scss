@@ -17,4 +17,7 @@ page-metar-details {
 	span.observation-outdated {
 		color: color($colors, danger);
 	}
+	ion-label.label-md, div.item-inner {
+		margin: 0 !important;
+	}
 };
