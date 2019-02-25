@@ -26,216 +26,42 @@
 	<ion-row>
 		<ion-col col-12 col-md-6 col-lg-4>
 			<h2 *ngIf="recent.length > 0">Recent Stations</h2>
-			<ion-card *ngFor="let station of recent">
-				<button ion-button clear small float-right color="danger"
-						(click)="onRemoveFromRecent(station)">
-					<ion-icon name="trash"></ion-icon>
-				</button>
-				<button ion-button clear small float-right
-						(click)="onAddToFavorites(station)">
-					<ion-icon name="heart"></ion-icon>
-				</button>
-				<ion-card-header>
-					<h1>{{ station.ident }}</h1>
-				</ion-card-header>
-				<ion-card-content>
-					<ion-row no-padding *ngIf="station.getLatestMetar()">
-						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
-							{{ station.getLatestMetar()?.flightCategory }}
-						</ion-col>
-						<ion-col>
-							<ion-icon name="thermometer" item-start></ion-icon>
-							{{ station.getLatestMetar()?.temperature }} C
-						</ion-col>
-						<ion-col>
-							<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-							{{ station.getLatestMetar()?.dewpoint }} C
-						</ion-col>
-					</ion-row>
-					<ion-row *ngIf="station.getLatestMetar()">
-						<ion-col>
-							<ion-icon name="flag" item-start></ion-icon>
-							{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
-							kts
-						</ion-col>
-						<ion-col>
-							<ion-icon name="eye" item-start></ion-icon>
-							{{ station.getLatestMetar()?.visibility }} mi
-						</ion-col>
-					</ion-row>
-					<ion-row *ngIf="station.getLatestMetar()">
-						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
-							<ion-icon name="cloud" item-start></ion-icon>
-							{{ skyCondition.getSkyConditionString() }}
-						</ion-col>
-					</ion-row>
-				</ion-card-content>
-				<ion-row no-padding>
-					<ion-col *ngIf="station.isMetarSupported">
-						<button ion-button icon-left clear small
-								(click)="onViewCurrentConditions(station)">
-							<ion-icon name="thermometer"></ion-icon>
-							Current
-						</button>
-					</ion-col>
-					<ion-col text-center *ngIf="station.isTafSupported">
-						<button ion-button icon-left clear small
-								color="green"
-								(click)="onViewForecastConditions(station)">
-							<ion-icon name="clock"></ion-icon>
-							Forecast
-						</button>
-					</ion-col>
-					<ion-col text-right>
-						<button ion-button icon-left clear small
-								color="dark"
-								(click)="onAddToFlightPlan(station)">
-							<ion-icon name="navigate"></ion-icon>
-							Plan
-						</button>
-					</ion-col>
-				</ion-row>
-			</ion-card>
+			<station-card *ngFor="let station of recent"
+						  [station]="station"
+						  [metar]="station.getLatestMetar()"
+						  (addToFavorites)="onAddToFavorites($event)"
+						  (removeCard)="onRemoveFromRecent($event)"
+						  (addToFlightPlan)="onAddToFlightPlan($event)"
+						  (viewCurrentConditions)="onViewCurrentConditions($event)"
+						  (viewForecastConditions)="onViewForecastConditions($event)">
+			</station-card>
 		</ion-col>
 
 		<ion-col col-12 col-md-6 col-lg-4>
 			<h2 *ngIf="favorites.length > 0">Favorite Stations</h2>
-			<ion-card *ngFor="let station of favorites">
-				<button ion-button clear small float-right color="danger"
-						(click)="onRemoveFromFavorites(station)">
-					<ion-icon name="trash"></ion-icon>
-				</button>
-				<ion-card-header>
-					<h1>{{ station.ident }}</h1>
-				</ion-card-header>
-				<ion-card-content>
-					<ion-row no-padding *ngIf="station.getLatestMetar()">
-						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
-							{{ station.getLatestMetar()?.flightCategory }}
-						</ion-col>
-						<ion-col>
-							<ion-icon name="thermometer" item-start></ion-icon>
-							{{ station.getLatestMetar()?.temperature }} C
-						</ion-col>
-						<ion-col>
-							<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-							{{ station.getLatestMetar()?.dewpoint }} C
-						</ion-col>
-					</ion-row>
-					<ion-row *ngIf="station.getLatestMetar()">
-						<ion-col>
-							<ion-icon name="flag" item-start></ion-icon>
-							{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
-							kts
-						</ion-col>
-						<ion-col>
-							<ion-icon name="eye" item-start></ion-icon>
-							{{ station.getLatestMetar()?.visibility }} mi
-						</ion-col>
-					</ion-row>
-						<ion-row *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
-							<ion-icon name="cloud" item-start></ion-icon>
-							{{ skyCondition.getSkyConditionString() }}
-						</ion-row>
-				</ion-card-content>
-				<ion-row no-padding>
-					<ion-col *ngIf="station.isMetarSupported">
-						<button ion-button icon-left clear small
-								(click)="onViewCurrentConditions(station)">
-							<ion-icon name="thermometer"></ion-icon>
-							Current
-						</button>
-					</ion-col>
-					<ion-col text-center *ngIf="station.isTafSupported">
-						<button ion-button icon-left clear small
-								color="green"
-								(click)="onViewForecastConditions(station)">
-							<ion-icon name="clock"></ion-icon>
-							Forecast
-						</button>
-					</ion-col>
-					<ion-col text-right>
-						<button ion-button icon-left clear small
-								*ngIf="station.latitude && station.longitude"
-								color="dark"
-								(click)="onAddToFlightPlan(station)">
-							<ion-icon name="navigate"></ion-icon>
-							Plan
-						</button>
-					</ion-col>
-				</ion-row>
-			</ion-card>
+			<station-card *ngFor="let station of favorites"
+						  [allowFavoriteCard]="false"
+						  [station]="station"
+						  [metar]="station.getLatestMetar()"
+						  (addToFavorites)="onAddToFavorites($event)"
+						  (removeCard)="onRemoveFromFavorites($event)"
+						  (addToFlightPlan)="onAddToFlightPlan($event)"
+						  (viewCurrentConditions)="onViewCurrentConditions($event)"
+						  (viewForecastConditions)="onViewForecastConditions($event)">
+			</station-card>
 		</ion-col>
 
 		<ion-col col-12 col-md-6 col-lg-4>
 			<h2 *ngIf="localStations.length > 0">Local Stations</h2>
-			<ion-card *ngFor="let station of localStations">
-				<button ion-button clear small float-right
-						(click)="onAddToFavorites(station)">
-					<ion-icon name="heart"></ion-icon>
-				</button>
-				<ion-card-header>
-					<h1>{{ station.ident }}</h1>
-					({{ station.getDistanceInStatuteMiles(1) | number }} sm)
-				</ion-card-header>
-				<ion-card-content>
-					<ion-row no-padding *ngIf="station.getLatestMetar()">
-						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
-							{{ station.getLatestMetar()?.flightCategory }}
-						</ion-col>
-						<ion-col>
-							<ion-icon name="thermometer" item-start></ion-icon>
-							{{ station.getLatestMetar()?.temperature }} C
-						</ion-col>
-						<ion-col>
-							<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-							{{ station.getLatestMetar()?.dewpoint }} C
-						</ion-col>
-					</ion-row>
-					<ion-row *ngIf="station.getLatestMetar()">
-						<ion-col>
-							<ion-icon name="flag" item-start></ion-icon>
-							{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
-							kts
-						</ion-col>
-						<ion-col>
-							<ion-icon name="eye" item-start></ion-icon>
-							{{ station.getLatestMetar()?.visibility }} mi
-						</ion-col>
-					</ion-row>
-					<ion-row *ngIf="station.getLatestMetar()">
-						<ion-col *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
-							<ion-icon name="cloud" item-start></ion-icon>
-							{{ skyCondition.getSkyConditionString() }}
-						</ion-col>
-					</ion-row>
-				</ion-card-content>
-				<ion-row no-padding>
-					<ion-col *ngIf="station.isMetarSupported">
-						<button ion-button icon-left clear small
-								(click)="onViewCurrentConditions(station)">
-							<ion-icon name="thermometer"></ion-icon>
-							Current
-						</button>
-					</ion-col>
-					<ion-col text-center *ngIf="station.isTafSupported">
-						<button ion-button icon-left clear small
-								color="green"
-								(click)="onViewForecastConditions(station)">
-							<ion-icon name="clock"></ion-icon>
-							Forecast
-						</button>
-					</ion-col>
-					<ion-col text-right>
-						<button ion-button icon-left clear small
-								color="dark"
-								(click)="onAddToFlightPlan(station)">
-							<ion-icon name="navigate"></ion-icon>
-							Plan
-						</button>
-					</ion-col>
-				</ion-row>
-			</ion-card>
+			<station-card *ngFor="let station of localStations"
+						  [allowRemoveCard]="false"
+						  [station]="station"
+						  [metar]="station.getLatestMetar()"
+						  (addToFavorites)="onAddToFavorites($event)"
+						  (addToFlightPlan)="onAddToFlightPlan($event)"
+						  (viewCurrentConditions)="onViewCurrentConditions($event)"
+						  (viewForecastConditions)="onViewForecastConditions($event)">
+			</station-card>
 		</ion-col>
 	</ion-row>
 

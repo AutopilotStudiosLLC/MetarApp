@@ -107,7 +107,8 @@ $palettes: (
       primary: #00c0e8, // Used for text colors in: header-title, icon, span, alert
       secondary: #0090d0, // Used for text colors in: buttons, header-subtitle, input field, search-bar, alert
       accent:   #455B65, // Used for text colors in: item-title, item-subtitle, card-title, card-subtitle, card-body-text, swiped-item-title, parallax-description, map-header, map-content-title, maps-description
-      accent-first: #ffffff, //Used for icon, subitem-title, subitem-subtitle, button, fab button, parallax-title, parallax-subtitle, checkbox, wizard-title, wizard-body-text, tabs, maps-title, maps-subtitle, toolbar
+      accent-light: #7fa7b9,
+	  accent-first: #ffffff, //Used for icon, subitem-title, subitem-subtitle, button, fab button, parallax-title, parallax-subtitle, checkbox, wizard-title, wizard-body-text, tabs, maps-title, maps-subtitle, toolbar
   ),
   blendModes: ( // Used for blend modes
       primary:  #ffffff,

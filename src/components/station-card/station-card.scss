@@ -1,0 +1,31 @@
+div.wind-speed, div.wind-direction {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: color($palettes, textColors, accent);
+}
+div.wind-gusts {
+	font-size: 1.5em;
+	font-weight: bold;
+	color: color($colors, danger);
+}
+div.wind-speed sup, div.wind-direction sup, div.wind-gusts sup {
+	color: color($palettes, textColors, accent-light);
+	font-weight: normal;
+	font-size:.5em;
+}
+ion-col.important-visibility-conditions {
+	color: color($colors, danger);
+}
+
+span.observation-recent {
+	font-size:.7em;
+	color: color($colors, green);
+}
+span.observation-aging {
+	font-size:.7em;
+	color: color($colors, warning);
+}
+span.observation-outdated {
+	font-size:.7em;
+	color: color($colors, danger);
+}
