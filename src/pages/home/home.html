@@ -24,8 +24,8 @@
 	</form>
 
 	<ion-row>
-		<ion-col col-12 col-md-6 col-lg-4>
-			<h2 *ngIf="recent.length > 0">Recent Stations</h2>
+		<ion-col col-12 col-md-6 col-lg-4 *ngIf="recent.length > 0">
+			<h2>Recent Stations</h2>
 			<station-card *ngFor="let station of recent"
 						  [station]="station"
 						  [metar]="station.getLatestMetar()"
@@ -37,8 +37,8 @@
 			</station-card>
 		</ion-col>
 
-		<ion-col col-12 col-md-6 col-lg-4>
-			<h2 *ngIf="favorites.length > 0">Favorite Stations</h2>
+		<ion-col col-12 col-md-6 col-lg-4 *ngIf="favorites.length > 0">
+			<h2>Favorite Stations</h2>
 			<station-card *ngFor="let station of favorites"
 						  [allowFavoriteCard]="false"
 						  [station]="station"
@@ -51,8 +51,8 @@
 			</station-card>
 		</ion-col>
 
-		<ion-col col-12 col-md-6 col-lg-4>
-			<h2 *ngIf="localStations.length > 0">Local Stations</h2>
+		<ion-col col-12 col-md-6 col-lg-4 *ngIf="localStations.length > 0">
+			<h2>Local Stations</h2>
 			<station-card *ngFor="let station of localStations"
 						  [allowRemoveCard]="false"
 						  [station]="station"

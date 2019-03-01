@@ -22,10 +22,13 @@
 		<div float-right class="wind-index" *ngIf="metar">
 			<div class="wind-speed">
 				<ion-icon name="flag" item-start></ion-icon>
-				{{ metar?.windSpeed }}
-				<sup>kts</sup>
+				<span *ngIf="metar?.windSpeed > 0">
+					{{ metar?.windSpeed }}
+					<sup>kts</sup>
+				</span>
+				<span *ngIf="metar?.windSpeed == 0">Calm</span>
 			</div>
-			<div class="wind-direction">
+			<div class="wind-direction" *ngIf="metar?.windDirection != 0 && metar?.windSpeed != 0">
 				<ion-icon name="compass" item-start></ion-icon>
 				{{ metar?.windDirection }}
 				<sup>TRUE</sup>

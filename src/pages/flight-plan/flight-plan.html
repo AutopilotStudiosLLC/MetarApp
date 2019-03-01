@@ -5,41 +5,122 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
-		<ion-list>
+		<ion-list class="search-form">
 			<ion-item>
-				<ion-label stacked>Find Station</ion-label>
+				<ion-label stacked id="station-search-label">Find Station</ion-label>
 				<ion-input type="text" name="ident" placeholder="KDEN"
 						   [(ngModel)]="stationString" required
 						   (input)="onInputText()"></ion-input>
 			</ion-item>
 		</ion-list>
-		<button ion-button type="submit" block [disabled]="!stationForm.valid">Find</button>
+		<button ion-button type="submit" block [disabled]="!stationForm.valid">Add to Flight Plan</button>
 	</form>
 
-	<ion-list reorder="true" (ionItemReorder)="reorderFlightPlanStations($event)">
-		<ion-item *ngFor="let station of flightPlanService.getStations()">
-			<h2>
-				<ion-icon name="arrow-round-forward" item-start></ion-icon>
-				{{ station.ident }}
-				<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
-					{{ station.getLatestMetar()?.flightCategory }}
-				</ion-col>
-				<ion-col>
-					{{ station.getLatestMetar()?.visibility }} mi
-				</ion-col>
-			</h2>
-			<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
-			<p>
-				<ion-icon name="flag" item-start></ion-icon>
-				{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
-				kts
-			</p>
-			<p *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
-				<ion-icon name="cloud" item-start></ion-icon>
-				{{ skyCondition.getSkyConditionString() }}
-			</p>
-		</ion-item>
+	<ion-list>
+		<ion-list-header>
+			<button ion-item (click)="onToggleSection(sections.navPoints)" detail-none
+					[ngClass]="{'section-active': sections.navPoints.open, 'section': !sections.navPoints.open}">
+				<ion-icon item-left name="arrow-forward" *ngIf="!sections.navPoints.open"></ion-icon>
+				<ion-icon item-left name="arrow-down" *ngIf="sections.navPoints.open"></ion-icon>
+				{{ sections.navPoints.title }}
+			</button>
+
+			<ion-list reorder="true" (ionItemReorder)="reorderFlightPlanStations($event)" *ngIf="sections.navPoints.open">
+				<ion-item *ngFor="let station of flightPlanService.getStations()">
+					<h2>
+						<ion-icon name="arrow-round-forward" item-start></ion-icon>
+						{{ station.ident }}
+					</h2>
+					<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
+				</ion-item>
+			</ion-list>
+
+		</ion-list-header>
+
+		<ion-list-header>
+			<button ion-item (click)="onToggleSection(sections.metars)" detail-none
+					[ngClass]="{'section-active': sections.metars.open, 'section': !sections.metars.open}">
+				<ion-icon item-left name="arrow-forward" *ngIf="!sections.metars.open"></ion-icon>
+				<ion-icon item-left name="arrow-down" *ngIf="sections.metars.open"></ion-icon>
+				{{ sections.metars.title }}
+			</button>
+
+			<ion-list *ngIf="sections.metars.open">
+				<ion-item *ngFor="let station of flightPlanService.getStations()">
+					<h2>
+						<ion-icon name="arrow-round-forward" item-start></ion-icon>
+						{{ station.ident }}
+						<ion-col [ngClass]="station.getLatestMetar()?.getFlightCategoryColor() + '-background'">
+							{{ station.getLatestMetar()?.flightCategory }}
+						</ion-col>
+						<ion-col>
+							{{ station.getLatestMetar()?.visibility }} mi
+						</ion-col>
+					</h2>
+					<p>
+						<ion-icon name="flag" item-start></ion-icon>
+						{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
+						kts
+					</p>
+					<p *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
+						<ion-icon name="cloud" item-start></ion-icon>
+						{{ skyCondition.getSkyConditionString() }}
+					</p>
+				</ion-item>
+			</ion-list>
+
+		</ion-list-header>
+		<ion-list-header>
+			<button ion-item (click)="onToggleSection(sections.tafs)" detail-none
+					[ngClass]="{'section-active': sections.tafs.open, 'section': !sections.tafs.open}">
+				<ion-icon item-left name="arrow-forward" *ngIf="!sections.tafs.open"></ion-icon>
+				<ion-icon item-left name="arrow-down" *ngIf="sections.tafs.open"></ion-icon>
+				{{ sections.tafs.title }}
+			</button>
+
+			<ion-list *ngIf="sections.tafs.open">
+				<ion-item *ngFor="let taf of tafs">
+					<h2>
+						<ion-icon name="arrow-round-forward" item-start></ion-icon>
+						{{ taf.ident }}
+						<ion-col [ngClass]="taf.forecasts[0]?.getFlightCategoryColor() + '-background'">
+							{{ taf.forecasts[0]?.flightCategory }}
+						</ion-col>
+						<ion-col>
+							{{ taf.forecasts[0]?.visibility }} mi
+						</ion-col>
+					</h2>
+					<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
+					<p>
+						<ion-icon name="flag" item-start></ion-icon>
+						{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
+						kts
+					</p>
+					<p *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
+						<ion-icon name="cloud" item-start></ion-icon>
+						{{ skyCondition.getSkyConditionString() }}
+					</p>
+				</ion-item>
+			</ion-list>
+
+		</ion-list-header>
+		<ion-list-header>
+			<button ion-item (click)="onToggleSection(sections.pireps)" detail-none
+					[ngClass]="{'section-active': sections.pireps.open, 'section': !sections.pireps.open}">
+				<ion-icon item-left name="arrow-forward" *ngIf="!sections.pireps.open"></ion-icon>
+				<ion-icon item-left name="arrow-down" *ngIf="sections.pireps.open"></ion-icon>
+				{{ sections.pireps.title }}
+			</button>
+
+			<ion-list (ionItemReorder)="reorderFlightPlanStations($event)" *ngIf="sections.pireps.open">
+				<ion-item *ngFor="let report of pireps">
+
+				</ion-item>
+			</ion-list>
+
+		</ion-list-header>
 	</ion-list>
+
 </ion-content>

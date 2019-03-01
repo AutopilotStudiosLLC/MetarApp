@@ -6,6 +6,8 @@ import {AddsService} from "../../services/adds.service";
 import {StationService} from "../../services/station.service";
 import {Station} from "../../models/station.model";
 import {Metar} from "../../models/metar.model";
+import {Taf} from "../../models/taf.model";
+import {Pirep} from "../../models/pirep.model";
 
 /**
  * Generated class for the FlightPlanPage page.
@@ -25,6 +27,29 @@ export class FlightPlanPage {
 
 	toNauticalMiles = Utility.kilometersToNauticalMiles;
 	Math = Math;
+
+	sections = {
+		navPoints: {
+			title: 'Navigation Points',
+			open: true
+		},
+		metars: {
+			title: 'METARs (Current Conditions)',
+			open: true
+		},
+		tafs: {
+			title: 'TAFs (Forecasts)',
+			open: false
+		},
+		pireps: {
+			title: 'Pilot Reports',
+			open: false
+		}
+	};
+
+	metars: Metar[] = [];
+	tafs: Taf[] = [];
+	pireps: Pirep[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private stationService: StationService,
 				private flightPlanService: FlightPlanService, private addsService: AddsService,
@@ -87,6 +112,10 @@ export class FlightPlanPage {
 					this.stationService.addToRecent(station);
 					this.flightPlanService.addStation(station);
 					this.stationString = '';
+					this.addsService.getMetars(station.ident)
+						.subscribe((metars: Metar[]) => {
+							station.addMetarArray(metars);
+						})
 				},
 				(error) => {
 					loading.dismiss();
@@ -107,4 +136,7 @@ export class FlightPlanPage {
 		this.flightPlanService.reorderStations(indexes);
 	}
 
+	onToggleSection(section) {
+		section.open = !section.open;
+	}
 }

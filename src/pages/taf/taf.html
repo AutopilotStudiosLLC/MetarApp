@@ -9,7 +9,7 @@
 
 <ion-content>
 	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
-		<ion-list>
+		<ion-list class="search-form">
 			<ion-item>
 				<ion-label stacked>Find Station</ion-label>
 				<ion-input type="text" name="ident" placeholder="KDEN"

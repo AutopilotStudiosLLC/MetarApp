@@ -2,4 +2,8 @@ page-metar {
 	ion-list-header {
 		padding-bottom: 0;
 	}
+	ion-list.search-form ion-label {
+		padding:0;
+		margin-top: 10px;
+	}
 }
