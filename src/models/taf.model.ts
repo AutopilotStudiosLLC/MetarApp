@@ -32,7 +32,9 @@ export class Taf {
 				element.wind_dir_degrees,
 				element.wind_speed_kt,
 				element.visibility_statute_mi,
-				Forecast.mapSkyConditions(element.sky_condition)
+				Forecast.mapSkyConditions(element.sky_condition),
+				element.wind_gust_kt,
+				element.wx_string
 			);
 			forecasts.push(forecast);
 		});

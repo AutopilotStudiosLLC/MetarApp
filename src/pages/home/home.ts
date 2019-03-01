@@ -9,6 +9,7 @@ import {Utility} from "../../models/utility.model";
 import {SkyCondition} from "../../models/sky-condition.model";
 import {FlightPlanService} from "../../services/flight-plan.service";
 import * as Constants from '../../services/constants';
+import {Metar} from "../../models/metar.model";
 
 @Component({
 	selector: 'page-home',
@@ -87,6 +88,12 @@ export class HomePage {
 					this.stationService.addToRecent(station);
 					this.recent = this.stationService.getRecent();
 					this.stationString = '';
+					if(station.isMetarSupported) {
+						this.addsService.getMetars(station.ident)
+							.subscribe((metars: Metar[]) => {
+								station.addMetarArray(metars);
+							});
+					}
 				},
 				(error) => {
 					loading.dismiss();
@@ -212,11 +219,11 @@ export class HomePage {
 						alert.present();
 					}
 				},
-				() => {
+				(error) => {
 					loading.dismiss();
 					const alert = this.alertCtrl.create({
 						title: 'Squawk 7700',
-						message: 'Unable to find current station conditions. Please try again.',
+						message: 'Unable to find current station conditions. Please try again.' + error,
 						buttons: ['Ok']
 					});
 					alert.present();

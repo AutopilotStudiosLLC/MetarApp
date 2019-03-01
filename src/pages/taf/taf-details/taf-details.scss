@@ -1,0 +1,23 @@
+page-taf-details {
+	ion-label.label-md, div.item-inner, ion-label.label-ios{
+		margin: 0 !important;
+	}
+	.taf-day {
+		color: color($palettes, textColors, accent-light);
+	}
+	.taf-time {
+		font-size:1.5em;
+		font-weight:bold;
+		color: color($palettes, textColors, accent);
+	}
+	.change-indicator-tempo, .change-indicator-prob40 {
+		font-weight:bold;
+		font-size:0.9em;
+		color: color($colors, warning);
+	}
+	.change-indicator-becmg {
+		font-weight:bold;
+		font-size:0.9em;
+		color: color($palettes, textColors, accent-light);
+	}
+}

@@ -31,6 +31,7 @@ export class ForecastResponse {
 		public fcst_time_to: string,
 		public change_indicator: string,
 		public wind_dir_degrees: number,
+		public wind_gust_kt: number,
 		public wind_speed_kt: number,
 		public visibility_statute_mi: number,
 		public wx_string: string,

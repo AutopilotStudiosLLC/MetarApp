@@ -4,6 +4,7 @@ import {Station} from "../../../models/station.model";
 import {Taf} from "../../../models/taf.model";
 import {SkyCondition} from "../../../models/sky-condition.model";
 import {StationService} from "../../../services/station.service";
+import {Moment} from "moment";
 
 @IonicPage()
 @Component({
@@ -56,4 +57,9 @@ export class TafDetailsPage {
 		});
 		alert.present();
 	}
+
+	sameDay(fromTime:Moment, toTime:Moment) {
+		return fromTime.local().format('MMM D') === toTime.local().format("MMM D");
+	}
 }
+

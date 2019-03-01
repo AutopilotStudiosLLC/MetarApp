@@ -13,29 +13,64 @@
 			<ion-col col-12 col-md-6>
 				<ion-card *ngFor="let forecast of taf.forecasts">
 					<ion-card-header>
-						{{ forecast.fromTime.local().format("MMM D, h:mm A") }}
+						<div class="taf-day">
+							<span class="from-day">{{ forecast.fromTime.local().format("MMM D") }}</span>
+							<span class="to-day" *ngIf="!sameDay(forecast.fromTime, forecast.toTime)">
+								to {{ forecast.toTime.local().format("MMM D") }}
+							</span>
+						</div>
+						<div class="taf-time">
+						{{ forecast.fromTime.local().format("h:mm A") }}
 						to
-						{{ forecast.toTime.local().format("MMM D, h:mm A") }}
+						{{ forecast.toTime.local().format("h:mm A") }}
+						</div>
+						<div class="change-indicator-tempo" *ngIf="forecast?.changeIndicator === 'TEMPO'">
+							(TEMPORARY)
+						</div>
+						<div class="change-indicator-becmg" *ngIf="forecast?.changeIndicator === 'BECMG'">
+							(BECOMING)
+						</div>
+						<div class="change-indicator-prob40" *ngIf="forecast?.changeIndicator === 'PROB40'">
+							(CHANCE)
+						</div>
 					</ion-card-header>
 					<ion-card-content>
-						<ion-grid>
-							<ion-row>
-								<ion-col col-6 col-md-4 col-lg-4>
-									<ion-icon name="eye" item-start></ion-icon>
-									{{ forecast.visibility }} mi
-								</ion-col>
-								<ion-col col-6 col-md-4 col-lg-4>
-									<ion-icon name="flag" item-start></ion-icon>
-									{{ forecast.windDirection }} @ {{ forecast.windSpeed }} kts
-								</ion-col>
-								<ion-col col-12 col-md-6 col-lg-4 col-sm-12 *ngIf="forecast.skyConditions.length > 0">
-									<p *ngFor="let skyCondition of forecast.skyConditions">
-										{{ (skyCondition?.sky_cover) ? getSkyConditionPhrase(skyCondition?.sky_cover) : null }}
-										{{ (skyCondition?.cloud_base_ft_agl) ? '@ '+skyCondition?.cloud_base_ft_agl+' AGL' : null }}
-									</p>
-								</ion-col>
-							</ion-row>
-						</ion-grid>
+						<div float-right class="wind-index" *ngIf="forecast">
+							<div class="wind-speed" *ngIf="forecast?.windSpeed">
+								<ion-icon name="flag" item-start></ion-icon>
+								{{ forecast?.windSpeed }}
+								<sup>kts</sup>
+							</div>
+							<div class="wind-direction" *ngIf="forecast?.windDirection">
+								<ion-icon name="compass" item-start></ion-icon>
+								{{ forecast?.windDirection }}
+								<sup>TRUE</sup>
+							</div>
+							<div class="wind-gusts" *ngIf="forecast?.windGusts">
+								Gusts {{ forecast?.windGusts }} <sup>kts</sup>
+							</div>
+						</div>
+						<ion-row no-padding *ngIf="forecast">
+							<ion-col [ngClass]="forecast?.getFlightCategoryColor() + '-background'">
+								{{ forecast?.flightCategory }}
+							</ion-col>
+							<ion-col *ngIf="forecast?.visibility">
+								<ion-icon name="eye" item-start></ion-icon>
+								{{ forecast?.visibility }} mi
+							</ion-col>
+						</ion-row>
+						<ion-row *ngIf="forecast">
+							<ion-col col-12 *ngFor="let skyCondition of forecast?.getSkyConditions()">
+								<ion-icon name="cloud" item-start></ion-icon>
+								{{ skyCondition.getSkyConditionString() }}
+							</ion-col>
+						</ion-row>
+						<ion-row *ngIf="forecast">
+							<ion-col class="important-visibility-conditions" col-12 *ngFor="let condition of forecast?.getWeatherConditions()">
+								<ion-icon name="eye" item-start></ion-icon>
+								{{ condition }}
+							</ion-col>
+						</ion-row>
 					</ion-card-content>
 				</ion-card>
 			</ion-col>

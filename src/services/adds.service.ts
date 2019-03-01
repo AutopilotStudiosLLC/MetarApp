@@ -98,37 +98,6 @@ export class AddsService {
 			);
 	}
 
-	getLocalTafs(type:string, latitude:number, longitude:number, distance:number){
-		return this.http.get(
-			AddsService.baseUri+'station/local/?distance='+distance+'&latitude='+latitude+'&longitude='+longitude,
-			{responseType: 'json'}
-		)
-			.map(
-				(response: TafServiceResponse) => {
-					const data = response;
-					let stations: Station[] = [];
-					/*for (let x in data.Station) {
-						let dataStation = data.Station[x];
-						let station = new Station(
-							dataStation.station_id,
-							[],
-							[],
-							dataStation.latitude,
-							dataStation.longitude,
-							dataStation.elevation_m,
-							dataStation.site,
-							dataStation.state,
-							dataStation.country,
-							!!dataStation.site_type.METAR,
-							!!dataStation.site_type.TAF
-						);
-						stations.push(station);
-					}*/
-					return stations;
-				}
-			);
-	}
-
 	getMetars(ident, hoursBeforeNow:number = 3) {
 		return this.http.get(
 				AddsService.baseUri+'metar/recent/'+ident+'/'+hoursBeforeNow,
@@ -170,7 +139,7 @@ export class AddsService {
 
 	getTafs(ident) {
 		return this.http.get(
-			AddsService.baseUri+'weather/taf/'+ident,
+			AddsService.baseUri+'taf/taf/'+ident,
 			{responseType: 'json'}
 		)
 			.map(
