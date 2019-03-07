@@ -8,7 +8,7 @@ export class TafServiceResponse {
 	{}
 }
 
-class TafJsonResponse {
+export class TafJsonResponse {
 	constructor(
 		public raw_text: string,
 		public station_id: string,

@@ -3,11 +3,12 @@ import {Injectable} from "@angular/core";
 import {Metar} from "../models/metar.model";
 import {MetarServiceResponse, MetarJsonResponse} from "../models/metar-service-response.model";
 import * as moment from 'moment';
-import {TafServiceResponse} from "../models/taf-service-response.model";
+import {TafJsonResponse, TafServiceResponse} from "../models/taf-service-response.model";
 import {Taf} from "../models/taf.model";
 import {Station} from "../models/station.model";
 import {StationServiceResponse, StationResponse} from "../models/station-service-response.model";
 import {SingleStationServiceResponse} from "../models/single-station-service-response.model";
+import {Observable} from "rxjs";
 
 @Injectable()
 export class AddsService {
@@ -45,6 +46,31 @@ export class AddsService {
 	getStationsFromList(stationString) {
 		return this.http.get(
 			AddsService.baseUri+'station/list?stations='+stationString,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: StationServiceResponse) => {
+					let stations: Station[] = [];
+					if(Array.isArray(response.Station)) {
+						response.Station.forEach((el) => {
+							const station = AddsService.mapStationResponseToModel(el);
+							stations.push(station);
+						});
+					} else {
+						if(response.Station) {
+							const station = AddsService.mapStationResponseToModel(response.Station);
+							stations.push(station);
+						}
+					}
+
+					return stations;
+				}
+			);
+	}
+
+	getStationsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
+		return this.http.get(
+			AddsService.baseUri+'station/flight?path='+stationString+'&corridor='+corridor+'&hoursBeforeNow='+hoursBeforeNow,
 			{responseType: 'json'}
 		)
 			.map(
@@ -137,6 +163,24 @@ export class AddsService {
 			);
 	}
 
+	getMetarsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
+		return this.http.get(
+			AddsService.baseUri+'metar/flight?path='+stationString+'&corridor='+corridor+'&hoursBeforeNow='+hoursBeforeNow,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: MetarServiceResponse) => {
+					const data = response;
+					let metars: Metar[] = [];
+					for (let x in data.METAR) {
+						const metar = AddsService.mapMetarResponseToModel(data.METAR[x]);
+						metars.push(metar);
+					}
+					return metars;
+				}
+			);
+	}
+
 	getTafs(ident) {
 		return this.http.get(
 			AddsService.baseUri+'taf/taf/'+ident,
@@ -166,6 +210,29 @@ export class AddsService {
 					return tafs;
 				}
 			);
+	}
+
+	getTafsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
+		return this.http.get(
+			AddsService.baseUri+'taf/flight?path='+stationString+'&corridor='+corridor+'&hoursBeforeNow='+hoursBeforeNow,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: TafServiceResponse) => {
+					const data = response;
+					let tafs: Taf[] = [];
+					for (let x in data.TAF) {
+						tafs.push(
+							AddsService.mapTafResponseToModel(data.TAF[x])
+						);
+					}
+					return tafs;
+				}
+			);
+	}
+
+	getPirepsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
+		return new Observable();
 	}
 
 	public static mapMetarResponseToModel(metarJsonResponse: MetarJsonResponse): Metar {
@@ -211,5 +278,21 @@ export class AddsService {
 		);
 
 		return station;
+	}
+
+	public static mapTafResponseToModel(tafResponse: TafJsonResponse): Taf {
+		return new Taf(
+			tafResponse.station_id,
+			tafResponse.raw_text,
+			moment.utc(tafResponse.issue_time),
+			moment.utc(tafResponse.bulletin_time),
+			moment.utc(tafResponse.valid_time_from),
+			moment.utc(tafResponse.valid_time_to),
+			tafResponse.remarks,
+			tafResponse.latitude,
+			tafResponse.longitude,
+			tafResponse.elevation_m,
+			Taf.MapForecasts(tafResponse.forecast)
+		);
 	}
 }

@@ -27,6 +27,22 @@ export class StationService {
 		}
 	}
 
+	public addStationArray(stations: Station[]) {
+		let addedStations = [];
+		stations.forEach((station) => {
+			let existingStation = this.allStations.find((el) => el.ident === station.ident);
+			if(existingStation) {
+				existingStation.updateWith(station);
+				addedStations.push(existingStation);
+			} else {
+				this.allStations.push(station);
+				addedStations.push(station);
+			}
+		});
+
+		return addedStations;
+	}
+
 	public getFavorites() {
 		return this.favorites.slice();
 	}

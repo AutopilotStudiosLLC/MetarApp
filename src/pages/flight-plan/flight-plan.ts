@@ -47,8 +47,7 @@ export class FlightPlanPage {
 		}
 	};
 
-	metars: Metar[] = [];
-	tafs: Taf[] = [];
+	stations: Station[] = [];
 	pireps: Pirep[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private stationService: StationService,
@@ -80,22 +79,12 @@ export class FlightPlanPage {
 							stationToUpdate.isMetarSupported = !!station.isMetarSupported;
 							stationToUpdate.isTafSupported = !!station.isTafSupported;
 						}
-					})
-				});
-		}
-
-		let stationIdentList:string[] = [];
-		flightPlanStations.forEach((station) => {
-			stationIdentList.push(station.ident);
-		});
-		if(stationIdentList.length > 0) {
-			this.addsService.getMetarsFromStationList(stationIdentList.join(','))
-				.subscribe((metars: Metar[]) => {
-					metars.forEach((metar) => {
-						const station = this.flightPlanService.getStation(metar.ident);
-						station.addMetar(metar);
 					});
-				})
+
+					this.updateFlightWeather();
+				});
+		} else {
+			this.updateFlightWeather();
 		}
 	}
 
@@ -112,10 +101,7 @@ export class FlightPlanPage {
 					this.stationService.addToRecent(station);
 					this.flightPlanService.addStation(station);
 					this.stationString = '';
-					this.addsService.getMetars(station.ident)
-						.subscribe((metars: Metar[]) => {
-							station.addMetarArray(metars);
-						})
+					this.updateFlightWeather();
 				},
 				(error) => {
 					loading.dismiss();
@@ -138,5 +124,56 @@ export class FlightPlanPage {
 
 	onToggleSection(section) {
 		section.open = !section.open;
+	}
+
+	metarStations() {
+		return this.stations.filter((station) => station.isMetarSupported);
+	}
+
+	updateFlightWeather() {
+		let stations = this.flightPlanService.getStations();
+		const stationList = stations.map((el) => el.ident).join(';');
+
+		this.addsService.getStationsForFlight(stationList)
+			.subscribe((stations: Station[]) => {
+				// Update the root station list
+				this.stations = this.stationService.addStationArray(stations);
+
+				let metarList = stations.filter((station) => station.isMetarSupported)
+					.map((station) => station.ident)
+					.join(';');
+
+				let tafList = stations.filter((station) => station.isTafSupported)
+					.map((station) => station.ident)
+					.join(';');
+
+				// Get Metars for Flight
+				this.addsService.getMetarsForFlight(metarList)
+					.subscribe((metars: Metar[]) => {
+						metars.forEach((metar) => {
+							let station = this.stations.find((el) => el.ident === metar.ident);
+							if(station) {
+								station.addMetar(metar);
+							}
+						});
+					});
+
+				// Get Tafs for Flight
+				this.addsService.getTafsForFlight(tafList)
+					.subscribe((tafs: Taf[]) => {
+						tafs.forEach((taf) => {
+							let station = this.stations.find((el) => el.ident === taf.ident);
+							if(station) {
+								station.addTaf(taf);
+							}
+						});
+					});
+			});
+
+		// Get Pireps for Flight
+		/*this.addsService.getPirepsForFlight(stationList)
+			.subscribe((pireps: Pirep[]) => {
+				this.pireps = pireps;
+			});*/
 	}
 }

@@ -12,7 +12,7 @@
 	<ion-card-header>
 		<h1>
 			{{ station.ident }}
-			<span [class]="metar?.getObservationTimeColor()">
+			<span [ngClass]="metar?.getObservationTimeColor()">
 				({{ metar?.getObservationTimeFromNow() }} m)
 			</span>
 		</h1>

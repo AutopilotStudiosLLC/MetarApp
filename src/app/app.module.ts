@@ -24,6 +24,7 @@ import {IonicStorageModule} from "@ionic/storage";
 import {FlightPlanService} from "../services/flight-plan.service";
 import {SearchBarLayout1Module} from "../components/search-bar/layout-1/search-bar-layout-1.module";
 import {StationCardModule} from "../components/station-card/station-card.module";
+import {MetarListItemModule} from "../components/metar-list-item/metar-list-item.module";
 
 const IonicPro = Pro.init('f377509b', {
 	appVersion: "0.0.1"
@@ -68,6 +69,7 @@ export class MyErrorHandler implements ErrorHandler {
 		HttpClientModule,
 		IonicStorageModule.forRoot(),
 		IonicModule.forRoot(MyApp),
+		MetarListItemModule,
 		SearchBarLayout1Module,
 		StationCardModule
 	],
