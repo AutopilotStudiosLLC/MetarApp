@@ -1,9 +1,9 @@
-<ion-item>
+<ion-item *ngIf="metar">
 	<ion-row>
 		<ion-col>
 			<h1>
 				{{ station.ident }}
-				<span [ngClass]="metar?.getObservationTimeColor()">
+				<span [ngClass]="metar?.getObservationTimeColor()" *ngIf="metar?.getObservationTimeFromNow() != ''">
 					({{ metar?.getObservationTimeFromNow() }} m)
 				</span>
 			</h1>
