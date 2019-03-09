@@ -1,0 +1,43 @@
+h1 {
+	font-size:1.5em !important;
+}
+ion-col.wind-speed, ion-col.wind-direction {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: color($palettes, textColors, accent);
+}
+ion-col.wind-gusts {
+	font-size: 1.3em;
+	font-weight: bold;
+	color: color($colors, danger);
+}
+ion-col.wind-speed sup, ion-col.wind-direction sup, ion-col.wind-gusts sup {
+	color: color($palettes, textColors, accent-light);
+	font-weight: normal;
+	font-size:.5em;
+}
+ion-col.important-visibility-conditions {
+	color: color($colors, danger);
+}
+
+span.observation-recent {
+	font-size:.7em;
+	color: color($colors, green);
+}
+span.observation-aging {
+	font-size:.7em;
+	color: color($colors, warning);
+}
+span.observation-outdated {
+	font-size:.7em;
+	color: color($colors, danger);
+}
+ion-icon {
+	margin:0 !important;
+}
+
+ion-item, .item-ios, .item-md {
+	font-size: 14px;
+	letter-spacing:0;
+	text-transform: none;
+}
