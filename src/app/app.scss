@@ -26,3 +26,11 @@
 	background-color: color($colors, blue, base);
 	color: white;
 }
+
+ion-item, .item-ios, .item-md {
+	border-bottom: 1px solid color($palettes, mainColors, secondary);
+}
+
+.item-inner{
+	border-bottom: none !important;
+}	
