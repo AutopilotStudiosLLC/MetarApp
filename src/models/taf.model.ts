@@ -1,6 +1,7 @@
 import * as moment from "moment";
 import {Forecast} from "./forecast.model";
 import {ForecastResponse} from "./taf-service-response.model";
+import {Moment} from "moment";
 
 export class Taf {
 	private issueTimeString:string = null;

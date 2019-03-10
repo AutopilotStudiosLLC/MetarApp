@@ -1,0 +1,96 @@
+<ion-item *ngIf="taf">
+	<ion-row>
+		<ion-col>
+			<h1>
+				{{ station.ident }}
+				<span class="issue-time" *ngIf="taf?.issueTime != ''">
+					(Issued: {{ taf?.issueTime.local().format('h:mm a') }})
+				</span>
+			</h1>
+			<span *ngIf="station.getDistance()">({{ station.getDistanceInStatuteMiles(1) | number }} sm)</span>
+		</ion-col>
+	</ion-row>
+	<ion-row>
+		<ion-col>
+			<hr>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngFor="let forecast of taf.forecasts; let i = index">
+		<ion-col col-12>
+			<ion-row>
+				<ion-col>
+					<div class="taf-day">
+						<span class="from-day">{{ forecast.fromTime.local().format("MMM D") }}</span>
+						<span class="to-day" *ngIf="!sameDay(forecast.fromTime, forecast.toTime)">
+										to {{ forecast.toTime.local().format("MMM D") }}
+									</span>
+					</div>
+					<div class="taf-time">
+						{{ forecast.fromTime.local().format("h:mm A") }}
+						to
+						{{ forecast.toTime.local().format("h:mm A") }}
+					</div>
+					<div class="change-indicator-tempo" *ngIf="forecast?.changeIndicator === 'TEMPO'">
+						(TEMPORARY)
+					</div>
+					<div class="change-indicator-becmg" *ngIf="forecast?.changeIndicator === 'BECMG'">
+						(BECOMING)
+					</div>
+					<div class="change-indicator-prob40" *ngIf="forecast?.changeIndicator === 'PROB40'">
+						(CHANCE)
+					</div>
+				</ion-col>
+			</ion-row>
+			<ion-row>
+				<ion-col>
+					<div float-right class="wind-index" *ngIf="forecast">
+						<div class="wind-speed" *ngIf="forecast?.windSpeed">
+							<ion-icon name="flag" item-start></ion-icon>
+							{{ forecast?.windSpeed }}
+							<sup>kts</sup>
+						</div>
+						<div class="wind-direction" *ngIf="forecast?.windDirection">
+							<ion-icon name="compass" item-start></ion-icon>
+							{{ forecast?.windDirection }}
+							<sup>TRUE</sup>
+						</div>
+						<div class="wind-gusts" *ngIf="forecast?.windGusts">
+							Gusts {{ forecast?.windGusts }} <sup>kts</sup>
+						</div>
+					</div>
+					<ion-row no-padding *ngIf="forecast">
+						<ion-col [ngClass]="forecast?.getFlightCategoryColor() + '-background'">
+							{{ forecast?.flightCategory }}
+						</ion-col>
+						<ion-col *ngIf="forecast?.visibility">
+							<ion-icon name="eye" item-start></ion-icon>
+							{{ forecast?.visibility }} mi
+						</ion-col>
+					</ion-row>
+					<ion-row *ngIf="forecast">
+						<ion-col col-12 *ngFor="let skyCondition of forecast?.getSkyConditions()">
+							<ion-icon name="cloud" item-start></ion-icon>
+							{{ skyCondition.getSkyConditionString() }}
+						</ion-col>
+					</ion-row>
+					<ion-row *ngIf="forecast">
+						<ion-col class="important-visibility-conditions" col-12 *ngFor="let condition of forecast?.getWeatherConditions()">
+							<ion-icon name="eye" item-start></ion-icon>
+							{{ condition }}
+						</ion-col>
+					</ion-row>
+				</ion-col>
+			</ion-row>
+			<ion-row *ngIf="i < taf.forecasts.length - 1">
+				<ion-col>
+					<hr>
+				</ion-col>
+			</ion-row>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="taf.remarks">
+		<ion-col>
+			{{ taf.remarks }}
+		</ion-col>
+	</ion-row>
+</ion-item>

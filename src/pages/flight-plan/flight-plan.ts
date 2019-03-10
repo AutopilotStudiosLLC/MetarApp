@@ -130,50 +130,58 @@ export class FlightPlanPage {
 		return this.stations.filter((station) => station.isMetarSupported);
 	}
 
+	tafStations() {
+		return this.stations.filter((station) => station.isTafSupported);
+	}
+
 	updateFlightWeather() {
 		let stations = this.flightPlanService.getStations();
-		const stationList = stations.map((el) => el.ident).join(';');
 
-		this.addsService.getStationsForFlight(stationList)
-			.subscribe((stations: Station[]) => {
-				// Update the root station list
-				this.stations = this.stationService.addStationArray(stations);
+		//If we don't have a start point and an end point there is nothing to do.
+		if(stations.length >= 2) {
+			const stationList = stations.map((el) => el.ident).join(';');
 
-				let metarList = stations.filter((station) => station.isMetarSupported)
-					.map((station) => station.ident)
-					.join(';');
+			this.addsService.getStationsForFlight(stationList)
+				.subscribe((stations: Station[]) => {
+					// Update the root station list
+					this.stations = this.stationService.addStationArray(stations);
 
-				let tafList = stations.filter((station) => station.isTafSupported)
-					.map((station) => station.ident)
-					.join(';');
+					let metarList = stations.filter((station) => station.isMetarSupported)
+						.map((station) => station.ident)
+						.join(';');
 
-				// Get Metars for Flight
-				this.addsService.getMetarsForFlight(metarList)
-					.subscribe((metars: Metar[]) => {
-						metars.forEach((metar) => {
-							let station = this.stations.find((el) => el.ident === metar.ident);
-							if(station) {
-								station.addMetar(metar);
-							}
+					let tafList = stations.filter((station) => station.isTafSupported)
+						.map((station) => station.ident)
+						.join(';');
+
+					// Get Metars for Flight
+					this.addsService.getMetarsForFlight(metarList)
+						.subscribe((metars: Metar[]) => {
+							metars.forEach((metar) => {
+								let station = this.stations.find((el) => el.ident === metar.ident);
+								if (station) {
+									station.addMetar(metar);
+								}
+							});
 						});
-					});
 
-				// Get Tafs for Flight
-				this.addsService.getTafsForFlight(tafList)
-					.subscribe((tafs: Taf[]) => {
-						tafs.forEach((taf) => {
-							let station = this.stations.find((el) => el.ident === taf.ident);
-							if(station) {
-								station.addTaf(taf);
-							}
+					// Get Tafs for Flight
+					this.addsService.getTafsForFlight(tafList)
+						.subscribe((tafs: Taf[]) => {
+							tafs.forEach((taf) => {
+								let station = this.stations.find((el) => el.ident === taf.ident);
+								if (station) {
+									station.addTaf(taf);
+								}
+							});
 						});
-					});
-			});
+				});
 
-		// Get Pireps for Flight
-		/*this.addsService.getPirepsForFlight(stationList)
-			.subscribe((pireps: Pirep[]) => {
-				this.pireps = pireps;
-			});*/
+			// Get Pireps for Flight
+			/*this.addsService.getPirepsForFlight(stationList)
+                .subscribe((pireps: Pirep[]) => {
+                    this.pireps = pireps;
+                });*/
+		}
 	}
 }

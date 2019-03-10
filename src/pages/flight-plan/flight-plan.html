@@ -65,28 +65,11 @@
 			</button>
 
 			<ion-list *ngIf="sections.tafs.open">
-				<ion-item *ngFor="let taf of tafs">
-					<h2>
-						<ion-icon name="arrow-round-forward" item-start></ion-icon>
-						{{ taf.ident }}
-						<ion-col [ngClass]="taf.forecasts[0]?.getFlightCategoryColor() + '-background'">
-							{{ taf.forecasts[0]?.flightCategory }}
-						</ion-col>
-						<ion-col>
-							{{ taf.forecasts[0]?.visibility }} mi
-						</ion-col>
-					</h2>
-					<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
-					<p>
-						<ion-icon name="flag" item-start></ion-icon>
-						{{ station.getLatestMetar()?.windDirection }} @ {{ station.getLatestMetar()?.windSpeed }}
-						kts
-					</p>
-					<p *ngFor="let skyCondition of station.getLatestMetar()?.getSkyConditions()">
-						<ion-icon name="cloud" item-start></ion-icon>
-						{{ skyCondition.getSkyConditionString() }}
-					</p>
-				</ion-item>
+				<taf-list-item
+					*ngFor="let station of tafStations()"
+					[station]="station"
+					[taf]="station.getLatestTaf()">
+				</taf-list-item>
 			</ion-list>
 
 		</ion-list-header>

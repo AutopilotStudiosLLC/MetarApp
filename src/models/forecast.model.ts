@@ -121,7 +121,7 @@ export class Forecast {
 			// Obscuration
 			'BR', 'FG', 'FU', 'DU', 'SA', 'HZ', 'PY', 'VA',
 			// Other
-			'PO', 'SQ', 'FC', 'SS', 'DS'
+			'PO', 'SQ', 'FC', 'SS', 'DS', 'NSW'
 		];
 		conditions.forEach((qualifier) => {
 			const found = code.search(qualifier);
@@ -200,6 +200,9 @@ export class Forecast {
 						break;
 					case 'DS':
 						codeDescription += 'Duststorm';
+						break;
+					case 'NSW':
+						codeDescription += 'No Significant Weather';
 						break;
 				}
 			}
