@@ -74,6 +74,21 @@
 
 		</ion-list-header>
 		<ion-list-header>
+			<button ion-item (click)="onToggleSection(sections.airsigmets)" detail-none
+					[ngClass]="{'section-active': sections.airsigmets.open, 'section': !sections.airsigmets.open}">
+				<ion-icon item-left name="arrow-forward" *ngIf="!sections.airsigmets.open"></ion-icon>
+				<ion-icon item-left name="arrow-down" *ngIf="sections.airsigmets.open"></ion-icon>
+				{{ sections.airsigmets.title }}
+			</button>
+
+			<ion-list *ngIf="sections.airsigmets.open">
+				<ion-item *ngFor="let met of airsigmets">
+
+				</ion-item>
+			</ion-list>
+
+		</ion-list-header>
+		<ion-list-header>
 			<button ion-item (click)="onToggleSection(sections.pireps)" detail-none
 					[ngClass]="{'section-active': sections.pireps.open, 'section': !sections.pireps.open}">
 				<ion-icon item-left name="arrow-forward" *ngIf="!sections.pireps.open"></ion-icon>

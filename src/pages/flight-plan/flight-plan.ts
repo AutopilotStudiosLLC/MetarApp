@@ -8,6 +8,7 @@ import {Station} from "../../models/station.model";
 import {Metar} from "../../models/metar.model";
 import {Taf} from "../../models/taf.model";
 import {Pirep} from "../../models/pirep.model";
+import {Airsigmet} from "../../models/airsigmet.model";
 
 /**
  * Generated class for the FlightPlanPage page.
@@ -44,10 +45,15 @@ export class FlightPlanPage {
 		pireps: {
 			title: 'Pilot Reports',
 			open: false
+		},
+		airsigmets: {
+			title: 'AIRMETs/SIGMETs',
+			open: false
 		}
 	};
 
 	stations: Station[] = [];
+	airsigmets: Airsigmet[];
 	pireps: Pirep[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private stationService: StationService,
