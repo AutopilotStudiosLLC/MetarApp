@@ -15,22 +15,23 @@ import {IonicPage, Config} from 'ionic-angular';
 })
 export class ConfigPage {
 
-	tempuratureUnit: string;	
+	temperatureUnit: boolean;
 
 	constructor(private config: Config){
-		this.tempuratureUnit = this.setTempuratureUnit();
+		this.temperatureUnit = this.useFahrenheit();
 	}
 
-	onToggleTempurature(){
-		this.config.set('', 'useFerenheight', !this.useFerenheight())
+	onToggleTemperature(){
+		this.config.set('useFahrenheit', !this.useFahrenheit());
+		this.temperatureUnit = this.useFahrenheit();
 	}
 
-	useFerenheight(){
-		return this.config.getBoolean('useFerenheight', false);
+	useFahrenheit(): boolean | undefined {
+		return this.config.getBoolean('useFahrenheit', false);
 	}
 
-	setTempuratureUnit(): string{
-		return this.useFerenheight() ? "Ferenheight" : "Celcius";
+	getTemperatureUnit(): string{
+		return this.useFahrenheit() ? "Fahrenheit" : "Celsius";
 	}
 
 }
