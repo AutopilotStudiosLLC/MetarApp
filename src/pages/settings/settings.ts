@@ -10,10 +10,10 @@ import {IonicPage, Config} from 'ionic-angular';
 
 @IonicPage()
 @Component({
-	selector: 'page-config',
-	templateUrl: 'config.html',
+	selector: 'page-settings',
+	templateUrl: 'settings.html',
 })
-export class ConfigPage {
+export class SettingsPage {
 
 	temperatureUnit: boolean;
 

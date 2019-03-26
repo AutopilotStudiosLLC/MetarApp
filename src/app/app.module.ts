@@ -6,7 +6,7 @@ import {MyApp} from './app.component';
 import {ContactPage} from '../pages/contact/contact';
 import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
-import {ConfigPage} from '../pages/config/config';
+import {SettingsPage} from '../pages/settings/settings';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -60,7 +60,7 @@ export class MyErrorHandler implements ErrorHandler {
 		ContactPage,
 		HomePage,
 		TabsPage,
-		ConfigPage,
+		SettingsPage,
 		MetarPage,
 		MetarDetailsPage,
 		MetarHistoryPage,
@@ -88,7 +88,7 @@ export class MyErrorHandler implements ErrorHandler {
 		MetarPage,
 		MetarDetailsPage,
 		MetarHistoryPage,
-		ConfigPage,
+		SettingsPage,
 		TafPage,
 		TafDetailsPage,
 		FlightPlanPage
