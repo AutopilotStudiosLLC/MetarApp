@@ -49,11 +49,11 @@
 		<ion-row *ngIf="metar">
 			<ion-col>
 				<ion-icon name="thermometer" item-start></ion-icon>
-				{{ metar?.temperature }} C
+				{{ metarTemperature() }}
 			</ion-col>
 			<ion-col>
 				<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-				{{ metar?.dewpoint }} C
+				{{ metarDewpoint() }}
 			</ion-col>
 		</ion-row>
 		<ion-row *ngIf="metar">

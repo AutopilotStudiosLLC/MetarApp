@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
-import {IonicPage, Config} from 'ionic-angular';
-
+import {IonicPage} from 'ionic-angular';
+import {ConfigService} from "../../services/config.service";
+import {TemperatureUnits} from "../../services/config.service";
 /**
  * Generated class for the ConfigPage page.
  *
@@ -15,23 +16,19 @@ import {IonicPage, Config} from 'ionic-angular';
 })
 export class SettingsPage {
 
-	temperatureUnit: boolean;
+	temperatureUnit: string;
 
-	constructor(private config: Config){
-		this.temperatureUnit = this.useFahrenheit();
+	constructor(private configService: ConfigService){
+		this.temperatureUnit = configService.getConfiguredTempuraturUnit().toString();
 	}
 
 	onToggleTemperature(){
-		this.config.set('useFahrenheit', !this.useFahrenheit());
-		this.temperatureUnit = this.useFahrenheit();
-	}
-
-	useFahrenheit(): boolean | undefined {
-		return this.config.getBoolean('useFahrenheit', false);
-	}
-
-	getTemperatureUnit(): string{
-		return this.useFahrenheit() ? "Fahrenheit" : "Celsius";
-	}
-
+		if (this.temperatureUnit == TemperatureUnits.Celsius){
+			this.configService.setConfiguredTempuraturUnit(TemperatureUnits.Fahrenheit);
+		}
+		else{
+			this.configService.setConfiguredTempuraturUnit(TemperatureUnits.Celsius);
+		}
+		this.temperatureUnit = this.configService.getConfiguredTempuraturUnit().toString();
+	}	
 }
