@@ -6,6 +6,7 @@ import {MyApp} from './app.component';
 import {ContactPage} from '../pages/contact/contact';
 import {HomePage} from '../pages/home/home';
 import {TabsPage} from '../pages/tabs/tabs';
+import {SettingsPage} from '../pages/settings/settings';
 
 import {StatusBar} from '@ionic-native/status-bar';
 import {SplashScreen} from '@ionic-native/splash-screen';
@@ -22,6 +23,8 @@ import {StationService} from "../services/station.service";
 import {Geolocation} from "@ionic-native/geolocation";
 import {IonicStorageModule} from "@ionic/storage";
 import {FlightPlanService} from "../services/flight-plan.service";
+import {ConfigService} from "../services/config.service";
+import {ConversionService} from "../services/conversion.service";
 import {SearchBarLayout1Module} from "../components/search-bar/layout-1/search-bar-layout-1.module";
 import {StationCardModule} from "../components/station-card/station-card.module";
 import {MetarListItemModule} from "../components/metar-list-item/metar-list-item.module";
@@ -59,6 +62,7 @@ export class MyErrorHandler implements ErrorHandler {
 		ContactPage,
 		HomePage,
 		TabsPage,
+		SettingsPage,
 		MetarPage,
 		MetarDetailsPage,
 		MetarHistoryPage,
@@ -86,6 +90,7 @@ export class MyErrorHandler implements ErrorHandler {
 		MetarPage,
 		MetarDetailsPage,
 		MetarHistoryPage,
+		SettingsPage,
 		TafPage,
 		TafDetailsPage,
 		FlightPlanPage
@@ -97,6 +102,8 @@ export class MyErrorHandler implements ErrorHandler {
 		StationService,
 		FlightPlanService,
 		AddsService,
+		ConfigService,	
+		ConversionService,		
 		IonicErrorHandler,
 		[{ provide: ErrorHandler, useClass: MyErrorHandler }]
 	]
