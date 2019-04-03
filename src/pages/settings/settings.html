@@ -8,8 +8,37 @@
 
 
 <ion-content>
-	<button ion-item (click)="onToggleTemperature()">
-		<ion-icon name="thermometer"></ion-icon>
-		{{ temperatureUnit }}
-	</button>
+		<ion-list radio-group [(ngModel)]="configuredDistanceUnit" (ionChange)="onChangeDistance()">
+			<ion-list-header>
+				<ion-icon name="question"></ion-icon>
+				Distance
+			</ion-list-header>
+		
+			<ion-item *ngFor="let distanceUnit of getDistanceUnits()">
+				<ion-label>{{distanceUnit}}</ion-label>
+				<ion-radio [value]="distanceUnit"></ion-radio>
+			</ion-item>
+		</ion-list>
+		<ion-list radio-group [(ngModel)]="configuredSpeedUnit" (ionChange)="onChangeSpeed()">
+			<ion-list-header>
+				<ion-icon name="question"></ion-icon>
+				Speed
+			</ion-list-header>
+		
+			<ion-item *ngFor="let speedUnit of getSpeedUnits()">
+				<ion-label>{{speedUnit}}</ion-label>
+				<ion-radio [value]="speedUnit"></ion-radio>
+			</ion-item>
+		</ion-list>
+		<ion-list radio-group [(ngModel)]="configuredTemperatureUnit" (ionChange)="onChangeTemperature()">
+			<ion-list-header>
+				<ion-icon name="thermometer"></ion-icon>
+				Temperature
+			</ion-list-header>
+		
+			<ion-item *ngFor="let temperatureUnit of getTemperatureUnits()">
+				<ion-label>{{temperatureUnit}}</ion-label>
+				<ion-radio [value]="temperatureUnit"></ion-radio>
+			</ion-item>
+		</ion-list>
 </ion-content>

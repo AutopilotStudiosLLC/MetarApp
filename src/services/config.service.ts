@@ -8,16 +8,56 @@ export class ConfigService {
 
     }
 
-    setConfiguredTempuraturUnit(tempurateUnit: TemperatureUnits){
-        this.config.set('TemperatureUnits', tempurateUnit);
+    setConfiguredTemperatureUnit(temperatureUnit: TemperatureUnits){
+        this.config.set('TemperatureUnits', temperatureUnit);
     }
 
-    getConfiguredTempuraturUnit(){
+    getConfiguredTemperatureUnit(): TemperatureUnits{
         return this.config.get('TemperatureUnits', TemperatureUnits.Celsius);
+    }
+
+    setConfiguredSpeedUnit(speedUnit: SpeedUnits){
+        this.config.set('SpeedUnits', speedUnit);
+    }
+
+    getConfiguredSpeedUnit(): SpeedUnits{
+        return this.config.get('SpeedUnits', SpeedUnits.KTS);
+    }
+
+    setConfiguredDistanceUnit(distanceUnit: DistanceUnits){
+        this.config.set('DistanceUnits', distanceUnit);
+    }
+
+    getConfiguredDistanceUnit(): DistanceUnits{
+        return this.config.get('DistanceUnits', DistanceUnits.StatuteMiles);
+    }
+
+    setConfiguredAltitudeUnit(altitudeUnit: AltitudeUnits){
+        this.config.set('AltitudeUnits', altitudeUnit);
+    }
+
+    getConfiguredAltitudeUnit(): AltitudeUnits{
+        return this.config.get('AltitudeUnits', AltitudeUnits.Feet);
     }
 }
 
 export enum TemperatureUnits{
 	Fahrenheit = "Fahrenheit",
 	Celsius = "Celsius"
+}
+
+export enum SpeedUnits{
+	MPH = "Miles Per Hour",
+	KTS = "Knots"
+}
+
+export enum DistanceUnits{
+    Kilometers = "Kilometers",
+	StatuteMiles = "Statue Miles",
+	NauticalMiles = "Nautical Miles"
+}
+
+export enum AltitudeUnits{
+	Feet = "Feet",
+	Meters = "Meters"
 }

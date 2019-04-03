@@ -31,6 +31,26 @@ export class StationCard {
 		}
 	}
 
+	metarWindSpeedMeasurement(){
+		if(this.metar != null && this.metar.windSpeed != null){
+			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).measurement;
+		}
+	}
+
+	metarWindSpeedUnit(){
+		if(this.metar != null && this.metar.windSpeed != null){
+			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).unit;
+		}
+	}
+
+	stationDistance(){
+		if(this.station != null && this.station.getDistance()){
+			return this.conversionService.convertKilometersToConfigured(Number(this.station.getDistanceInKm())).measurementAndUnit;
+		}
+	}
+
+	
+
 	constructor(private conversionService: ConversionService) { }
 
 	onAddToFavorites(station:Station) {

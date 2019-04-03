@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
 import {ConfigService} from "../../services/config.service";
 import {TemperatureUnits} from "../../services/config.service";
+import {SpeedUnits} from "../../services/config.service";
+import {DistanceUnits} from "../../services/config.service";
 /**
  * Generated class for the ConfigPage page.
  *
@@ -16,19 +18,58 @@ import {TemperatureUnits} from "../../services/config.service";
 })
 export class SettingsPage {
 
-	temperatureUnit: string;
+	configuredTemperatureUnit: string;
+	configuredDistanceUnit: string;
+	configuredSpeedUnit: string;
 
 	constructor(private configService: ConfigService){
-		this.temperatureUnit = configService.getConfiguredTempuraturUnit().toString();
+		this.configuredTemperatureUnit = configService.getConfiguredTemperatureUnit().toString();
+		this.configuredDistanceUnit = configService.getConfiguredDistanceUnit().toString();
+		this.configuredSpeedUnit = configService.getConfiguredSpeedUnit().toString();
 	}
 
-	onToggleTemperature(){
-		if (this.temperatureUnit == TemperatureUnits.Celsius){
-			this.configService.setConfiguredTempuraturUnit(TemperatureUnits.Fahrenheit);
+	getTemperatureUnits(){
+		return Object.keys(TemperatureUnits);
+	}
+
+	onChangeTemperature(){
+		if (this.configuredTemperatureUnit == TemperatureUnits.Celsius.toString()){
+			this.configService.setConfiguredTemperatureUnit(TemperatureUnits.Celsius);
 		}
-		else{
-			this.configService.setConfiguredTempuraturUnit(TemperatureUnits.Celsius);
+		else if(this.configuredTemperatureUnit == TemperatureUnits.Fahrenheit.toString()){
+			this.configService.setConfiguredTemperatureUnit(TemperatureUnits.Fahrenheit);
 		}
-		this.temperatureUnit = this.configService.getConfiguredTempuraturUnit().toString();
-	}	
+		this.configuredTemperatureUnit = this.configService.getConfiguredTemperatureUnit().toString();
+	}
+	
+	getDistanceUnits(){
+		return Object.keys(DistanceUnits).map(key => DistanceUnits[key]);
+	}
+
+	onChangeDistance(){
+		if (this.configuredDistanceUnit == DistanceUnits.Kilometers){
+			this.configService.setConfiguredDistanceUnit(DistanceUnits.Kilometers);
+		}
+		else if (this.configuredDistanceUnit == DistanceUnits.StatuteMiles.toString()){
+			this.configService.setConfiguredDistanceUnit(DistanceUnits.StatuteMiles);
+		}
+		else if (this.configuredDistanceUnit == DistanceUnits.NauticalMiles.toString()){
+			this.configService.setConfiguredDistanceUnit(DistanceUnits.NauticalMiles);
+		}
+		this.configuredDistanceUnit = this.configService.getConfiguredDistanceUnit().toString();
+	}
+
+	getSpeedUnits(){
+		return Object.keys(SpeedUnits).map(key => SpeedUnits[key]);
+	}
+
+	onChangeSpeed(){
+		if (this.configuredSpeedUnit == SpeedUnits.KTS.toString()){
+			this.configService.setConfiguredSpeedUnit(SpeedUnits.KTS);
+		}
+		else if(this.configuredSpeedUnit == SpeedUnits.MPH.toString()){
+			this.configService.setConfiguredSpeedUnit(SpeedUnits.MPH);
+		}
+		this.configuredSpeedUnit = this.configService.getConfiguredSpeedUnit().toString();
+	}
 }

@@ -16,15 +16,15 @@
 				({{ metar?.getObservationTimeFromNow() }} m)
 			</span>
 		</h1>
-		<span *ngIf="station.getDistance()">({{ station.getDistanceInStatuteMiles(1) | number }} sm)</span>
+		<span *ngIf="station.getDistance()">({{  stationDistance() }} )</span>
 	</ion-card-header>
 	<ion-card-content>
 		<div float-right class="wind-index" *ngIf="metar">
 			<div class="wind-speed">
 				<ion-icon name="flag" item-start></ion-icon>
-				<span *ngIf="metar?.windSpeed > 0">
-					{{ metar?.windSpeed }}
-					<sup>kts</sup>
+				<span *ngIf="metar?.windSpeed > 0">					
+					{{ metarWindSpeedMeasurement() }}
+					<sup>{{ metarWindSpeedUnit() }}</sup>
 				</span>
 				<span *ngIf="metar?.windSpeed == 0">Calm</span>
 			</div>
