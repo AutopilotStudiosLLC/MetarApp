@@ -263,19 +263,31 @@ export class AddsService {
 	}
 
 	public static mapStationResponseToModel(stationJsonResponse: StationResponse): Station {
-		let station = new Station(
-			stationJsonResponse.station_id,
-			[],
-			[],
-			stationJsonResponse.latitude,
-			stationJsonResponse.longitude,
-			stationJsonResponse.elevation_m,
-			stationJsonResponse.site,
-			stationJsonResponse.state,
-			stationJsonResponse.country,
-			!!stationJsonResponse.site_type.METAR,
-			!!stationJsonResponse.site_type.TAF
-		);
+		let station: Station;
+		try {
+			station = new Station(
+				stationJsonResponse.station_id,
+				[],
+				[],
+				stationJsonResponse.latitude,
+				stationJsonResponse.longitude,
+				stationJsonResponse.elevation_m,
+				stationJsonResponse.site,
+				stationJsonResponse.state,
+				stationJsonResponse.country
+			);
+
+			if(stationJsonResponse.site_type) {
+				station.isMetarSupported = !!stationJsonResponse.site_type.METAR;
+				station.isTafSupported = !!stationJsonResponse.site_type.TAF;
+				station.isNexradSupported = !!stationJsonResponse.site_type.NEXRAD;
+			}
+		}
+		catch(e) {
+			console.error(e);
+			console.log(stationJsonResponse);
+			station = new Station(stationJsonResponse.station_id);
+		}
 
 		return station;
 	}

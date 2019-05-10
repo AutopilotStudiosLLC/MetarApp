@@ -21,6 +21,7 @@ export class StationResponse {
 class SiteResponse {
 	constructor(
 		public METAR:object,
-		public TAF:object
+		public TAF:object,
+		public NEXRAD:object,
 	) {}
 }
