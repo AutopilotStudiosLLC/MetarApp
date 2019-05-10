@@ -83,8 +83,8 @@ export class ConversionService {
         var configuredAltitudeUnit : AltitudeUnits = this.configService.getConfiguredAltitudeUnit();
         if (configuredAltitudeUnit == AltitudeUnits.Feet)
         {
-            var ft: number = Number(ft.toFixed(1));
-            return {measurement: ft.toString(), unit: 'ft', measurementAndUnit: `${ft} ft`}
+            var s: number = Number(ft.toFixed(1));
+            return {measurement: s.toString(), unit: 'ft', measurementAndUnit: `${s} ft`}
         }
         else
         {
