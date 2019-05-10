@@ -25,20 +25,36 @@ export class Taf {
 
 	public static MapForecasts(casts: ForecastResponse[]): Forecast[] {
 		let forecasts: Forecast[] = [];
-		casts.forEach((element) => {
+		if(Array.isArray(casts)) {
+			casts.forEach((element) => {
+				let forecast = new Forecast(
+					moment.utc(element.fcst_time_from),
+					moment.utc(element.fcst_time_to),
+					element.change_indicator,
+					element.wind_dir_degrees,
+					element.wind_speed_kt,
+					element.visibility_statute_mi,
+					Forecast.mapSkyConditions(element.sky_condition),
+					element.wind_gust_kt,
+					element.wx_string
+				);
+				forecasts.push(forecast);
+			});
+		} else {
+			let cast: ForecastResponse = casts;
 			let forecast = new Forecast(
-				moment.utc(element.fcst_time_from),
-				moment.utc(element.fcst_time_to),
-				element.change_indicator,
-				element.wind_dir_degrees,
-				element.wind_speed_kt,
-				element.visibility_statute_mi,
-				Forecast.mapSkyConditions(element.sky_condition),
-				element.wind_gust_kt,
-				element.wx_string
+				moment.utc(cast.fcst_time_from),
+				moment.utc(cast.fcst_time_to),
+				cast.change_indicator,
+				cast.wind_dir_degrees,
+				cast.wind_speed_kt,
+				cast.visibility_statute_mi,
+				Forecast.mapSkyConditions(cast.sky_condition),
+				cast.wind_gust_kt,
+				cast.wx_string
 			);
 			forecasts.push(forecast);
-		});
+		}
 		return forecasts;
 	}
 

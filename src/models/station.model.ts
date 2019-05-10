@@ -17,7 +17,8 @@ export class Station {
 		public state?:string,
 		public country?:string,
 		public isMetarSupported: boolean = false,
-		public isTafSupported: boolean = false
+		public isTafSupported: boolean = false,
+		public isNexradSupported: boolean = false
 		)
 	{
 		if(metars.length > 0) this.isMetarSupported = true;
