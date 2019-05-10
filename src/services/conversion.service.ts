@@ -3,6 +3,7 @@ import {ConfigService} from './config.service';
 import {TemperatureUnits} from './config.service';
 import {SpeedUnits} from './config.service';
 import {DistanceUnits} from './config.service';
+import {AltitudeUnits} from './config.service';
 
 @Injectable()
 
@@ -56,6 +57,20 @@ export class ConversionService {
         {
             var nm: number = Number((km / 1.852).toFixed(1));
             return {measurement: nm.toString(), unit: 'nm', measurementAndUnit: `${nm} nm`}
+        }
+    }   
+
+    convertFeetToConfigured(ft: number): ConvertedMeasurement{
+        var configuredAltitudeUnit : AltitudeUnits = this.configService.getConfiguredAltitudeUnit();
+        if (configuredAltitudeUnit == AltitudeUnits.Feet)
+        {
+            var ft: number = Number(ft.toFixed(1));
+            return {measurement: ft.toString(), unit: 'ft', measurementAndUnit: `${ft} ft`}
+        }
+        else
+        {
+            var m: number = Number((ft / 3.2808).toFixed(1));
+            return {measurement: m.toString(), unit: 'm', measurementAndUnit: `${m} m`}
         }
     }   
 }

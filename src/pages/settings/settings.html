@@ -41,4 +41,15 @@
 				<ion-radio [value]="temperatureUnit"></ion-radio>
 			</ion-item>
 		</ion-list>
+		<ion-list radio-group [(ngModel)]="configuredAltitudeUnit" (ionChange)="onChangeAltitude()">
+			<ion-list-header>
+				<ion-icon name="thermometer"></ion-icon>
+				Altitude
+			</ion-list-header>
+		
+			<ion-item *ngFor="let altitudeUnit of getAltitudeUnits()">
+				<ion-label>{{altitudeUnit}}</ion-label>
+				<ion-radio [value]="altitudeUnit"></ion-radio>
+			</ion-item>
+		</ion-list>
 </ion-content>

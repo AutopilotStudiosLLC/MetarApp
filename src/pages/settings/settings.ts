@@ -4,6 +4,7 @@ import {ConfigService} from "../../services/config.service";
 import {TemperatureUnits} from "../../services/config.service";
 import {SpeedUnits} from "../../services/config.service";
 import {DistanceUnits} from "../../services/config.service";
+import {AltitudeUnits} from "../../services/config.service";
 /**
  * Generated class for the ConfigPage page.
  *
@@ -21,6 +22,7 @@ export class SettingsPage {
 	configuredTemperatureUnit: string;
 	configuredDistanceUnit: string;
 	configuredSpeedUnit: string;
+	configuredAltitudeUnit: string;
 
 	constructor(private configService: ConfigService){
 		this.configuredTemperatureUnit = configService.getConfiguredTemperatureUnit().toString();
@@ -71,5 +73,19 @@ export class SettingsPage {
 			this.configService.setConfiguredSpeedUnit(SpeedUnits.MPH);
 		}
 		this.configuredSpeedUnit = this.configService.getConfiguredSpeedUnit().toString();
+	}
+
+	getAltitudeUnits(){
+		return Object.keys(AltitudeUnits).map(key => AltitudeUnits[key]);
+	}
+
+	onChangeAltitude(){
+		if (this.configuredAltitudeUnit == AltitudeUnits.Feet.toString()){
+			this.configService.setConfiguredAltitudeUnit(AltitudeUnits.Feet);
+		}
+		else if(this.configuredAltitudeUnit == AltitudeUnits.Meters.toString()){
+			this.configService.setConfiguredAltitudeUnit(AltitudeUnits.Meters);
+		}
+		this.configuredAltitudeUnit = this.configService.getConfiguredAltitudeUnit().toString();
 	}
 }
