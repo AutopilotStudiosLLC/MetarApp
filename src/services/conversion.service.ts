@@ -17,8 +17,8 @@ export class ConversionService {
         var configuredTemperatureUnit : TemperatureUnits = this.configService.getConfiguredTemperatureUnit();
         if (configuredTemperatureUnit == TemperatureUnits.Celsius)
         {
-            var d: number = Number(degreesCelcius.toFixed(1));
-            return {measurement: d.toString(), unit: configuredTemperatureUnit.toString(), measurementAndUnit: `${d}° C`}
+            degreesCelcius = Number(degreesCelcius.toFixed(1));
+            return {measurement: degreesCelcius.toString(), unit: configuredTemperatureUnit.toString(), measurementAndUnit: `${degreesCelcius}° C`}
         }
         else
         {
@@ -31,8 +31,8 @@ export class ConversionService {
         var configuredSpeedUnit : SpeedUnits = this.configService.getConfiguredSpeedUnit();
         if (configuredSpeedUnit == SpeedUnits.KTS)
         {
-            var s: number = Number(knots.toFixed(1));
-            return {measurement: s.toString(), unit: 'kts', measurementAndUnit: `${s} kts`}
+            knots = Number(knots.toFixed(1));
+            return {measurement: knots.toString(), unit: 'kts', measurementAndUnit: `${knots} kts`}
         }
         else
         {
@@ -45,7 +45,7 @@ export class ConversionService {
         var configuredDistanceUnit : DistanceUnits = this.configService.getConfiguredDistanceUnit();
         if (configuredDistanceUnit == DistanceUnits.Kilometers)
         {
-            var km: number = Number(km.toFixed(1));
+            km = Number(km.toFixed(1));
             return {measurement: km.toString(), unit: 'km', measurementAndUnit: `${km} km`}
         }
         else if (configuredDistanceUnit == DistanceUnits.StatuteMiles)
@@ -60,12 +60,31 @@ export class ConversionService {
         }
     }   
 
+    convertStatueMilesToConfigured(mi: number): ConvertedMeasurement{
+        var configuredDistanceUnit : DistanceUnits = this.configService.getConfiguredDistanceUnit();
+        if (configuredDistanceUnit == DistanceUnits.StatuteMiles)
+        {
+            mi = Number(mi.toFixed(1));
+            return {measurement: mi.toString(), unit: 'mi', measurementAndUnit: `${mi} mi`}
+        }
+        else if (configuredDistanceUnit == DistanceUnits.Kilometers)
+        {
+            var km: number = Number((mi / .62137).toFixed(1));
+            return {measurement: km.toString(), unit: 'km', measurementAndUnit: `${km} km`}
+        }
+        else
+        {
+            var nm: number = Number((mi / 1.15078).toFixed(1));
+            return {measurement: nm.toString(), unit: 'nm', measurementAndUnit: `${nm} nm`}
+        }
+    }  
+
     convertFeetToConfigured(ft: number): ConvertedMeasurement{
         var configuredAltitudeUnit : AltitudeUnits = this.configService.getConfiguredAltitudeUnit();
         if (configuredAltitudeUnit == AltitudeUnits.Feet)
         {
-            var ft: number = Number(ft.toFixed(1));
-            return {measurement: ft.toString(), unit: 'ft', measurementAndUnit: `${ft} ft`}
+            var s: number = Number(ft.toFixed(1));
+            return {measurement: s.toString(), unit: 'ft', measurementAndUnit: `${s} ft`}
         }
         else
         {
@@ -77,7 +96,7 @@ export class ConversionService {
 
 export interface ConvertedMeasurement
 {
-    measurement: String;
-    unit: String;
-    measurementAndUnit: String;
+    measurement: string;
+    unit: string;
+    measurementAndUnit: string;
 }
