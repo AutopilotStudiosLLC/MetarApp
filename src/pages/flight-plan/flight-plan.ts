@@ -22,6 +22,7 @@ import {Pirep} from "../../models/pirep.model";
 	templateUrl: 'flight-plan.html',
 })
 export class FlightPlanPage {
+	timeout;
 
 	stationString: string;
 
@@ -139,7 +140,11 @@ export class FlightPlanPage {
 	}
 
 	onUpdateCorridorRange() {
-		this.updateFlightWeather();
+		clearTimeout(this.timeout);
+
+		this.timeout = setTimeout(() => {
+			this.updateFlightWeather();
+		}, 1000);
 	}
 
 	metarStations() {
@@ -153,7 +158,10 @@ export class FlightPlanPage {
 	updateFlightWeather() {
 		const toast = this.toastCtrl.create({
 			message: 'Retrieving Updated Weather...',
-			duration: 2000
+			duration: 2000,
+			position: "top",
+			showCloseButton: true,
+			closeButtonText: "Roger"
 		});
 		toast.present();
 
