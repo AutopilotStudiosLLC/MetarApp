@@ -15,7 +15,6 @@
 				Altitude
 			</ion-label>
 			<ion-select [(ngModel)]="configuredAltitudeUnit" (ionChange)="onChangeAltitude()">
-					<ion-option value="enable">Enable</ion-option>>
 				<ion-option *ngFor="let altitudeUnit of getAltitudeUnits()" [value]="altitudeUnit">
 					{{altitudeUnit}}
 				</ion-option>
