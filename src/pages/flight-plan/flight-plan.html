@@ -20,6 +20,30 @@
 
 	<ion-list>
 		<ion-list-header>
+			<button ion-item (click)="onToggleSection(sections.configuration)" detail-none
+					[ngClass]="{'section-active': sections.configuration.open, 'section': !sections.configuration.open}">
+				<ion-icon item-left name="arrow-forward" *ngIf="!sections.configuration.open"></ion-icon>
+				<ion-icon item-left name="arrow-down" *ngIf="sections.configuration.open"></ion-icon>
+				{{ sections.configuration.title }}
+			</button>
+
+			<ion-list *ngIf="sections.configuration.open">
+				<ion-list-header>
+					<h2>
+						&nbsp;&nbsp;Corridor Width
+						<ion-badge>{{corridor}} mi</ion-badge>
+					</h2>
+				</ion-list-header>
+				<ion-item>
+					<ion-range min="5" max="100" snaps="true" step="10" pin="true" [(ngModel)]="corridor" (ionChange)="onUpdateCorridorRange()">
+						<ion-icon range-left small name="none">5</ion-icon>
+						<ion-icon range-right small name="none">100</ion-icon>
+					</ion-range>
+				</ion-item>
+			</ion-list>
+		</ion-list-header>
+
+		<ion-list-header>
 			<button ion-item (click)="onToggleSection(sections.navPoints)" detail-none
 					[ngClass]="{'section-active': sections.navPoints.open, 'section': !sections.navPoints.open}">
 				<ion-icon item-left name="arrow-forward" *ngIf="!sections.navPoints.open"></ion-icon>
@@ -28,13 +52,20 @@
 			</button>
 
 			<ion-list reorder="true" (ionItemReorder)="reorderFlightPlanStations($event)" *ngIf="sections.navPoints.open">
-				<ion-item *ngFor="let station of flightPlanService.getStations()">
-					<h2>
-						<ion-icon name="arrow-round-forward" item-start></ion-icon>
-						{{ station.ident }}
-					</h2>
-					<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
-				</ion-item>
+				<ion-item-sliding *ngFor="let station of flightPlanService.getStations()">
+					<ion-item>
+						<h2>
+							<ion-icon name="arrow-round-forward" item-start></ion-icon>
+							{{ station.ident }}
+						</h2>
+						<ion-badge item-end>{{ Math.round(toNauticalMiles(flightPlanService.distanceToRoutePoint(station))) }} nm</ion-badge>
+					</ion-item>
+					<ion-item-options side="right">
+						<button ion-button color="danger">
+							<ion-icon name="trash" (click)="onRemoveNavPoint(station)"></ion-icon>
+						</button>
+					</ion-item-options>
+				</ion-item-sliding>
 			</ion-list>
 
 		</ion-list-header>

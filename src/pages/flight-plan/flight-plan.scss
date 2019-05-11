@@ -11,6 +11,9 @@ page-flight-plan {
 		margin: 0;
 		padding-left: 0 !important;
 	}
+	ion-item-options > button {
+		padding-left:0.7em !important;
+	}
 	button.item-ios, button.item-md {
 		background-color: color($palettes, mainColors, accent-first);
 	}
