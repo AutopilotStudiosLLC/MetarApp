@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {FlightPlanService} from "../../services/flight-plan.service";
 import {Utility} from "../../models/utility.model";
 import {AddsService} from "../../services/adds.service";
@@ -25,10 +25,16 @@ export class FlightPlanPage {
 
 	stationString: string;
 
+	corridor: number = 50;
+
 	toNauticalMiles = Utility.kilometersToNauticalMiles;
 	Math = Math;
 
 	sections = {
+		configuration: {
+			title: 'Flight Configuration',
+			open: false
+		},
 		navPoints: {
 			title: 'Navigation Points',
 			open: true
@@ -52,7 +58,7 @@ export class FlightPlanPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private stationService: StationService,
 				private flightPlanService: FlightPlanService, private addsService: AddsService,
-				private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
+				private loadingCtrl: LoadingController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
 	}
 
 	ionViewWillEnter() {
@@ -120,10 +126,16 @@ export class FlightPlanPage {
 
 	reorderFlightPlanStations(indexes) {
 		this.flightPlanService.reorderStations(indexes);
+		this.updateFlightWeather();
 	}
 
 	onToggleSection(section) {
 		section.open = !section.open;
+	}
+
+	onRemoveNavPoint(station: Station) {
+		this.flightPlanService.removeStation(station);
+		this.updateFlightWeather();
 	}
 
 	metarStations() {
@@ -135,6 +147,12 @@ export class FlightPlanPage {
 	}
 
 	updateFlightWeather() {
+		const toast = this.toastCtrl.create({
+			message: 'Retrieving Updated Weather...',
+			duration: 2000
+		});
+		toast.present();
+
 		let stations = this.flightPlanService.getStations();
 
 		//If we don't have a start point and an end point there is nothing to do.
