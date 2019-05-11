@@ -138,6 +138,10 @@ export class FlightPlanPage {
 		this.updateFlightWeather();
 	}
 
+	onUpdateCorridorRange() {
+		this.updateFlightWeather();
+	}
+
 	metarStations() {
 		return this.stations.filter((station) => station.isMetarSupported);
 	}
@@ -159,21 +163,13 @@ export class FlightPlanPage {
 		if(stations.length >= 2) {
 			const stationList = stations.map((el) => el.ident).join(';');
 
-			this.addsService.getStationsForFlight(stationList)
+			this.addsService.getStationsForFlight(stationList, this.corridor)
 				.subscribe((stations: Station[]) => {
 					// Update the root station list
 					this.stations = this.stationService.addStationArray(stations);
 
-					let metarList = stations.filter((station) => station.isMetarSupported)
-						.map((station) => station.ident)
-						.join(';');
-
-					let tafList = stations.filter((station) => station.isTafSupported)
-						.map((station) => station.ident)
-						.join(';');
-
 					// Get Metars for Flight
-					this.addsService.getMetarsForFlight(metarList)
+					this.addsService.getMetarsForFlight(stationList, this.corridor)
 						.subscribe((metars: Metar[]) => {
 							metars.forEach((metar) => {
 								let station = this.stations.find((el) => el.ident === metar.ident);
@@ -184,7 +180,7 @@ export class FlightPlanPage {
 						});
 
 					// Get Tafs for Flight
-					this.addsService.getTafsForFlight(tafList)
+					this.addsService.getTafsForFlight(stationList, this.corridor)
 						.subscribe((tafs: Taf[]) => {
 							tafs.forEach((taf) => {
 								let station = this.stations.find((el) => el.ident === taf.ident);
@@ -196,7 +192,7 @@ export class FlightPlanPage {
 				});
 
 			// Get Pireps for Flight
-			/*this.addsService.getPirepsForFlight(stationList)
+			/*this.addsService.getPirepsForFlight(stationList, this.corridor)
                 .subscribe((pireps: Pirep[]) => {
                     this.pireps = pireps;
                 });*/
