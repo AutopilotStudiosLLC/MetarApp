@@ -22,7 +22,7 @@
 	<ion-row *ngIf="pirep.icingCondition.length > 0">
 		<ion-col col-12>
 			<h2>Icing</h2>
-			<ion-row *ngFor="let icing of pirep.icingCondition; let i = index">
+			<ion-row *ngFor="let icing of pirep.icingCondition">
 				<ion-col>
 					<div class="icing-intensity" *ngIf="icing.intensity || icing.type">
 						{{ icing.intensity }}
@@ -40,7 +40,7 @@
 	<ion-row *ngIf="pirep.turbulenceCondition.length > 0">
 		<ion-col col-12>
 			<h2>Turbulence</h2>
-			<ion-row *ngFor="let turbulence of pirep.turbulenceCondition; let i = index">
+			<ion-row *ngFor="let turbulence of pirep.turbulenceCondition">
 				<ion-col>
 					<div class="turbulence-intensity" *ngIf="turbulence.frequency || turbulence.intensity || turbulence.type">
 						{{ turbulence.frequency }}
@@ -59,7 +59,7 @@
 	<ion-row *ngIf="pirep.skyCondition.length > 0">
 		<ion-col col-12>
 			<h2>Sky Conditions</h2>
-			<ion-row *ngFor="let condition of pirep.skyCondition; let i = index">
+			<ion-row *ngFor="let condition of pirep.skyCondition">
 				<ion-col>
 					<div class="condition-cover" *ngIf="condition.skyCover">
 						{{ condition.skyCover }}
