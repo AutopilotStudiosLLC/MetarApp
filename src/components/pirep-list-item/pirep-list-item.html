@@ -1,0 +1,79 @@
+<ion-item *ngIf="pirep">
+	<ion-row>
+		<ion-col>
+			<h1>
+				{{ pirep.aircraft }}
+				<span class="observation-time" *ngIf="pirep?.observationTime != ''">
+					({{ pirep?.observationTime.local().format('h:mm a') }})
+				</span>
+			</h1>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="pirep.altitude">
+		<ion-col>
+			<strong>Altitude (MSL):</strong> {{ pirep.altitude }}
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="pirep.latitude && pirep.longitude">
+		<ion-col>
+			<strong>Location:</strong> Lat {{ pirep.latitude }} &nbsp; Long {{ pirep.longitude }}
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="pirep.icingCondition.length > 0">
+		<ion-col col-12>
+			<h2>Icing</h2>
+			<ion-row *ngFor="let icing of pirep.icingCondition; let i = index">
+				<ion-col>
+					<div class="icing-intensity" *ngIf="icing.intensity || icing.type">
+						{{ icing.intensity }}
+						{{ icing.type }}
+					</div>
+					<div class="icing-base" *ngIf="icing.base || icing.top">
+						<span *ngIf="icing.base">{{ icing.base }} (Base)</span>
+						<span *ngIf="icing.base && icing.top">to</span>
+						<span *ngIf="icing.top">{{ icing.top }} (Top)</span>
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="pirep.turbulenceCondition.length > 0">
+		<ion-col col-12>
+			<h2>Turbulence</h2>
+			<ion-row *ngFor="let turbulence of pirep.turbulenceCondition; let i = index">
+				<ion-col>
+					<div class="turbulence-intensity" *ngIf="turbulence.frequency || turbulence.intensity || turbulence.type">
+						{{ turbulence.frequency }}
+						{{ turbulence.intensity }}
+						{{ turbulence.type }}
+					</div>
+					<div class="turbulence-base" *ngIf="turbulence.base || turbulence.top">
+						<span *ngIf="turbulence.base">{{ turbulence.base }} (Base)</span>
+						<span *ngIf="turbulence.base && turbulence.top">to</span>
+						<span *ngIf="turbulence.top">{{ turbulence.top }} (Top)</span>
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="pirep.skyCondition.length > 0">
+		<ion-col col-12>
+			<h2>Sky Conditions</h2>
+			<ion-row *ngFor="let condition of pirep.skyCondition; let i = index">
+				<ion-col>
+					<div class="condition-cover" *ngIf="condition.skyCover">
+						{{ condition.skyCover }}
+					</div>
+					<div class="condition-base" *ngIf="condition.cloudBaseAGL">
+						Cloud Base
+						{{ condition.cloudBaseAGL }} AGL
+					</div>
+					<div class="condition-base" *ngIf="condition.cloudBaseMSL">
+						Cloud Base
+						{{ condition.cloudBaseMSL }} MSL
+					</div>
+				</ion-col>
+			</ion-row>
+		</ion-col>
+	</ion-row>
+</ion-item>

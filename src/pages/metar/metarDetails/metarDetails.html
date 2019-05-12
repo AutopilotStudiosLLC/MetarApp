@@ -39,9 +39,9 @@
 							{{ condition }}
 						</span>
 					</ion-item>
-					<ion-item *ngFor="let skyCondition of metar?.getSkyConditions()">
+					<ion-item *ngFor="let skyCondition of metarSkyConditions()">
 						<ion-icon name="cloud" item-start></ion-icon>
-						{{ skyCondition.getSkyConditionString() }}
+						{{ skyCondition }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>

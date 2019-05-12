@@ -8,7 +8,11 @@ import {Taf} from "../models/taf.model";
 import {Station} from "../models/station.model";
 import {StationServiceResponse, StationResponse} from "../models/station-service-response.model";
 import {SingleStationServiceResponse} from "../models/single-station-service-response.model";
-import {Observable} from "rxjs";
+import {PirepJsonResponse, PirepServiceResponse} from "../models/pirep-service-response.model";
+import {Pirep} from "../models/pirep.model";
+import {TurbulenceCondition} from "../models/turbulence-condition";
+import {SkyCondition} from "../models/sky-condition.model";
+import {IcingCondition} from "../models/icing-condition";
 
 @Injectable()
 export class AddsService {
@@ -232,7 +236,28 @@ export class AddsService {
 	}
 
 	getPirepsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
-		return new Observable();
+		return this.http.get(
+			AddsService.baseUri+'pirep/flight?path='+stationString+'&corridor='+corridor+'&hoursBeforeNow='+hoursBeforeNow,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: PirepServiceResponse) => {
+					const data = response;
+					let pireps: Pirep[] = [];
+					if(Array.isArray(data.AircraftReport)) {
+						for (let x in data.AircraftReport) {
+							pireps.push(
+								AddsService.mapPirepResponseToModel(data.AircraftReport[x])
+							);
+						}
+					} else {
+						pireps.push(
+							AddsService.mapPirepResponseToModel(data.AircraftReport)
+						)
+					}
+					return pireps;
+				}
+			);
 	}
 
 	public static mapMetarResponseToModel(metarJsonResponse: MetarJsonResponse): Metar {
@@ -256,7 +281,7 @@ export class AddsService {
 		if(metarJsonResponse.wind_gust_kt) {
 			metar.windGusts = metarJsonResponse.wind_gust_kt;
 		}
-		metar.addSkyConditions(metarJsonResponse.sky_condition);
+		metar.addSkyConditions(SkyCondition.MapSkyConditions(metarJsonResponse.sky_condition));
 		metar.processWeatherPhenomenon();
 
 		return metar;
@@ -305,6 +330,25 @@ export class AddsService {
 			tafResponse.longitude,
 			tafResponse.elevation_m,
 			Taf.MapForecasts(tafResponse.forecast)
+		);
+	}
+
+	public static mapPirepResponseToModel(pirepResponse: PirepJsonResponse): Pirep {
+		return new Pirep(
+			pirepResponse.aircraft_ref,
+			pirepResponse.altitude_ft_msl,
+			pirepResponse.latitude,
+			pirepResponse.longitude,
+			moment(pirepResponse.observation_time),
+			pirepResponse.quality_control_flags,
+			pirepResponse.raw_text,
+			pirepResponse.receipt_time,
+			pirepResponse.report_type,
+			pirepResponse.temp_c,
+			pirepResponse.wx_string,
+			TurbulenceCondition.MapTurbulenceConditions(pirepResponse.turbulence_condition ? pirepResponse.turbulence_condition : []),
+			IcingCondition.MapIcingConditions(pirepResponse.icing_condition ? pirepResponse.icing_condition : []),
+			SkyCondition.MapSkyConditions(pirepResponse.sky_condition ? pirepResponse.sky_condition : [])
 		);
 	}
 }

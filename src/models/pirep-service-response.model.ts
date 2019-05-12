@@ -1,24 +1,31 @@
 import {SkyConditionResponse} from "./sky-condition-response.model";
+import {QualityControlResponse} from "./quality-control-response";
+import {IcingConditionResponse} from "./icing-condition-response";
+import {TurbulenceConditionResponse} from "./turbulence-condition-response";
 
 export class PirepServiceResponse {
 	constructor(
-		receipt_time: string,
-		observation_time: string,
-		quality_control_flags: PirepQualityControlResponse,
-		aircraft_ref: string,
-		latitude: number,
-		longitude: number,
-		sky_condition: SkyConditionResponse,
-		temp_c: number,
-		wind_dir_degrees: number,
-		wind_speed_kt: number,
-		report_type: string,
-		raw_text: string
-	) {}
+		public results: number,
+		public AircraftReport: PirepJsonResponse[]
+	)
+	{}
 }
 
-class PirepQualityControlResponse {
+export class PirepJsonResponse {
 	constructor(
-		bad_location: string
+		public aircraft_ref: string,
+		public altitude_ft_msl: number,
+		public latitude: number,
+		public longitude: number,
+		public observation_time: string,
+		public quality_control_flags: QualityControlResponse,
+		public raw_text: string,
+		public receipt_time: string,
+		public report_type: string,
+		public temp_c: number,
+		public wx_string: string,
+		public turbulence_condition: TurbulenceConditionResponse[] = [],
+		public icing_condition: IcingConditionResponse[] = [],
+		public sky_condition: SkyConditionResponse[] = []
 	) {}
 }

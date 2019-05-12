@@ -206,10 +206,10 @@ export class FlightPlanPage {
 				});
 
 			// Get Pireps for Flight
-			/*this.addsService.getPirepsForFlight(stationList, this.corridor)
+			this.addsService.getPirepsForFlight(stationList, this.corridor)
                 .subscribe((pireps: Pirep[]) => {
                     this.pireps = pireps;
-                });*/
+                });
 		}
 	}
 }
