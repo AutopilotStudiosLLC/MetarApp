@@ -9,6 +9,7 @@ import {AddsService} from "../../../services/adds.service";
 import {Observable, Observer} from "rxjs";
 import {ConversionService} from "../../../services/conversion.service";
 import {MetarConversions} from "../../../architecture/metarConversions";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @IonicPage()
 @Component({
@@ -26,7 +27,8 @@ export class MetarDetailsPage extends MetarConversions {
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private alertCtrl: AlertController, private stationService: StationService,
 				private addsService: AddsService, private toastController:ToastController,
-				private platform: Platform, private conversionService: ConversionService) {
+				private platform: Platform, protected conversionService: ConversionService,
+				private inAppBrowser: InAppBrowser) {
 
 		super(conversionService);
 
@@ -63,6 +65,10 @@ export class MetarDetailsPage extends MetarConversions {
 
 	onViewHistory() {
 		this.navCtrl.push(MetarHistoryPage, {station: this.station});
+	}
+
+	onViewStationInfo() {
+		this.inAppBrowser.create('https://skyvector.com/airport/' + this.station.ident);
 	}
 
 	onAddToFavorites(station) {
