@@ -106,18 +106,21 @@ export class Metar {
 	}
 
 	public processWeatherPhenomenon(): string[] {
-		const metarSplit = this.raw.split(' ');
-		let weatherConditionArray = [];
+		if(this.raw) {
+			const metarSplit = this.raw.split(' ');
+			let weatherConditionArray = [];
 
-		metarSplit.forEach((el) => {
-			let phrase = Metar.weatherPhenomenonPhrase(el.toUpperCase());
-			if(phrase !== null) {
-				weatherConditionArray.push(phrase);
-				this.weatherConditions.push(el);
-			}
-		});
+			metarSplit.forEach((el) => {
+				let phrase = Metar.weatherPhenomenonPhrase(el.toUpperCase());
+				if (phrase !== null) {
+					weatherConditionArray.push(phrase);
+					this.weatherConditions.push(el);
+				}
+			});
 
-		return weatherConditionArray;
+			return weatherConditionArray;
+		}
+		return [];
 	}
 	public getWeatherConditions(): string[] {
 		let conditions = [];

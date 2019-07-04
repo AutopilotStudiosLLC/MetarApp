@@ -250,7 +250,7 @@ export class AddsService {
 								AddsService.mapPirepResponseToModel(data.AircraftReport[x])
 							);
 						}
-					} else {
+					} else if(data.results > 0) {
 						pireps.push(
 							AddsService.mapPirepResponseToModel(data.AircraftReport)
 						)
