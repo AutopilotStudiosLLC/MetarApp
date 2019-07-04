@@ -1,7 +1,7 @@
 import * as moment from "moment";
 import {Forecast} from "./forecast.model";
 import {ForecastResponse} from "./taf-service-response.model";
-import {Moment} from "moment";
+import {SkyCondition} from "./sky-condition.model";
 
 export class Taf {
 	private issueTimeString:string = null;
@@ -34,7 +34,7 @@ export class Taf {
 					element.wind_dir_degrees,
 					element.wind_speed_kt,
 					element.visibility_statute_mi,
-					Forecast.mapSkyConditions(element.sky_condition),
+					SkyCondition.MapSkyConditions(element.sky_condition),
 					element.wind_gust_kt,
 					element.wx_string
 				);
@@ -49,7 +49,7 @@ export class Taf {
 				cast.wind_dir_degrees,
 				cast.wind_speed_kt,
 				cast.visibility_statute_mi,
-				Forecast.mapSkyConditions(cast.sky_condition),
+				SkyCondition.MapSkyConditions(cast.sky_condition),
 				cast.wind_gust_kt,
 				cast.wx_string
 			);

@@ -1,6 +1,5 @@
 import * as moment from "moment";
 import {SkyCondition} from "./sky-condition.model";
-import {SkyConditionResponse} from "./sky-condition-response.model";
 
 export class Forecast {
 	public flightCategory;
@@ -16,12 +15,12 @@ export class Forecast {
 		public windGusts:number = null,
 		public wxString: string = null
 	) {
-	    const ceilingVFR = (skyConditions.filter((c) => c.cloud_base_ft_agl < 3000).length === 0);
-		const ceilingMVFR = (skyConditions.filter((c) => c.cloud_base_ft_agl < 3000).length >= 1)
-			&& (skyConditions.filter((c) => c.cloud_base_ft_agl < 1000).length === 0);
-		const ceilingIFR = (skyConditions.filter((c) => c.cloud_base_ft_agl < 1000).length >= 1)
-			&& (skyConditions.filter((c) => c.cloud_base_ft_agl < 500).length === 0);
-		const ceilingLIFR = (skyConditions.filter((c) => c.cloud_base_ft_agl < 500).length >= 1);
+	    const ceilingVFR = (skyConditions.filter((c) => c.cloudBaseAGL < 3000).length === 0);
+		const ceilingMVFR = (skyConditions.filter((c) => c.cloudBaseAGL < 3000).length >= 1)
+			&& (skyConditions.filter((c) => c.cloudBaseAGL < 1000).length === 0);
+		const ceilingIFR = (skyConditions.filter((c) => c.cloudBaseAGL < 1000).length >= 1)
+			&& (skyConditions.filter((c) => c.cloudBaseAGL < 500).length === 0);
+		const ceilingLIFR = (skyConditions.filter((c) => c.cloudBaseAGL < 500).length >= 1);
 
 		if(visibility > 5 && ceilingVFR) {
 			this.flightCategory = 'VFR';
@@ -32,15 +31,6 @@ export class Forecast {
 		} else if(visibility < 1 || ceilingLIFR) {
 			this.flightCategory = 'LIFR';
 		}
-	}
-
-	public static mapSkyConditions(skyCondition: SkyConditionResponse[] | SkyCondition | null): SkyCondition[] {
-		if(Array.isArray(skyCondition))
-			return skyCondition.map(sky => new SkyCondition(sky.sky_cover, sky.cloud_base_ft_agl));
-		else if(skyCondition)
-			return [new SkyCondition(skyCondition.sky_cover, skyCondition.cloud_base_ft_agl)];
-		else
-			return [];
 	}
 
 	public getSkyConditions() {

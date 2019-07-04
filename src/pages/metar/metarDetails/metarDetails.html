@@ -39,9 +39,9 @@
 							{{ condition }}
 						</span>
 					</ion-item>
-					<ion-item *ngFor="let skyCondition of metar?.getSkyConditions()">
+					<ion-item *ngFor="let skyCondition of metarSkyConditions()">
 						<ion-icon name="cloud" item-start></ion-icon>
-						{{ skyCondition.getSkyConditionString() }}
+						{{ skyCondition }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
@@ -73,6 +73,10 @@
 				<p> {{ metar?.raw }}</p>
 			</ion-col>
 			<ion-col col-12 col-md-6>
+				<button ion-button icon-left (click)="onViewStationInfo()">
+					<ion-icon name="info"></ion-icon>
+					Station Info (Skyvector)
+				</button>
 				<button *ngIf="!inFavorites" ion-button icon-left (click)="onAddToFavorites(station)">
 					<ion-icon name="heart"></ion-icon>
 					Favorite

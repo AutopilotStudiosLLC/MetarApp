@@ -11,40 +11,40 @@ export abstract class MetarConversions{
     
     @Input() metar: Metar;
     
-    metarVisibility(): string{
+    metarVisibility(): string {
         if(this.metar != null && this.metar.visibility != null){
             return this.conversionService.convertStatueMilesToConfigured(Number(this.metar.visibility)).measurementAndUnit;
         }
     }
 
-    metarTemperature(): string{
+    metarTemperature(): string {
 		if(this.metar != null && this.metar.temperature != null){
 			return this.conversionService.convertCelciusToConfigured(Number(this.metar.temperature)).measurementAndUnit;
 		}
 	}
 
-	metarDewpoint(): string{
+	metarDewpoint(): string {
 		if(this.metar != null && this.metar.dewpoint != null){
 			return this.conversionService.convertCelciusToConfigured(Number(this.metar.dewpoint)).measurementAndUnit;
 		}
 	}
 
-	metarWindSpeedMeasurement(): string{
+	metarWindSpeedMeasurement(): string {
 		if(this.metar != null && this.metar.windSpeed != null){
 			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).measurement;
 		}
 	}
 
-	metarWindSpeedUnit(): string{
+	metarWindSpeedUnit(): string {
 		if(this.metar != null && this.metar.windSpeed != null){
 			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).unit;
 		}
     }
     
-    metarSkyConditions(): string[]{
+    metarSkyConditions(): string[] {
         let skyConditions: SkyCondition[] = [];
         let returnVal: string[] = [];
-        if (this.metar != null){
+        if (this.metar != null) {
             if(Array.isArray(this.metar.skyCondition)) {
                 skyConditions = this.metar.skyCondition;
             } else {
@@ -52,14 +52,13 @@ export abstract class MetarConversions{
             }
         }
         skyConditions.forEach(skyCondition => {
-            if(skyCondition.cloud_base_ft_agl > 0){
-                returnVal.push(
-                    skyCondition.getSkyConditionString() +
-                    (skyCondition.cloud_base_ft_agl) ? (' @ ' + 
-                    this.conversionService.convertFeetToConfigured(Number(skyCondition.cloud_base_ft_agl)).measurementAndUnit + 
-                    ' AGL') : null
-                );
-            }            
+			let conditionString = skyCondition.getSkyConditionString();
+            if(skyCondition.cloudBaseAGL > 0) {
+				conditionString += ' @ ' + this.conversionService.convertFeetToConfigured(Number(skyCondition.cloudBaseAGL)).measurementAndUnit + ' AGL';
+            } else if(skyCondition.cloudBaseMSL > 0) {
+				conditionString += ' @ ' + this.conversionService.convertFeetToConfigured(Number(skyCondition.cloudBaseMSL)).measurementAndUnit + ' MSL';
+			}
+            returnVal.push(conditionString);
         });
         return returnVal;
     }
