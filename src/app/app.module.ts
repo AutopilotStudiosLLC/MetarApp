@@ -30,6 +30,8 @@ import {StationCardModule} from "../components/station-card/station-card.module"
 import {MetarListItemModule} from "../components/metar-list-item/metar-list-item.module";
 import {MetarHistoryListItemModule} from "../components/metar-history-list-item/metar-history-list-item.module";
 import {TafListItemModule} from "../components/taf-list-item/taf-list-item.module";
+import {PirepListItemModule} from "../components/pirep-list-item/pirep-list-item.module";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 const IonicPro = Pro.init('f377509b', {
 	appVersion: "0.0.1"
@@ -79,7 +81,8 @@ export class MyErrorHandler implements ErrorHandler {
 		MetarHistoryListItemModule,
 		SearchBarLayout1Module,
 		StationCardModule,
-		TafListItemModule
+		TafListItemModule,
+		PirepListItemModule,
 	],
 	bootstrap: [IonicApp],
 	entryComponents: [
@@ -105,6 +108,7 @@ export class MyErrorHandler implements ErrorHandler {
 		ConfigService,	
 		ConversionService,		
 		IonicErrorHandler,
+		InAppBrowser,
 		[{ provide: ErrorHandler, useClass: MyErrorHandler }]
 	]
 })

@@ -10,6 +10,13 @@ export class FlightPlanService {
 		this.stations.push(station);
 	}
 
+	public removeStation(station: Station) {
+		let stationIndex = this.stations.findIndex((el) => el.ident === station.ident);
+		if(stationIndex >= 0) {
+			this.stations.splice(stationIndex, 1);
+		}
+	}
+
 	public getStations() {
 		return this.stations.slice();
 	}

@@ -1,5 +1,5 @@
 import {MetarQualityControl} from "./metar-quality-control.model";
-import {SkyCondition} from "./sky-condition.model";
+import {SkyConditionResponse} from "./sky-condition-response.model";
 
 export class MetarServiceResponse {
 	constructor(
@@ -25,7 +25,7 @@ export class MetarJsonResponse {
 		public altim_in_hg: number,
 		public quality_control_flags: MetarQualityControl,
 		public wx_string: string,
-		public sky_condition: SkyCondition,
+		public sky_condition: SkyConditionResponse[] | SkyConditionResponse,
 		public flight_category: string,
 		public metar_type: string,
 		public elevation_m: number

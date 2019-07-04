@@ -1,17 +1,16 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
-import {Metar} from "../../models/metar.model";
 import {Station} from "../../models/station.model";
-import {ConversionService} from "../../services/conversion.service"
+import {ConversionService} from "../../services/conversion.service";
+import {MetarConversions} from "../../architecture/metarConversions";
 
 @Component({
 	selector: 'station-card',
 	templateUrl: 'station-card.html'
 })
-export class StationCard {
+export class StationCard extends MetarConversions {
 	@Input() allowRemoveCard: boolean = true;
 	@Input() allowFavoriteCard: boolean = true;
 	@Input() station: Station;
-	@Input() metar: Metar;
 
 	@Output() addToFavorites = new EventEmitter();
 	@Output() removeCard = new EventEmitter();
@@ -19,39 +18,16 @@ export class StationCard {
 	@Output() viewCurrentConditions = new EventEmitter();
 	@Output() viewForecastConditions = new EventEmitter();
 
-	metarTemperature(){
-		if(this.metar != null && this.metar.temperature != null){
-			return this.conversionService.convertCelciusToConfigured(Number(this.metar.temperature)).measurementAndUnit;
-		}
-	}
-
-	metarDewpoint(){
-		if(this.metar != null && this.metar.dewpoint != null){
-			return this.conversionService.convertCelciusToConfigured(Number(this.metar.dewpoint)).measurementAndUnit;
-		}
-	}
-
-	metarWindSpeedMeasurement(){
-		if(this.metar != null && this.metar.windSpeed != null){
-			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).measurement;
-		}
-	}
-
-	metarWindSpeedUnit(){
-		if(this.metar != null && this.metar.windSpeed != null){
-			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).unit;
-		}
-	}
-
+	
 	stationDistance(){
 		if(this.station != null && this.station.getDistance()){
 			return this.conversionService.convertKilometersToConfigured(Number(this.station.getDistanceInKm())).measurementAndUnit;
 		}
-	}
+	}	
 
-	
-
-	constructor(private conversionService: ConversionService) { }
+	constructor(conversionService: ConversionService) {
+		super(conversionService);
+	 }
 
 	onAddToFavorites(station:Station) {
 		this.addToFavorites.emit(station);

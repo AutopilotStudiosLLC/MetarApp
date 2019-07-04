@@ -67,8 +67,9 @@ export class Metar {
 			skyConditions.forEach((element) => {
 				this.skyCondition.push(
 					new SkyCondition(
-						element.sky_cover,
-						element.cloud_base_ft_agl
+						element.skyCover,
+						element.cloudBaseAGL,
+						element.cloudBaseMSL
 					)
 				);
 			});
@@ -76,14 +77,15 @@ export class Metar {
 		} else if(skyConditions) {
 			this.skyCondition.push(
 				new SkyCondition(
-					skyConditions.sky_cover,
-					skyConditions.cloud_base_ft_agl
+					skyConditions.skyCover,
+					skyConditions.cloudBaseAGL,
+					skyConditions.cloudBaseMSL
 				)
 			);
 		}
 	}
 
-	public getSkyConditions() {
+	public getSkyConditions(): SkyCondition[] {
 		if(Array.isArray(this.skyCondition)) {
 			return this.skyCondition;
 		} else {

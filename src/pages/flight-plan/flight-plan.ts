@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import {FlightPlanService} from "../../services/flight-plan.service";
 import {Utility} from "../../models/utility.model";
 import {AddsService} from "../../services/adds.service";
@@ -23,13 +23,20 @@ import {Airsigmet} from "../../models/airsigmet.model";
 	templateUrl: 'flight-plan.html',
 })
 export class FlightPlanPage {
+	timeout;
 
 	stationString: string;
+
+	corridor: number = 50;
 
 	toNauticalMiles = Utility.kilometersToNauticalMiles;
 	Math = Math;
 
 	sections = {
+		configuration: {
+			title: 'Flight Configuration',
+			open: false
+		},
 		navPoints: {
 			title: 'Navigation Points',
 			open: true
@@ -58,7 +65,7 @@ export class FlightPlanPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private stationService: StationService,
 				private flightPlanService: FlightPlanService, private addsService: AddsService,
-				private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
+				private loadingCtrl: LoadingController, private alertCtrl: AlertController, private toastCtrl: ToastController) {
 	}
 
 	ionViewWillEnter() {
@@ -126,10 +133,24 @@ export class FlightPlanPage {
 
 	reorderFlightPlanStations(indexes) {
 		this.flightPlanService.reorderStations(indexes);
+		this.updateFlightWeather();
 	}
 
 	onToggleSection(section) {
 		section.open = !section.open;
+	}
+
+	onRemoveNavPoint(station: Station) {
+		this.flightPlanService.removeStation(station);
+		this.updateFlightWeather();
+	}
+
+	onUpdateCorridorRange() {
+		clearTimeout(this.timeout);
+
+		this.timeout = setTimeout(() => {
+			this.updateFlightWeather();
+		}, 1000);
 	}
 
 	metarStations() {
@@ -141,27 +162,28 @@ export class FlightPlanPage {
 	}
 
 	updateFlightWeather() {
+		const toast = this.toastCtrl.create({
+			message: 'Retrieving Updated Weather...',
+			duration: 2000,
+			position: "top",
+			showCloseButton: true,
+			closeButtonText: "Roger"
+		});
+		toast.present();
+
 		let stations = this.flightPlanService.getStations();
 
 		//If we don't have a start point and an end point there is nothing to do.
 		if(stations.length >= 2) {
 			const stationList = stations.map((el) => el.ident).join(';');
 
-			this.addsService.getStationsForFlight(stationList)
+			this.addsService.getStationsForFlight(stationList, this.corridor)
 				.subscribe((stations: Station[]) => {
 					// Update the root station list
 					this.stations = this.stationService.addStationArray(stations);
 
-					let metarList = stations.filter((station) => station.isMetarSupported)
-						.map((station) => station.ident)
-						.join(';');
-
-					let tafList = stations.filter((station) => station.isTafSupported)
-						.map((station) => station.ident)
-						.join(';');
-
 					// Get Metars for Flight
-					this.addsService.getMetarsForFlight(metarList)
+					this.addsService.getMetarsForFlight(stationList, this.corridor)
 						.subscribe((metars: Metar[]) => {
 							metars.forEach((metar) => {
 								let station = this.stations.find((el) => el.ident === metar.ident);
@@ -172,7 +194,7 @@ export class FlightPlanPage {
 						});
 
 					// Get Tafs for Flight
-					this.addsService.getTafsForFlight(tafList)
+					this.addsService.getTafsForFlight(stationList, this.corridor)
 						.subscribe((tafs: Taf[]) => {
 							tafs.forEach((taf) => {
 								let station = this.stations.find((el) => el.ident === taf.ident);
@@ -184,10 +206,10 @@ export class FlightPlanPage {
 				});
 
 			// Get Pireps for Flight
-			/*this.addsService.getPirepsForFlight(stationList)
+			this.addsService.getPirepsForFlight(stationList, this.corridor)
                 .subscribe((pireps: Pirep[]) => {
                     this.pireps = pireps;
-                });*/
+                });
 		}
 	}
 }

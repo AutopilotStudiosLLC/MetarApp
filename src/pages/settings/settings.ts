@@ -28,6 +28,7 @@ export class SettingsPage {
 		this.configuredTemperatureUnit = configService.getConfiguredTemperatureUnit().toString();
 		this.configuredDistanceUnit = configService.getConfiguredDistanceUnit().toString();
 		this.configuredSpeedUnit = configService.getConfiguredSpeedUnit().toString();
+		this.configuredAltitudeUnit = configService.getConfiguredAltitudeUnit().toString();
 	}
 
 	getTemperatureUnits(){

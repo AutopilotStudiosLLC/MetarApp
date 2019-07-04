@@ -1,14 +1,14 @@
+import {SkyConditionResponse} from "./sky-condition-response.model";
+
 export class SkyCondition {
 	constructor(
-		public sky_cover?: string,
-		public cloud_base_ft_agl?: number
+		public skyCover?: string,
+		public cloudBaseAGL?: number,
+		public cloudBaseMSL?: number
 	) {}
 
 	public getSkyConditionString():string {
-		let str = (this.sky_cover) ? SkyCondition.getSkyConditionPhrase(this.sky_cover) : null;
-		if(this.cloud_base_ft_agl > 0)
-			str += (this.cloud_base_ft_agl) ? ' @ ' + this.cloud_base_ft_agl + ' AGL' : null;
-		return str;
+		return (this.skyCover) ? SkyCondition.getSkyConditionPhrase(this.skyCover) : null;
 	}
 
 	public static getSkyConditionPhrase(cover): string {
@@ -30,6 +30,27 @@ export class SkyCondition {
 			default:
 				return 'Missing';
 		}
+	}
 
+	public static MapSkyConditions(skyCondition: SkyConditionResponse[] | SkyConditionResponse | null): SkyCondition[] {
+		if(Array.isArray(skyCondition))
+			return skyCondition.map(sky => {
+				let condition = new SkyCondition(sky.sky_cover);
+				if(sky.cloud_base_ft_agl)
+					condition.cloudBaseAGL = parseInt(sky.cloud_base_ft_agl);
+				if(sky.cloud_base_ft_msl)
+					condition.cloudBaseMSL = parseInt(sky.cloud_base_ft_msl);
+				return condition;
+			});
+		else if(skyCondition) {
+			let condition = new SkyCondition(skyCondition.sky_cover);
+			if (skyCondition.cloud_base_ft_agl)
+				condition.cloudBaseAGL = parseInt(skyCondition.cloud_base_ft_agl);
+			if (skyCondition.cloud_base_ft_msl)
+				condition.cloudBaseMSL = parseInt(skyCondition.cloud_base_ft_msl);
+			return [condition];
+		} else {
+			return [];
+		}
 	}
 }
