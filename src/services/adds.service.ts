@@ -216,6 +216,24 @@ export class AddsService {
 			);
 	}
 
+	getTafsFromStationList(stationString, hoursBeforeNow:number = 3) {
+		return this.http.get(
+			AddsService.baseUri+'taf/list?stations='+stationString+'&hoursBeforeNow='+hoursBeforeNow,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: TafServiceResponse) => {
+					const data = response;
+					let tafs: Taf[] = [];
+					for (let x in data.TAF) {
+						const taf = AddsService.mapTafResponseToModel(data.TAF[x]);
+						tafs.push(taf);
+					}
+					return tafs;
+				}
+			);
+	}
+
 	getTafsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
 		return this.http.get(
 			AddsService.baseUri+'taf/flight?path='+stationString+'&corridor='+corridor+'&hoursBeforeNow='+hoursBeforeNow,

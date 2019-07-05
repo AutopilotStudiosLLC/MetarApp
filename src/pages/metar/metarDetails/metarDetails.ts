@@ -61,6 +61,10 @@ export class MetarDetailsPage extends MetarConversions {
 			alert.present();
 			this.navCtrl.goToRoot({});
 		}
+
+		this.platform.resume.subscribe(() => {
+			this.getLatestMetar();
+		});
 	}
 
 	onViewHistory() {

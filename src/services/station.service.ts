@@ -62,7 +62,7 @@ export class StationService {
 			this.allStations.push(station);
 		}
 		if(!foundFavorite) {
-			this.favorites.push(station);
+			this.favorites.unshift(station);
 			this.saveFavorites()
 				.catch( (err) => {
 					console.error(err);
@@ -201,7 +201,7 @@ export class StationService {
 						return station;
 					});
 
-					if(stationIdentArray.length > 0) {
+					/*if(stationIdentArray.length > 0) {
 						const stationString = stationIdentArray.join(',');
 						this.addsService.getMetarsFromStationList(stationString, 2)
 							.subscribe((metars) => {
@@ -209,7 +209,7 @@ export class StationService {
 									station.addMetarArray(metars.filter((el) => el.ident === station.ident));
 								})
 							});
-					}
+					}*/
 
 					this.favorites = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {
@@ -240,7 +240,7 @@ export class StationService {
 						return station;
 					});
 
-					if(stationIdentArray.length > 0) {
+					/*if(stationIdentArray.length > 0) {
 						const stationString = stationIdentArray.join(',');
 						this.addsService.getMetarsFromStationList(stationString, 2)
 							.subscribe((metars) => {
@@ -248,7 +248,7 @@ export class StationService {
 									station.addMetarArray(metars.filter((el) => el.ident === station.ident));
 								})
 							});
-					}
+					}*/
 
 					this.recent = revivedStations != null ? revivedStations : [];
 					for (let x in revivedStations) {

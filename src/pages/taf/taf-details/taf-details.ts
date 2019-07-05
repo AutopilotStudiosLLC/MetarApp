@@ -5,6 +5,7 @@ import {Taf} from "../../../models/taf.model";
 import {SkyCondition} from "../../../models/sky-condition.model";
 import {StationService} from "../../../services/station.service";
 import {Moment} from "moment";
+import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @IonicPage()
 @Component({
@@ -18,7 +19,9 @@ export class TafDetailsPage {
 
 	getSkyConditionPhrase = SkyCondition.getSkyConditionPhrase;
 
-	constructor(public navCtrl: NavController, public navParams: NavParams, private alertCtrl: AlertController, private stationService: StationService) {
+	constructor(public navCtrl: NavController, public navParams: NavParams,
+				private alertCtrl: AlertController, private stationService: StationService,
+				private inAppBrowser: InAppBrowser) {
 	}
 
 	ionViewWillLoad() {
@@ -26,10 +29,6 @@ export class TafDetailsPage {
 		this.taf = this.navParams.get('taf');
 		this.inFavorites = this.stationService.isInFavorites(this.station);
 	}
-
-	/*onViewHistory() {
-		this.navCtrl.push(MetarHistoryPage, {station: this.station});
-	}*/
 
 	onAddToFavorites(station) {
 		this.stationService.addToFavorites(station);
@@ -60,6 +59,10 @@ export class TafDetailsPage {
 
 	sameDay(fromTime:Moment, toTime:Moment) {
 		return fromTime.local().format('MMM D') === toTime.local().format("MMM D");
+	}
+
+	onViewStationInfo() {
+		this.inAppBrowser.create('https://skyvector.com/airport/' + this.station.ident);
 	}
 }
 
