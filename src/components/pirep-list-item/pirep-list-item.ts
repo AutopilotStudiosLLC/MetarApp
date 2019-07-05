@@ -1,5 +1,4 @@
 import {Component, Input} from '@angular/core';
-import {Moment} from "moment";
 import {Pirep} from "../../models/pirep.model";
 
 @Component({

@@ -70,7 +70,7 @@ export class HomePage {
 				locale.subscribe((stations) => {
 					this.localStations = stations;
 					this.sortLocalStationsByDistance();
-					this.getLocalStationMetars();
+					this.getStationMetars();
 				});
 			});
 	}
@@ -254,8 +254,11 @@ export class HomePage {
 		return this.localStations;
 	}
 
-	private getLocalStationMetars(): Promise <any> {
-		let stationArray = this.localStations.map((el) => el.ident);
+	private getStationMetars(): Promise <any> {
+		let stationArray= [];
+		stationArray.push(...this.recent.map((el)=> el.ident));
+		stationArray.push(...this.favorites.map((el)=> el.ident));
+		stationArray.push(...this.localStations.map((el) => el.ident));
 
 		const stationString = stationArray.join(',');
 

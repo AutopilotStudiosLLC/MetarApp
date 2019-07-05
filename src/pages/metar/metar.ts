@@ -18,6 +18,8 @@ export class MetarPage {
 
 	stationString: string;
 
+	lastUpdated: Date;
+
 	favorites: Station[] = [];
 	local: Station[] = [];
 	recent: Station[] = [];
@@ -27,13 +29,8 @@ export class MetarPage {
 				private stationService: StationService, private loadingCtrl:LoadingController) {
 	}
 
-	itemSelected(metar) {
-		this.navCtrl.push(MetarDetailsPage, {metar: metar})
-	}
-
 	ionViewWillEnter() {
-		this.recent = this.stationService.getRecent();
-		this.favorites = this.stationService.getFavorites();
+		this.updateAllStations()
 	}
 
 	onStationSearch(ident: string) {
@@ -47,6 +44,7 @@ export class MetarPage {
 			.subscribe(
 			(metars) => {
 				loading.dismiss();
+				this.stationString = '';
 				station.addMetarArray(metars);
 				this.stationService.addToRecent(station);
 				this.recent = this.stationService.getRecent();
@@ -54,6 +52,7 @@ export class MetarPage {
 			},
 			(error) => {
 				loading.dismiss();
+				this.stationString = '';
 				const alert = this.alertCtrl.create({
 					title: 'Error',
 					message: 'Unable to find the requested station.',
@@ -63,27 +62,100 @@ export class MetarPage {
 			});
 	}
 
+	updateAllStations(): Promise <any> {
+		const favorites = this.stationService.loadFavorites();
+		const recent = this.stationService.loadRecent();
+		const local = this.updateLocals();
+
+		return Promise.all([favorites, recent, local])
+			.then(() => {
+				this.favorites = this.stationService.getFavorites().filter((station) => {
+					return station.isMetarSupported || station.getLatestMetar();
+				});
+				this.recent = this.stationService.getRecent().filter((station) => {
+					return station.isMetarSupported || station.getLatestMetar();
+				});
+				this.lastUpdated = new Date();
+			});
+	}
+
+	updateLocals(): Promise <any> {
+		return this.stationService.getLocalStations()
+			.then((locale) => {
+				locale.subscribe((stations) => {
+					this.local = stations.filter((station) => station.isMetarSupported || station.getLatestMetar());
+					this.sortLocalStationsByDistance();
+					this.updateStationMetars();
+				});
+			});
+	}
+
+	private updateStationMetars(): Promise <any> {
+		let stationArray = this.local.map((el) => el.ident);
+		stationArray.push(...this.recent.map((el)=> el.ident));
+		stationArray.push(...this.favorites.map((el)=> el.ident));
+
+		const stationString = stationArray.join(',');
+
+		return new Promise((resolve) => {
+			this.addsService.getMetarsFromStationList(stationString, 2)
+				.subscribe((metars) => {
+					metars.forEach((metar) => {
+						const station = this.stationService.getStation(metar.ident);
+						station.addMetar(metar);
+					});
+
+					resolve(metars);
+				});
+		});
+	}
+
+	sortLocalStationsByDistance() {
+		this.local.sort((a: Station, b: Station) => {
+			if (a.getDistanceInKm() < b.getDistanceInKm()) {
+				return -1;
+			} else if (a.getDistanceInKm() > b.getDistanceInKm()) {
+				return 1;
+			} else {
+				return 0;
+			}
+		});
+		return this.local;
+	}
+
 	onInputText() {
 		this.stationString = this.stationString.toUpperCase();
 	}
 
 	onAddToFavorites(slidingItem: ItemSliding, station:Station) {
-		console.log(station);
-		//slidingItem.close();
-		//this.stationService.addToFavorites(station);
-		//this.favorites = this.stationService.getFavorites();
+		slidingItem.close();
+		this.stationService.addToFavorites(station);
+		this.favorites = this.stationService.getFavorites()
+			.filter((station) => station.isMetarSupported || station.getLatestMetar());
 
-		//this.onRemoveRecent(station);
-
-		/*this.stationService.addToFavorites(station);
-		this.favorites = this.stationService.getFavorites();
+		this.onRemoveRecent(station);
 		this.stationService.removeRecent(station);
-		this.recent = this.stationService.getRecent();*/
 	}
 
 	onRemoveRecent(station:Station) {
-		this.recent.splice(this.recent.findIndex(
-			(el) => el === station),
-			1);
+		const index = this.recent.findIndex((el) => el === station);
+		if(index !== -1) {
+			this.recent.splice(index, 1);
+		}
+	}
+
+	onRemoveFavorite(station:Station) {
+		this.stationService.removeFavorite(station);
+		const index = this.favorites.findIndex((el) => el === station);
+		if(index !== -1) {
+			this.favorites.splice(index, 1);
+		}
+	}
+
+	doRefresh(refresher) {
+		this.updateAllStations()
+			.then(() => {
+				refresher.complete();
+			})
 	}
 }

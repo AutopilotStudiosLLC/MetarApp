@@ -8,6 +8,12 @@
 
 
 <ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content
+			pullingText="Pull to refresh"
+			refreshingText="Fetching latest forecasts...">
+		</ion-refresher-content>
+	</ion-refresher>
 	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
 		<ion-list class="search-form">
 			<ion-item>
@@ -24,30 +30,79 @@
 	<div *ngIf="recent.length > 0">
 		<h5 padding-left>Recent</h5>
 		<ion-list>
-			<button ion-item
-					*ngFor="let station of recent"
-					[navPush]="tafDetailsPage"
-					[navParams]="{station: station, taf: station.getLatestTaf()}">
-				<h2>{{ station.ident | uppercase }}</h2>
-				<p>{{ station.getLatestTaf()?.raw }}</p>
-			</button>
+			<ion-item-sliding *ngFor="let station of recent" #slidingItem>
+				<button ion-item
+						[navPush]="tafDetailsPage"
+						[navParams]="{station: station, taf: station.getLatestTaf()}">
+					<h2>{{ station.ident | uppercase }}</h2>
+					<p *ngIf="station.getLatestTaf()?.forecasts[0]">
+						FROM {{ station.getLatestTaf()?.forecasts[0]?.fromTime.local().format('HH:mm')}} &ndash;
+						VIS {{ station.getLatestTaf()?.forecasts[0]?.visibility }} &ndash;
+						WIND {{ station.getLatestTaf()?.forecasts[0]?.windSpeed }} kts @
+						{{ station.getLatestTaf()?.forecasts[0]?.windDirection }} &deg;
+					</p>
+				</button>
+				<ion-item-options>
+					<button ion-button
+							(click)="onAddToFavorites(slidingItem, station)">
+						<ion-icon name="heart"></ion-icon>
+						Favorite
+					</button>
+					<button ion-button color="danger"
+							(click)="onRemoveRecent(station)">
+						<ion-icon name="trash"></ion-icon>
+						Remove
+					</button>
+				</ion-item-options>
+			</ion-item-sliding>
 		</ion-list>
 	</div>
 
 	<h5 padding-left>Favorites</h5>
 	<ion-list>
-		<button ion-item
-				*ngFor="let station of favorites"
-				[navPush]="tafDetailsPage"
-				[navParams]="{station: station, taf: station.getLatestTaf()}">
-			<h2>{{ station.ident | uppercase }}</h2>
-			<p>{{ station.getLatestTaf()?.raw }}</p>
-		</button>
+		<ion-item-sliding *ngFor="let station of favorites">
+			<button ion-item
+					[navPush]="tafDetailsPage"
+					[navParams]="{station: station, taf: station.getLatestTaf()}">
+				<h2>{{ station.ident | uppercase }}</h2>
+				<p *ngIf="station.getLatestTaf()?.forecasts[0]">
+					FROM {{ station.getLatestTaf()?.forecasts[0]?.fromTime.local().format('HH:mm')}} &ndash;
+					VIS {{ station.getLatestTaf()?.forecasts[0]?.visibility }} &ndash;
+					WIND {{ station.getLatestTaf()?.forecasts[0]?.windSpeed }} kts @
+					{{ station.getLatestTaf()?.forecasts[0]?.windDirection }} &deg;
+				</p>
+			</button>
+			<ion-item-options>
+				<button ion-button color="danger"
+						(click)="onRemoveFavorite(station)">
+					<ion-icon name="trash"></ion-icon>
+					Remove
+				</button>
+			</ion-item-options>
+		</ion-item-sliding>
 	</ion-list>
 	<h5 padding-left>Local</h5>
 	<ion-list>
-		<button ion-item *ngFor="let station of local" (click)="itemSelected(station)">
-			{{ station.ident }}
-		</button>
+		<ion-item-sliding *ngFor="let station of local" #slidingLocal>
+			<button ion-item
+
+					[navPush]="tafDetailsPage"
+					[navParams]="{station: station, taf: station.getLatestTaf()}">
+				<h2>{{ station.ident }}</h2>
+				<p *ngIf="station.getLatestTaf()?.forecasts[0]">
+					FROM {{ station.getLatestTaf()?.forecasts[0]?.fromTime.local().format('HH:mm')}} &ndash;
+					VIS {{ station.getLatestTaf()?.forecasts[0]?.visibility }} &ndash;
+					WIND {{ station.getLatestTaf()?.forecasts[0]?.windSpeed }} kts @
+					{{ station.getLatestTaf()?.forecasts[0]?.windDirection }} &deg;
+				</p>
+			</button>
+			<ion-item-options>
+				<button ion-button
+						(click)="onAddToFavorites(slidingLocal, station)">
+					<ion-icon name="heart"></ion-icon>
+					Favorite
+				</button>
+			</ion-item-options>
+		</ion-item-sliding>
 	</ion-list>
 </ion-content>

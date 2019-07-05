@@ -144,6 +144,10 @@
 				<p> {{ taf.raw }}</p>
 			</ion-col>
 			<ion-col col-12 col-md-6>
+				<button ion-button icon-left (click)="onViewStationInfo()">
+					<ion-icon name="info"></ion-icon>
+					Station Info (Skyvector)
+				</button>
 				<button *ngIf="!inFavorites" ion-button icon-left (click)="onAddToFavorites(station)">
 					<ion-icon name="heart"></ion-icon>
 					Favorite
@@ -152,8 +156,6 @@
 					<ion-icon name="trash"></ion-icon>
 					Favorite
 				</button>
-				<button ion-button
-						(click)="onViewHistory()">TAF History</button>
 			</ion-col>
 		</ion-row>
 	</ion-grid>
