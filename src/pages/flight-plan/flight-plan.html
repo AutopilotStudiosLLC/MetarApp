@@ -6,6 +6,12 @@
 
 
 <ion-content>
+	<ion-refresher (ionRefresh)="doRefresh($event)">
+		<ion-refresher-content
+			pullingText="Pull to refresh"
+			refreshingText="Fetching Newest METAR...">
+		</ion-refresher-content>
+	</ion-refresher>
 	<form #stationForm="ngForm" (ngSubmit)="onStationSearch(stationForm.value.ident)">
 		<ion-list class="search-form">
 			<ion-item>

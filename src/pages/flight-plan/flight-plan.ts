@@ -161,20 +161,22 @@ export class FlightPlanPage {
 		return this.stations.filter((station) => station.isTafSupported);
 	}
 
-	updateFlightWeather() {
-		const toast = this.toastCtrl.create({
-			message: 'Retrieving Updated Weather...',
-			duration: 2000,
-			position: "top",
-			showCloseButton: true,
-			closeButtonText: "Roger"
-		});
-		toast.present();
-
+	async updateFlightWeather(showToast:boolean = true) {
 		let stations = this.flightPlanService.getStations();
 
 		//If we don't have a start point and an end point there is nothing to do.
 		if(stations.length >= 2) {
+			if(showToast) {
+				const toast = this.toastCtrl.create({
+					message: 'Retrieving Updated Weather...',
+					duration: 2000,
+					position: "top",
+					showCloseButton: true,
+					closeButtonText: "Roger"
+				});
+				toast.present();
+			}
+
 			const stationList = stations.map((el) => el.ident).join(';');
 
 			this.addsService.getStationsForFlight(stationList, this.corridor)
@@ -206,10 +208,14 @@ export class FlightPlanPage {
 				});
 
 			// Get Pireps for Flight
-			this.addsService.getPirepsForFlight(stationList, this.corridor)
-                .subscribe((pireps: Pirep[]) => {
-                    this.pireps = pireps;
-                });
+			this.pireps = await this.addsService.getPirepsForFlight(stationList, this.corridor).toPromise();
+		} else {
+			this.pireps = [];
 		}
+	}
+
+	async doRefresh(refresher) {
+		await this.updateFlightWeather(false);
+		refresher.complete();
 	}
 }
