@@ -45,7 +45,7 @@
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
-						{{ metar?.observationTime.local().format("MMM Do, h:mm A") }}
+						{{ metarobservationTime("MMM Do, ") }}
 						<span [class]="metar?.getObservationTimeColor()">
 							({{ metar?.getObservationTimeFromNow() }} m)
 						</span>

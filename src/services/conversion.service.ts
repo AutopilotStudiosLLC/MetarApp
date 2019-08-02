@@ -95,13 +95,13 @@ export class ConversionService {
         }
     }
     
-    convertTimeToConfigured(time: moment.Moment): String{
+    convertTimeToConfigured(time: moment.Moment, dateFormat: string = ''): string{
         var configuredTimeZone : TimeZone = this.configService.getConfiguredTimeZone();
         if (configuredTimeZone == TimeZone.Local){
-            return time.local().format('h:mm a');
+            return time.local().format(dateFormat + 'h:mm a');
         }
         else{
-            return `${time.utc().format('HH:mm')} Z`;
+            return `${time.utc().format(dateFormat + 'HH:mm')} Z`;
         }
         
     }

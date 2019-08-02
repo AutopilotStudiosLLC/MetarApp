@@ -40,6 +40,12 @@ export abstract class MetarConversions{
 			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windSpeed)).unit;
 		}
     }
+
+    metarobservationTime(dateFormat: string = ''): string {
+		if(this.metar != null && this.metar.observationTime != null){
+			return this.conversionService.convertTimeToConfigured(this.metar.observationTime, dateFormat);
+		}
+    }
     
     metarSkyConditions(): string[] {
         let skyConditions: SkyCondition[] = [];
