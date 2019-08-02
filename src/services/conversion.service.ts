@@ -1,11 +1,14 @@
 import * as moment from "moment";
 import {Injectable} from "@angular/core";
-import {ConfigService, PressureUnits} from './config.service';
-import {TemperatureUnits} from './config.service';
-import {SpeedUnits} from './config.service';
-import {DistanceUnits} from './config.service';
-import {AltitudeUnits} from './config.service';
-import {TimeZone} from './config.service';
+import {
+    ConfigService, 
+    PressureUnits,
+    TemperatureUnits,
+    SpeedUnits,
+    DistanceUnits,
+    AltitudeUnits,
+    TimeZone
+} from './config.service';
 
 @Injectable()
 
