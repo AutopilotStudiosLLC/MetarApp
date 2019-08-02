@@ -21,9 +21,6 @@ export class MetarDetailsPage extends MetarConversions {
 	metar: Metar;
 	inFavorites: boolean;
 
-	toFahrenheit = Utility.toFahrenheit;
-	metersToFeet = Utility.metersToFeet;
-
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private alertCtrl: AlertController, private stationService: StationService,
 				private addsService: AddsService, private toastController:ToastController,

@@ -82,6 +82,9 @@ export class SettingsPage {
 		else if(this.configuredSpeedUnit == SpeedUnits.MPH.toString()){
 			this.configService.setConfiguredSpeedUnit(SpeedUnits.MPH);
 		}
+		else if(this.configuredSpeedUnit == SpeedUnits.MS.toString()){
+			this.configService.setConfiguredSpeedUnit(SpeedUnits.MS);
+		}
 		this.configuredSpeedUnit = this.configService.getConfiguredSpeedUnit().toString();
 	}
 
