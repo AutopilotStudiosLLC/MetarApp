@@ -119,9 +119,10 @@
 			</button>
 
 			<ion-list *ngIf="sections.airsigmets.open">
-				<ion-item *ngFor="let met of airsigmets">
-
-				</ion-item>
+				<airsigmet-list-item
+					*ngFor="let airsigmet of airsigmets"
+					[airsigmet]="airsigmet">
+				</airsigmet-list-item>
 			</ion-list>
 
 		</ion-list-header>

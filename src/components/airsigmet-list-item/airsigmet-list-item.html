@@ -1,0 +1,30 @@
+<ion-item *ngIf="airsigmet">
+	<ion-row>
+		<ion-col>
+			<div float-right>{{ airsigmet.type }}</div>
+			<h1 [className]="(airsigmet.hazard.type === 'CONVECTIVE') ? 'severity-red' : ''">{{ airsigmet.hazard.getTypePhrase() }}</h1>
+			<h2 *ngIf="airsigmet.hazard.severity" [className]="getSeverityClassName()">{{ airsigmet.hazard.getSeverityPhrase() }}</h2>
+
+			<span class="observation-time">
+				(Valid {{ airsigmet?.validFrom.local().format('h:mm a') }}
+				-
+				{{ airsigmet?.validTo.local().format('h:mm a') }})
+			</span>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="airsigmet.altitude">
+		<ion-col>
+			<strong>Alt (MSL):</strong>
+			<span *ngIf="airsigmet.altitude.minimumAltitude">{{ airsigmet.altitude.minimumAltitude }} <span *ngIf="!airsigmet.altitude.maximumAltitude">(Min)</span></span>
+			<span *ngIf="airsigmet.altitude.minimumAltitude && airsigmet.altitude.maximumAltitude">-</span>
+			<span *ngIf="airsigmet.altitude.maximumAltitude">{{ airsigmet.altitude.maximumAltitude }} <span *ngIf="!airsigmet.altitude.minimumAltitude">(Max)</span></span>
+		</ion-col>
+	</ion-row>
+	<ion-row *ngIf="airsigmet.movementDirection || airsigmet.movementSpeed">
+		<ion-col font-bold class="severity-yellow">
+			Moving
+			<span *ngIf="airsigmet.movementDirection">{{ airsigmet.movementDirection }}&deg;</span>
+			<span *ngIf="airsigmet.movementSpeed">@ {{ airsigmet.movementSpeed }} kts</span>
+		</ion-col>
+	</ion-row>
+</ion-item>

@@ -13,6 +13,10 @@ import {Pirep} from "../models/pirep.model";
 import {TurbulenceCondition} from "../models/turbulence-condition";
 import {SkyCondition} from "../models/sky-condition.model";
 import {IcingCondition} from "../models/icing-condition";
+import {AirsigmetServiceResponse, AirsigmetResponse} from "../models/airsigmet-service-response.model";
+import {Airsigmet, AirsigmetAltitudeRange} from "../models/airsigmet.model";
+import {AirsigmetHazard} from "../models/airsigmet-hazard.model";
+import {AirsigmetBoundaryArea} from "../models/airsigmet-boundary-area.model";
 
 @Injectable()
 export class AddsService {
@@ -29,7 +33,7 @@ export class AddsService {
 			.map(
 				(response: SingleStationServiceResponse) => {
 					let dataStation = response.Station;
-					let station = new Station(
+					return new Station(
 						dataStation.station_id,
 						[],
 						[],
@@ -42,7 +46,6 @@ export class AddsService {
 						!!dataStation.site_type.METAR,
 						!!dataStation.site_type.TAF
 					);
-					return station;
 				}
 			);
 	}
@@ -253,6 +256,41 @@ export class AddsService {
 			);
 	}
 
+	getAirsigmentsForFlight(stationString, corridor:number = 50) {
+		return this.http.get(
+			AddsService.baseUri+'airsigmet/flight?path='+stationString+'&corridor='+corridor,
+			{responseType: 'json'}
+		)
+			.map(
+				(response: AirsigmetServiceResponse) => {
+					const data = response;
+					let airsigmets: Airsigmet[] = [];
+					if(Array.isArray(data.AIRSIGMET)) {
+						for (let x in data.AIRSIGMET) {
+							let convertedAirsigmet = AddsService.mapAirsigmetResponseToModel(data.AIRSIGMET[x]);
+
+							//Deduplicate the Airsigmets
+							if(airsigmets.length > 0) {
+								let duplicateIndex = airsigmets.find((sig: Airsigmet) => {
+									return sig.raw === convertedAirsigmet.raw;
+								});
+								if (!duplicateIndex) {
+									airsigmets.push(convertedAirsigmet);
+								}
+							} else {
+								airsigmets.push(convertedAirsigmet);
+							}
+						}
+					} else if(data.results > 0) {
+						airsigmets.push(
+							AddsService.mapAirsigmetResponseToModel(data.AIRSIGMET)
+						)
+					}
+					return airsigmets;
+				}
+			);
+	}
+
 	getPirepsForFlight(stationString, corridor:number = 50, hoursBeforeNow:number = 2) {
 		return this.http.get(
 			AddsService.baseUri+'pirep/flight?path='+stationString+'&corridor='+corridor+'&hoursBeforeNow='+hoursBeforeNow,
@@ -349,6 +387,34 @@ export class AddsService {
 			tafResponse.elevation_m,
 			Taf.MapForecasts(tafResponse.forecast)
 		);
+	}
+
+	public static mapAirsigmetResponseToModel(airsigmetResponse: AirsigmetResponse): Airsigmet {
+		try {
+			let airsigmet = new Airsigmet(
+				airsigmetResponse.raw_text,
+				moment(airsigmetResponse.valid_time_from),
+				moment(airsigmetResponse.valid_time_to),
+				null,
+				parseInt(airsigmetResponse.movement_dir_degrees),
+				parseInt(airsigmetResponse.movement_speed_kt),
+				new AirsigmetHazard(airsigmetResponse.hazard.type, airsigmetResponse.hazard.severity),
+				airsigmetResponse.airsigmet_type,
+				AirsigmetBoundaryArea.MapAirsigmetAreaResponse(airsigmetResponse.area),
+			);
+			if(airsigmetResponse.altitude) {
+				airsigmet.altitude = new AirsigmetAltitudeRange(
+					parseInt(airsigmetResponse.altitude.min_ft_msl),
+					parseInt(airsigmetResponse.altitude.max_ft_msl),
+				);
+			}
+
+			return airsigmet;
+		} catch (e) {
+			//@todo Log the error somehow
+			console.error('Error Normalizing the Airsigment Response', airsigmetResponse);
+			return new Airsigmet(null,null,null,null,null,null,null,null,null);
+		}
 	}
 
 	public static mapPirepResponseToModel(pirepResponse: PirepJsonResponse): Pirep {
