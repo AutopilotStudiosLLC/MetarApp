@@ -1,9 +1,11 @@
+import * as moment from "moment";
 import {Injectable} from "@angular/core";
 import {ConfigService} from './config.service';
 import {TemperatureUnits} from './config.service';
 import {SpeedUnits} from './config.service';
 import {DistanceUnits} from './config.service';
 import {AltitudeUnits} from './config.service';
+import {TimeZone} from './config.service';
 
 @Injectable()
 
@@ -91,7 +93,18 @@ export class ConversionService {
             var m: number = Number((ft / 3.2808).toFixed(1));
             return {measurement: m.toString(), unit: 'm', measurementAndUnit: `${m} m`}
         }
-    }   
+    }
+    
+    convertTimeToConfigured(time: moment.Moment): String{
+        var configuredTimeZone : TimeZone = this.configService.getConfiguredTimeZone();
+        if (configuredTimeZone == TimeZone.Local){
+            return time.local().format('h:mm a');
+        }
+        else{
+            return `${time.utc().format('HH:mm')} Z`;
+        }
+        
+    }
 }
 
 export interface ConvertedMeasurement

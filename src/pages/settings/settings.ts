@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
-import {ConfigService} from "../../services/config.service";
+import {ConfigService, TimeZone} from "../../services/config.service";
 import {TemperatureUnits} from "../../services/config.service";
 import {SpeedUnits} from "../../services/config.service";
 import {DistanceUnits} from "../../services/config.service";
@@ -23,12 +23,14 @@ export class SettingsPage {
 	configuredDistanceUnit: string;
 	configuredSpeedUnit: string;
 	configuredAltitudeUnit: string;
+	configuredTimeZone: string;
 
 	constructor(private configService: ConfigService){
 		this.configuredTemperatureUnit = configService.getConfiguredTemperatureUnit().toString();
 		this.configuredDistanceUnit = configService.getConfiguredDistanceUnit().toString();
 		this.configuredSpeedUnit = configService.getConfiguredSpeedUnit().toString();
 		this.configuredAltitudeUnit = configService.getConfiguredAltitudeUnit().toString();
+		this.configuredTimeZone = configService.getConfiguredTimeZone().toString();
 	}
 
 	getTemperatureUnits(){
@@ -88,5 +90,19 @@ export class SettingsPage {
 			this.configService.setConfiguredAltitudeUnit(AltitudeUnits.Meters);
 		}
 		this.configuredAltitudeUnit = this.configService.getConfiguredAltitudeUnit().toString();
+	}
+
+	getTimeZones(){
+		return Object.keys(TimeZone).map(key => TimeZone[key]);
+	}
+
+	onChangeTimeZone(){
+		if (this.configuredTimeZone == TimeZone.Local.toString()){
+			this.configService.setConfiguredTimeZone(TimeZone.Local);
+		}
+		else if (this.configuredTimeZone == TimeZone.UTC.toString()){
+			this.configService.setConfiguredTimeZone(TimeZone.UTC);
+		}
+		this.configuredTimeZone = this.configService.getConfiguredTimeZone().toString();
 	}
 }

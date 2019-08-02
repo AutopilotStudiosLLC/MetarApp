@@ -39,6 +39,14 @@ export class ConfigService {
     getConfiguredAltitudeUnit(): AltitudeUnits{
         return this.config.get('AltitudeUnits', AltitudeUnits.Feet);
     }
+
+    setConfiguredTimeZone(timeZone: TimeZone){
+        this.config.set('TimeZone', timeZone);
+    }
+
+    getConfiguredTimeZone(): TimeZone{
+        return this.config.get('TimeZone', TimeZone.Local);
+    }
 }
 
 export enum TemperatureUnits{
@@ -60,4 +68,9 @@ export enum DistanceUnits{
 export enum AltitudeUnits{
 	Feet = "Feet",
 	Meters = "Meters"
+}
+
+export enum TimeZone{
+    Local = "Local",
+    UTC = "UTC"
 }

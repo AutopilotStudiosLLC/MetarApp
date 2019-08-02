@@ -53,5 +53,16 @@
 				</ion-option>
 			</ion-select>
 		</ion-item>
+		<ion-item>
+			<ion-label>
+				<ion-icon name="clock"></ion-icon>
+				Time Zone
+			</ion-label>
+			<ion-select [(ngModel)]="configuredTimeZone" (ionChange)="onChangeTimeZone()">
+				<ion-option *ngFor="let timeZone of getTimeZones()" [value]="timeZone">
+					{{timeZone}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
 	</ion-list>	
 </ion-content>
