@@ -34,7 +34,8 @@
 				<sup>TRUE</sup>
 			</div>
 			<div class="wind-gusts" *ngIf="metar?.windGusts">
-				Gusts {{ metar?.windGusts }} <sup>kts</sup>
+				Gusts {{ metarWindGustsMeasurement() }}
+				<sup>{{ metarWindGustsUnit() }}</sup>
 			</div>
 		</div>
 		<ion-row no-padding *ngIf="metar">

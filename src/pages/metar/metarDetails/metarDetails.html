@@ -23,18 +23,18 @@
 					</ion-item>
 					<ion-item>
 						<ion-icon name="thermometer" item-start></ion-icon>
-						{{ metar?.temperature }} C / {{ toFahrenheit(metar?.temperature) }} F &nbsp;&nbsp;
+						{{ metarTemperature() }} &nbsp;&nbsp;
 						<ion-icon name="water"></ion-icon>&nbsp;&nbsp;
-						{{ metar?.dewpoint }} C / {{ toFahrenheit(metar?.dewpoint) }} F
+						{{ metarDewpoint() }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="flag" item-start></ion-icon>
-						{{ metar?.windDirection }} @ {{ metar?.windSpeed }} kts
-						<span *ngIf="metar?.windGusts" class="wind-gusts"> Gusts {{ metar?.windGusts }} kts</span>
+						{{ metar?.windDirection }} @ {{ metarWindSpeedMeasurement() }} {{ metarWindSpeedUnit() }}
+						<span *ngIf="metar?.windGusts" class="wind-gusts"> Gusts {{ metarWindGustsMeasurement() }} {{ metarWindGustsUnit() }}</span>
 					</ion-item>
 					<ion-item>
 						<ion-icon name="eye" item-start></ion-icon>
-						{{ metar?.visibility }} mi
+						{{ metarVisibility() }}
 						<span *ngFor="let condition of metar?.getImportantVisibilityConditions()" class="weather-visibility">
 							{{ condition }}
 						</span>
@@ -45,16 +45,16 @@
 					</ion-item>
 					<ion-item>
 						<ion-icon name="clock" item-start></ion-icon>
-						{{ metarobservationTime("MMM Do, ") }}
+						{{ metarObservationTime("MMM Do, ") }}
 						<span [class]="metar?.getObservationTimeColor()">
 							({{ metar?.getObservationTimeFromNow() }} m)
 						</span>
 					</ion-item>
 					<ion-item>
-						Alt {{ metar?.altimeter }}
+						Alt {{ metarAltimeter() }}
 					</ion-item>
 					<ion-item>
-						Elevation {{ metersToFeet(metar?.elevation) }} ft
+						Elevation {{ metarElevation() }}
 					</ion-item>
 					<ion-item>
 						<ion-icon name="pin" item-start></ion-icon>

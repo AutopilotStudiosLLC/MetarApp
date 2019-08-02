@@ -41,9 +41,33 @@ export abstract class MetarConversions{
 		}
     }
 
-    metarobservationTime(dateFormat: string = ''): string {
+    metarWindGustsMeasurement(): string {
+		if(this.metar != null && this.metar.windGusts != null){
+			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windGusts)).measurement;
+		}
+	}
+
+	metarWindGustsUnit(): string {
+		if(this.metar != null && this.metar.windGusts != null){
+			return this.conversionService.convertKnotsToConfigured(Number(this.metar.windGusts)).unit;
+		}
+    }
+
+    metarObservationTime(dateFormat: string = ''): string {
 		if(this.metar != null && this.metar.observationTime != null){
 			return this.conversionService.convertTimeToConfigured(this.metar.observationTime, dateFormat);
+		}
+    }
+
+    metarAltimeter(): string {
+		if(this.metar != null && this.metar.altimeter != null){
+			return this.conversionService.convertInchesMercuryToConfigured(Number(this.metar.altimeter)).measurementAndUnit;
+		}
+    }
+
+    metarElevation(): string {
+		if(this.metar != null && this.metar.elevation != null){
+			return this.conversionService.convertMetersToConfigured(Number(this.metar.elevation)).measurementAndUnit;
 		}
     }
     

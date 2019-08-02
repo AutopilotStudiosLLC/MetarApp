@@ -31,6 +31,17 @@
 		<ion-item>
 			<ion-label>
 				<ion-icon name="speedometer"></ion-icon>
+				Altimeter
+			</ion-label>
+			<ion-select [(ngModel)]="configuredPressureUnit" (ionChange)="onChangePressure()">
+				<ion-option *ngFor="let pressureUnit of getPressureUnits()" [value]="pressureUnit">
+					{{pressureUnit}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
+			<ion-label>
+				<ion-icon name="speedometer"></ion-icon>
 				Speed
 			</ion-label>
 			<ion-select [(ngModel)]="configuredSpeedUnit" (ionChange)="onChangeSpeed()">

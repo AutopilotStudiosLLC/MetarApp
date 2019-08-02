@@ -1,10 +1,15 @@
 import {Component} from '@angular/core';
 import {IonicPage} from 'ionic-angular';
-import {ConfigService, TimeZone} from "../../services/config.service";
-import {TemperatureUnits} from "../../services/config.service";
-import {SpeedUnits} from "../../services/config.service";
-import {DistanceUnits} from "../../services/config.service";
-import {AltitudeUnits} from "../../services/config.service";
+import {
+	ConfigService, 
+	TimeZone, 
+	TemperatureUnits, 
+	SpeedUnits,
+	DistanceUnits, 
+	AltitudeUnits, 
+	PressureUnits
+} from "../../services/config.service";
+
 /**
  * Generated class for the ConfigPage page.
  *
@@ -24,6 +29,7 @@ export class SettingsPage {
 	configuredSpeedUnit: string;
 	configuredAltitudeUnit: string;
 	configuredTimeZone: string;
+	configuredPressureUnit: string;
 
 	constructor(private configService: ConfigService){
 		this.configuredTemperatureUnit = configService.getConfiguredTemperatureUnit().toString();
@@ -31,6 +37,7 @@ export class SettingsPage {
 		this.configuredSpeedUnit = configService.getConfiguredSpeedUnit().toString();
 		this.configuredAltitudeUnit = configService.getConfiguredAltitudeUnit().toString();
 		this.configuredTimeZone = configService.getConfiguredTimeZone().toString();
+		this.configuredPressureUnit = configService.getConfiguredPressureUnit().toString();
 	}
 
 	getTemperatureUnits(){
@@ -104,5 +111,19 @@ export class SettingsPage {
 			this.configService.setConfiguredTimeZone(TimeZone.UTC);
 		}
 		this.configuredTimeZone = this.configService.getConfiguredTimeZone().toString();
+	}
+
+	getPressureUnits(){
+		return Object.keys(PressureUnits).map(key => PressureUnits[key]);
+	}
+
+	onChangePressure(){
+		if (this.configuredPressureUnit == PressureUnits.InchesMercury.toString()){
+			this.configService.setConfiguredPressureUnit(PressureUnits.InchesMercury);
+		}
+		else if(this.configuredPressureUnit == PressureUnits.Millibars.toString()){
+			this.configService.setConfiguredPressureUnit(PressureUnits.Millibars);
+		}
+		this.configuredPressureUnit = this.configService.getConfiguredPressureUnit().toString();
 	}
 }
