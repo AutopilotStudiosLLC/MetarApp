@@ -39,6 +39,22 @@ export class ConfigService {
     getConfiguredAltitudeUnit(): AltitudeUnits{
         return this.config.get('AltitudeUnits', AltitudeUnits.Feet);
     }
+
+    setConfiguredTimeZone(timeZone: TimeZone){
+        this.config.set('TimeZone', timeZone);
+    }
+
+    getConfiguredTimeZone(): TimeZone{
+        return this.config.get('TimeZone', TimeZone.Local);
+    }
+
+    setConfiguredPressureUnit(pressureUnit: PressureUnits){
+        this.config.set('PressureUnits', pressureUnit);
+    }
+
+    getConfiguredPressureUnit(): PressureUnits{
+        return this.config.get('PressureUnits', PressureUnits.InchesMercury);
+    }
 }
 
 export enum TemperatureUnits{
@@ -48,7 +64,8 @@ export enum TemperatureUnits{
 
 export enum SpeedUnits{
 	MPH = "Miles Per Hour",
-	KTS = "Knots"
+    KTS = "Knots",
+    MS = "Meters Per Second"
 }
 
 export enum DistanceUnits{
@@ -60,4 +77,14 @@ export enum DistanceUnits{
 export enum AltitudeUnits{
 	Feet = "Feet",
 	Meters = "Meters"
+}
+
+export enum TimeZone{
+    Local = "Local",
+    UTC = "UTC"
+}
+
+export enum PressureUnits{
+    InchesMercury = "Inches of Mercury",
+    Millibars = "Millibars"
 }

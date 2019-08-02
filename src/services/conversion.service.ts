@@ -1,9 +1,14 @@
+import * as moment from "moment";
 import {Injectable} from "@angular/core";
-import {ConfigService} from './config.service';
-import {TemperatureUnits} from './config.service';
-import {SpeedUnits} from './config.service';
-import {DistanceUnits} from './config.service';
-import {AltitudeUnits} from './config.service';
+import {
+    ConfigService, 
+    PressureUnits,
+    TemperatureUnits,
+    SpeedUnits,
+    DistanceUnits,
+    AltitudeUnits,
+    TimeZone
+} from './config.service';
 
 @Injectable()
 
@@ -33,6 +38,11 @@ export class ConversionService {
         {
             knots = Number(knots.toFixed(1));
             return {measurement: knots.toString(), unit: 'kts', measurementAndUnit: `${knots} kts`}
+        }
+        else if (configuredSpeedUnit == SpeedUnits.MS)
+        {
+            var metersSecond = Number((knots * 0.514444).toFixed(1));
+            return {measurement: metersSecond.toString(), unit: 'm/s', measurementAndUnit: `${metersSecond} m/s`}
         }
         else
         {
@@ -83,7 +93,7 @@ export class ConversionService {
         var configuredAltitudeUnit : AltitudeUnits = this.configService.getConfiguredAltitudeUnit();
         if (configuredAltitudeUnit == AltitudeUnits.Feet)
         {
-            var ft: number = Number(ft.toFixed(1));
+            ft = Number(ft.toFixed(1));
             return {measurement: ft.toString(), unit: 'ft', measurementAndUnit: `${ft} ft`}
         }
         else
@@ -91,7 +101,45 @@ export class ConversionService {
             var m: number = Number((ft / 3.2808).toFixed(1));
             return {measurement: m.toString(), unit: 'm', measurementAndUnit: `${m} m`}
         }
-    }   
+    }
+
+    convertMetersToConfigured(m: number): ConvertedMeasurement{
+        var configuredAltitudeUnit : AltitudeUnits = this.configService.getConfiguredAltitudeUnit();
+        if (configuredAltitudeUnit == AltitudeUnits.Feet)
+        {
+            var ft: number = Number((m * 3.2808).toFixed(1));
+            return {measurement: ft.toString(), unit: 'ft', measurementAndUnit: `${ft} ft`}
+        }
+        else
+        {
+            m = Number(m.toFixed(1));
+            return {measurement: m.toString(), unit: 'm', measurementAndUnit: `${m} m`}
+        }
+    }
+    
+    convertTimeToConfigured(time: moment.Moment, dateFormat: string = ''): string{
+        var configuredTimeZone : TimeZone = this.configService.getConfiguredTimeZone();
+        if (configuredTimeZone == TimeZone.Local){
+            return time.local().format(dateFormat + 'h:mm a');
+        }
+        else{
+            return `${time.utc().format(dateFormat + 'HH:mm')} Z`;
+        }
+        
+    }
+
+    convertInchesMercuryToConfigured(pressure: number): ConvertedMeasurement{
+        var configuredPressure : PressureUnits = this.configService.getConfiguredPressureUnit();
+        if (configuredPressure == PressureUnits.InchesMercury){
+            var inhg: number = Number(pressure.toFixed(2));
+            return {measurement: inhg.toString(), unit: 'inHg', measurementAndUnit: `${inhg} inHg`};
+        }
+        else{
+            var mb: number = Number((pressure * 33.8639).toFixed(1));
+            return {measurement: mb.toString(), unit: 'mb', measurementAndUnit: `${mb} mb`};
+        }
+        
+    }
 }
 
 export interface ConvertedMeasurement

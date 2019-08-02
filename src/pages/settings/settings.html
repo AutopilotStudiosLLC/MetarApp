@@ -1,11 +1,8 @@
 <ion-header>
-
 	<ion-navbar>
 		<ion-title>Settings</ion-title>
 	</ion-navbar>
-
 </ion-header>
-
 
 <ion-content>
 	<ion-list>
@@ -34,6 +31,17 @@
 		<ion-item>
 			<ion-label>
 				<ion-icon name="speedometer"></ion-icon>
+				Altimeter
+			</ion-label>
+			<ion-select [(ngModel)]="configuredPressureUnit" (ionChange)="onChangePressure()">
+				<ion-option *ngFor="let pressureUnit of getPressureUnits()" [value]="pressureUnit">
+					{{pressureUnit}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
+			<ion-label>
+				<ion-icon name="speedometer"></ion-icon>
 				Speed
 			</ion-label>
 			<ion-select [(ngModel)]="configuredSpeedUnit" (ionChange)="onChangeSpeed()">
@@ -50,6 +58,17 @@
 			<ion-select [(ngModel)]="configuredTemperatureUnit" (ionChange)="onChangeTemperature()">
 				<ion-option *ngFor="let temperatureUnit of getTemperatureUnits()" [value]="temperatureUnit">
 					{{temperatureUnit}}
+				</ion-option>
+			</ion-select>
+		</ion-item>
+		<ion-item>
+			<ion-label>
+				<ion-icon name="clock"></ion-icon>
+				Time Zone
+			</ion-label>
+			<ion-select [(ngModel)]="configuredTimeZone" (ionChange)="onChangeTimeZone()">
+				<ion-option *ngFor="let timeZone of getTimeZones()" [value]="timeZone">
+					{{timeZone}}
 				</ion-option>
 			</ion-select>
 		</ion-item>
