@@ -9,6 +9,7 @@ import {Metar} from "../../models/metar.model";
 import {Taf} from "../../models/taf.model";
 import {Pirep} from "../../models/pirep.model";
 import {Airsigmet} from "../../models/airsigmet.model";
+import {AirsigmetHazard} from "../../models/airsigmet-hazard.model";
 
 /**
  * Generated class for the FlightPlanPage page.
@@ -60,7 +61,7 @@ export class FlightPlanPage {
 	};
 
 	stations: Station[] = [];
-	airsigmets: Airsigmet[];
+	airsigmets: Airsigmet[] = [];
 	pireps: Pirep[] = [];
 
 	constructor(public navCtrl: NavController, public navParams: NavParams, private stationService: StationService,
@@ -161,7 +162,7 @@ export class FlightPlanPage {
 		return this.stations.filter((station) => station.isTafSupported);
 	}
 
-	async updateFlightWeather(showToast:boolean = true) {
+	updateFlightWeather(showToast:boolean = true) {
 		let stations = this.flightPlanService.getStations();
 
 		//If we don't have a start point and an end point there is nothing to do.
@@ -208,7 +209,29 @@ export class FlightPlanPage {
 				});
 
 			// Get Pireps for Flight
-			this.pireps = await this.addsService.getPirepsForFlight(stationList, this.corridor).toPromise();
+			this.addsService.getPirepsForFlight(stationList, this.corridor)
+				.subscribe((pireps:Pirep[]) => {
+					this.pireps = pireps;
+				});
+
+			// Get AIRSIGMETS for Flight
+			this.addsService.getAirsigmentsForFlight(stationList, this.corridor)
+				.subscribe((airsigmets:Airsigmet[]) => {
+					airsigmets.sort((a:Airsigmet, b:Airsigmet) => {
+						if(a.type === b.type) {
+							if(a.type === Airsigmet.TYPE_SIGMET) {
+								if(a.hazard.type === b.hazard.type) return 0;
+								if(a.hazard.type === AirsigmetHazard.HAZARD_CONVECTIVE) return -1;
+								if(b.hazard.type === AirsigmetHazard.HAZARD_CONVECTIVE) return 1;
+							}
+							return 0
+						}
+						if(a.type === Airsigmet.TYPE_SIGMET) return -1;
+						if(b.type === Airsigmet.TYPE_SIGMET) return 1;
+						return 0;
+					});
+					this.airsigmets = airsigmets;
+				});
 		} else {
 			this.pireps = [];
 		}

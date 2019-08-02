@@ -1,0 +1,36 @@
+airsigmet-list-item {
+	h1 {
+		margin-top:10px !important;
+	}
+	h2 {
+		font-size:1.2em !important;
+		font-weight: bold !important;
+		color: color($palettes, textColors, secondary);
+	}
+	.observation-time {
+		font-size:0.7em;
+		font-weight:bold;
+		color: color($palettes, textColors, accent);
+	}
+	ion-item, .item-ios, .item-md .ion-col{
+		letter-spacing:0;
+		text-transform: none;
+		border-bottom: 1px solid color($palettes, mainColors, secondary);
+	}
+
+	.severity-green {
+		color: color($colors, green);
+	}
+
+	.severity-blue {
+		color: color($colors, blue);
+	}
+
+	.severity-yellow {
+		color: color($colors, warning);
+	}
+
+	.severity-red {
+		color: color($colors, red);
+	}
+}

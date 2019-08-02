@@ -32,6 +32,7 @@ import {MetarHistoryListItemModule} from "../components/metar-history-list-item/
 import {TafListItemModule} from "../components/taf-list-item/taf-list-item.module";
 import {PirepListItemModule} from "../components/pirep-list-item/pirep-list-item.module";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {AirsigmetListItemModule} from "../components/airsigmet-list-item/airsigmet-list-item.module";
 
 const IonicPro = Pro.init('f377509b', {
 	appVersion: "0.0.1"
@@ -82,6 +83,7 @@ export class MyErrorHandler implements ErrorHandler {
 		SearchBarLayout1Module,
 		StationCardModule,
 		TafListItemModule,
+		AirsigmetListItemModule,
 		PirepListItemModule,
 	],
 	bootstrap: [IonicApp],

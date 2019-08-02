@@ -1,35 +1,48 @@
-import * as moment from 'moment';
-
-export class Airsigmet {
+export class AirsigmetServiceResponse {
 	constructor(
-		raw: string,
-		valid_time_from: moment.Moment,
-		valid_time_to: moment.Moment,
-		altitude_range: AirsigmetAltitudeRange,
-		hazard_type:string,
-		severity: string,
-		type: string,
-		area: AirsigmetBoundaryArea
+		public AIRSIGMET: AirsigmetResponse[],
+		public results:number
+	) {}
+}
+
+export class AirsigmetResponse {
+	constructor(
+		public raw_text: string,
+		public valid_time_from: string,
+		public valid_time_to: string,
+		public altitude: AirsigmetAltitudeResponse | undefined,
+		public movement_dir_degrees: string,
+		public movement_speed_kt: string,
+		public hazard: AirsigmetHazardResponse,
+		public airsigmet_type: string,
+		public area: AirsigmetBoundaryAreaResponse
 	) {}
 }
 
 
-export class AirsigmetAltitudeRange{
+export class AirsigmetAltitudeResponse {
 	constructor(
-		minimumAltitude: number,
-		maximumAltitude: number
+		public max_ft_msl: string,
+		public min_ft_msl: string
 	) {}
 }
 
-export class AirsigmetBoundaryArea {
+export class AirsigmetHazardResponse {
 	constructor(
-		points: AirsigmetBoundaryPoint[]
+		public type: string,
+		public severity: string
 	) {}
 }
 
-export class AirsigmetBoundaryPoint {
+export class AirsigmetBoundaryAreaResponse {
 	constructor(
-		latitude: number,
-		longitude: number
+		public points: AirsigmetBoundaryPointResponse[]
+	) {}
+}
+
+export class AirsigmetBoundaryPointResponse {
+	constructor(
+		public latitude: string,
+		public longitude: string
 	) {}
 }
