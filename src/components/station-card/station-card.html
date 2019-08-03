@@ -10,13 +10,18 @@
 		<ion-icon name="heart"></ion-icon>
 	</button>
 	<ion-card-header>
+		<ion-row>
 		<h1>
 			{{ station.ident }}
 			<span [ngClass]="metar?.getObservationTimeColor()">
 				({{ metar?.getObservationTimeFromNow() }} m)
 			</span>
 		</h1>
-		<span *ngIf="station.getDistance()">({{  stationDistance() }} )</span>
+		</ion-row>
+		<ion-row>
+			<h3><span *ngIf="station.name">{{ station.name }}</span> <span *ngIf="station.getDistance()">({{ stationDistance() }})</span></h3>
+
+		</ion-row>
 	</ion-card-header>
 	<ion-card-content>
 		<div float-right class="wind-index" *ngIf="metar">
@@ -70,15 +75,15 @@
 			</ion-col>
 		</ion-row>
 	</ion-card-content>
-	<ion-row no-padding>
-		<ion-col *ngIf="station.isMetarSupported">
+	<ion-row no-padding class="station-footer">
+		<ion-col col-sm-12 col-md-4 *ngIf="station.isMetarSupported">
 			<button ion-button icon-left clear small
 					(click)="onViewCurrentConditions(station)">
 				<ion-icon name="thermometer"></ion-icon>
 				Current
 			</button>
 		</ion-col>
-		<ion-col text-center *ngIf="station.isTafSupported">
+		<ion-col col-sm-12 col-md-4 *ngIf="station.isTafSupported">
 			<button ion-button icon-left clear small
 					color="green"
 					(click)="onViewForecastConditions(station)">
@@ -86,7 +91,7 @@
 				Forecast
 			</button>
 		</ion-col>
-		<ion-col text-right>
+		<ion-col col-sm-12 col-md-4>
 			<button ion-button icon-left clear small
 					color="dark"
 					(click)="onAddToFlightPlan(station)">
