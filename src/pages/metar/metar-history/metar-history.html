@@ -6,7 +6,7 @@
 
 <ion-content padding>
 	<metar-history-list-item
-		*ngFor="let metar of station.getMetars()"
+		*ngFor="let metar of sortedMetarList()"
 		[station]="station"
 		[metar]="metar">
 	</metar-history-list-item>	
