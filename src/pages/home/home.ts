@@ -5,8 +5,6 @@ import {MetarDetailsPage} from "../metar/metarDetails/metarDetails";
 import {StationService} from "../../services/station.service";
 import {AddsService} from "../../services/adds.service";
 import {TafDetailsPage} from "../taf/taf-details/taf-details";
-import {Utility} from "../../models/utility.model";
-import {SkyCondition} from "../../models/sky-condition.model";
 import {FlightPlanService} from "../../services/flight-plan.service";
 import * as Constants from '../../services/constants';
 import {Metar} from "../../models/metar.model";
@@ -19,10 +17,6 @@ export class HomePage {
 	BUILD_VERSION = Constants.BUILD_VERSION;
 	metarDetailsPage = MetarDetailsPage;
 	tafDetailsPage = TafDetailsPage;
-
-	getSkyConditionPhrase = SkyCondition.getSkyConditionPhrase;
-	toFahrenheit = Utility.toFahrenheit;
-	metersToFeet = Utility.metersToFeet;
 
 	stationString: string;
 
@@ -37,6 +31,35 @@ export class HomePage {
 				private addsService: AddsService, private platform: Platform,
 				private flightPlanService: FlightPlanService, private toastController: ToastController) {
 
+	}
+
+	ngOnInit() {
+		//Display Disclaimer when the app is launched, unless already dismissed.
+		if(localStorage.getItem('disclaimer') !== Constants.BUILD_VERSION) {
+			const alert = this.alertCtrl.create({
+				title: 'Important',
+				message: 'Although we try our best to provide the most up to date and accurate information, the accuracy of ' +
+					'the information presented cannot be guaranteed. The information retrieved through this application is for ' +
+					'reference only. For official flight weather information please contact flight service. \n\nFly safe!',
+				inputs: [
+					{
+						name: 'dismissDisclaimer',
+						label: 'I understand, hide disclaimer.',
+						value: 'Dismissed',
+						type: 'checkbox'
+					}
+				],
+				buttons: [{
+					text: 'Agree',
+					handler: data => {
+						if (Array.isArray(data) && data.pop() === 'Dismissed') {
+							localStorage.setItem('disclaimer', Constants.BUILD_VERSION);
+						}
+					}
+				}]
+			});
+			alert.present();
+		}
 	}
 
 	ionViewWillEnter() {
@@ -95,7 +118,7 @@ export class HomePage {
 							});
 					}
 				},
-				(error) => {
+				() => {
 					loading.dismiss();
 					const alert = this.alertCtrl.create({
 						title: 'Error',
