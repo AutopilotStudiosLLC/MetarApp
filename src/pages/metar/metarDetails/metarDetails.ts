@@ -3,7 +3,6 @@ import {AlertController, IonicPage, NavController, NavParams, Platform, ToastCon
 import {Metar} from "../../../models/metar.model";
 import {Station} from "../../../models/station.model";
 import {MetarHistoryPage} from "../metar-history/metar-history";
-import {Utility} from "../../../models/utility.model";
 import {StationService} from "../../../services/station.service";
 import {AddsService} from "../../../services/adds.service";
 import {Observable, Observer} from "rxjs";
