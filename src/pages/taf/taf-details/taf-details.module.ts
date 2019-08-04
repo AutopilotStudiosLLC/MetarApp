@@ -3,9 +3,7 @@ import {IonicPageModule} from 'ionic-angular';
 import {TafDetailsPage} from './taf-details';
 
 @NgModule({
-	declarations: [
-		TafDetailsPage,
-	],
+	declarations: [],
 	imports: [
 		IonicPageModule.forChild(TafDetailsPage),
 	]

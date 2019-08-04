@@ -13,7 +13,7 @@ import {SplashScreen} from '@ionic-native/splash-screen';
 import {MetarPage} from "../pages/metar/metar";
 import {TafPage} from "../pages/taf/taf";
 import {FlightPlanPage} from "../pages/flight-plan/flight-plan";
-import {MetarDetailsPage} from "../pages/metar/metarDetails/metarDetails";
+import {MetarDetailsPage} from "../pages/metar/metar-details/metar-details";
 import {HttpClientModule} from "@angular/common/http";
 import {MetarHistoryPage} from "../pages/metar/metar-history/metar-history";
 import {TafDetailsPage} from "../pages/taf/taf-details/taf-details";

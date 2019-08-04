@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, ItemSliding, LoadingController, NavController, NavParams} from 'ionic-angular';
-import {MetarDetailsPage} from "./metarDetails/metarDetails";
+import {MetarDetailsPage} from "./metar-details/metar-details";
 import 'rxjs/Rx';
 import {Station} from "../../models/station.model";
 import {AddsService} from "../../services/adds.service";

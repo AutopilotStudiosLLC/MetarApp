@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { MetarDetailsPage } from './metarDetails';
+import { MetarDetailsPage } from './metar-details';
 
 @NgModule({
-  declarations: [
-    MetarDetailsPage,
-  ],
+  declarations: [],
   imports: [
     IonicPageModule.forChild(MetarDetailsPage),
   ],

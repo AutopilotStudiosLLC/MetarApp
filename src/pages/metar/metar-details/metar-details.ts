@@ -13,7 +13,7 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 @IonicPage()
 @Component({
 	selector: 'page-metar-details',
-	templateUrl: 'metarDetails.html',
+	templateUrl: 'metar-details.html',
 })
 export class MetarDetailsPage extends MetarConversions {
 	station: Station;

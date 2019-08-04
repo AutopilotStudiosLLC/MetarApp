@@ -51,9 +51,9 @@
 		</ion-col>
 	</ion-row>
 	<ion-row *ngIf="metar">
-		<ion-col col-12 *ngFor="let skyCondition of metar?.getSkyConditions()">
+		<ion-col col-12 *ngFor="let skyCondition of metarSkyConditions()">
 			<ion-icon name="cloud" item-start></ion-icon>
-			{{ skyCondition.getSkyConditionString() }}
+			{{ skyCondition }}
 		</ion-col>
 	</ion-row>
 	<ion-row *ngIf="metar">

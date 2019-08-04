@@ -1,12 +1,12 @@
 ## Initial Installation
 
 ```
-npm install -g ionic cordova
+npm install -g ionic cordova@8
 npm install
 ```
 
 ## Run local Ionic Server
-```$xslt
+```
 ionic serve
 ```
 
@@ -15,7 +15,8 @@ ionic serve
 Xcode 10 added a new build system that is currently 
 incompatible with Cordova.
 
-```$xslt
+```
+npm install -g ios-deploy
 ionic cordova run ios -- --buildFlag="-UseModernBuildSystem=0" --device
 ```
 
@@ -23,7 +24,7 @@ ionic cordova run ios -- --buildFlag="-UseModernBuildSystem=0" --device
 
 Fix for error `xcode-select: error: tool 'xcodebuild' requires Xcode`
 
-```$xslt
+```
 sudo xcode-select -switch /Applications/Xcode.app/Contents/Developer
 ```
 
@@ -38,6 +39,12 @@ sudo npm install -g ios-deploy --unsafe-perm=true
 ```
 
 ## Theme Documenation
-```$xslt
+```
 http://csform.com/documentation-for-ionic-3-ui-template-app-blue-light/#!
+```
+
+## Final Production Build
+```
+ionic cordova build android --prod --release
+ionic cordova build ios --prod --release
 ```

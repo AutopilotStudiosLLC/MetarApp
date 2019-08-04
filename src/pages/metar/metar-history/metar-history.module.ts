@@ -3,9 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { MetarHistoryPage } from './metar-history';
 
 @NgModule({
-  declarations: [
-    MetarHistoryPage,
-  ],
+  declarations: [],
   imports: [
     IonicPageModule.forChild(MetarHistoryPage),
   ],

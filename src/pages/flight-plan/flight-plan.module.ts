@@ -3,9 +3,7 @@ import { IonicPageModule } from 'ionic-angular';
 import { FlightPlanPage } from './flight-plan';
 
 @NgModule({
-  declarations: [
-    FlightPlanPage,
-  ],
+  declarations: [],
   imports: [
     IonicPageModule.forChild(FlightPlanPage),
   ],

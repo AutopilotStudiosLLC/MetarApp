@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {AlertController, LoadingController, NavController, Platform, ToastController} from 'ionic-angular';
 import {Station} from "../../models/station.model";
-import {MetarDetailsPage} from "../metar/metarDetails/metarDetails";
+import {MetarDetailsPage} from "../metar/metar-details/metar-details";
 import {StationService} from "../../services/station.service";
 import {AddsService} from "../../services/adds.service";
 import {TafDetailsPage} from "../taf/taf-details/taf-details";
