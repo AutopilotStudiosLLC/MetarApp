@@ -1,0 +1,36 @@
+<div float-right class="wind-index" *ngIf="forecast">
+	<div class="wind-speed" *ngIf="forecast?.windSpeed">
+		<ion-icon name="flag" item-start></ion-icon>
+		{{ forecast?.windSpeed }}
+		<sup>kts</sup>
+	</div>
+	<div class="wind-direction" *ngIf="forecast?.windDirection">
+		<ion-icon name="compass" item-start></ion-icon>
+		{{ forecast?.windDirection }}
+		<sup>TRUE</sup>
+	</div>
+	<div class="wind-gusts" *ngIf="forecast?.windGusts">
+		Gusts {{ forecast?.windGusts }} <sup>kts</sup>
+	</div>
+</div>
+<ion-row no-padding *ngIf="forecast">
+	<ion-col [ngClass]="forecast?.getFlightCategoryColor() + '-background'">
+		{{ forecast?.flightCategory }}
+	</ion-col>
+	<ion-col *ngIf="forecast?.visibility">
+		<ion-icon name="eye" item-start></ion-icon>
+		{{ forecast?.visibility }} mi
+	</ion-col>
+</ion-row>
+<ion-row *ngIf="forecast">
+	<ion-col col-12 *ngFor="let skyCondition of forecast?.getSkyConditions()">
+		<ion-icon name="cloud" item-start></ion-icon>
+		{{ skyCondition.getSkyConditionString() }}
+	</ion-col>
+</ion-row>
+<ion-row *ngIf="forecast">
+	<ion-col class="important-visibility-conditions" col-12 *ngFor="let condition of forecast?.getWeatherConditions()">
+		<ion-icon name="eye" item-start></ion-icon>
+		{{ condition }}
+	</ion-col>
+</ion-row>

@@ -18,7 +18,8 @@
 	<ion-row *ngFor="let forecast of taf.forecasts; let i = index">
 		<ion-col col-12>
 			<ion-row>
-				<ion-col>
+				<ion-col>					
+					<taf-forecast-header [forecast]="forecast"></taf-forecast-header>
 					<div class="taf-day">
 						<span class="from-day">{{ forecast.fromTime.local().format("MMM D") }}</span>
 						<span class="to-day" *ngIf="!sameDay(forecast.fromTime, forecast.toTime)">

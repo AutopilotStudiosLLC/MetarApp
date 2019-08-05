@@ -1,0 +1,20 @@
+<div class="taf-day">
+		<span class="from-day">{{ forecast.fromTime.local().format("MMM D") }}</span>
+		<span class="to-day" *ngIf="!sameDay(forecast.fromTime, forecast.toTime)">
+			to {{ forecast.toTime.local().format("MMM D") }}
+		</span>
+</div>
+<div class="taf-time">
+{{ forecast.fromTime.local().format("h:mm A") }}
+to
+{{ forecast.toTime.local().format("h:mm A") }}
+</div>
+<div class="change-indicator-tempo" *ngIf="forecast?.changeIndicator === 'TEMPO'">
+	(TEMPORARY)
+</div>
+<div class="change-indicator-becmg" *ngIf="forecast?.changeIndicator === 'BECMG'">
+	(BECOMING)
+</div>
+<div class="change-indicator-prob40" *ngIf="forecast?.changeIndicator === 'PROB40'">
+	(CHANCE)
+</div>

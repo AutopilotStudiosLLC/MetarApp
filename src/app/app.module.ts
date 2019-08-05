@@ -31,6 +31,8 @@ import {MetarListItemModule} from "../components/metar-list-item/metar-list-item
 import {MetarHistoryListItemModule} from "../components/metar-history-list-item/metar-history-list-item.module";
 import {TafListItemModule} from "../components/taf-list-item/taf-list-item.module";
 import {TafShortForecastModule} from "../components/taf-short-forecast/taf-short-forecast.module";
+import {TafForecastHeaderModule} from "../components/taf-forecast-header/taf-forecast-header.module";
+import {TafForecastContentModule} from "../components/taf-forecast-content/taf-forecast-content.module";
 import {PirepListItemModule} from "../components/pirep-list-item/pirep-list-item.module";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 import {AirsigmetListItemModule} from "../components/airsigmet-list-item/airsigmet-list-item.module";
@@ -85,6 +87,8 @@ export class MyErrorHandler implements ErrorHandler {
 		StationCardModule,
 		TafListItemModule,
 		TafShortForecastModule,
+		TafForecastHeaderModule,
+		TafForecastContentModule,
 		AirsigmetListItemModule,
 		PirepListItemModule,
 	],

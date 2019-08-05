@@ -13,6 +13,7 @@
 			<ion-col col-12 col-md-6>
 				<ion-card *ngFor="let forecast of taf.forecasts">
 					<ion-card-header>
+						<taf-forecast-header [forecast]="forecast"></taf-forecast-header>
 						<div class="taf-day">
 							<span class="from-day">{{ forecast.fromTime.local().format("MMM D") }}</span>
 							<span class="to-day" *ngIf="!sameDay(forecast.fromTime, forecast.toTime)">
