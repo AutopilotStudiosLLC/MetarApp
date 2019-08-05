@@ -48,3 +48,13 @@ http://csform.com/documentation-for-ionic-3-ui-template-app-blue-light/#!
 ionic cordova build android --prod --release
 ionic cordova build ios --prod --release
 ```
+
+## Sign the APK
+```
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.jks app-release-unsigned.apk autopilot-studios
+```
+#### Optimize the Package
+```
+~/Library/Android/sdk/build-tools/VERSION/zipalign -v 4 app-release-unsigned.apk AviationWeather.apk
+~/Library/Android/sdk/build-tools/VERSION/apksigner verify AviationWeather.apk
+```
