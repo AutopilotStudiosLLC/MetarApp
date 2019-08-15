@@ -120,10 +120,21 @@ export class ConversionService {
     convertTimeToConfigured(time: moment.Moment, dateFormat: string = ''): string{
         var configuredTimeZone : TimeZone = this.configService.getConfiguredTimeZone();
         if (configuredTimeZone == TimeZone.Local){
-            return time.local().format(dateFormat + 'h:mm a');
+            return time.local().format(dateFormat + 'h:mm A');
         }
         else{
             return `${time.utc().format(dateFormat + 'HH:mm')} Z`;
+        }
+        
+    }
+
+    convertTimeToConfiguredCustomFormat(time: moment.Moment, customFormat: string = ''): string{
+        var configuredTimeZone : TimeZone = this.configService.getConfiguredTimeZone();
+        if (configuredTimeZone == TimeZone.Local){
+            return time.local().format(customFormat);
+        }
+        else{
+            return time.utc().format(customFormat);
         }
         
     }
@@ -139,6 +150,16 @@ export class ConversionService {
             return {measurement: mb.toString(), unit: 'mb', measurementAndUnit: `${mb} mb`};
         }
         
+    }
+
+    sameDay(firstTime: moment.Moment, secondTime: moment.Moment){
+        var configuredTimeZone : TimeZone = this.configService.getConfiguredTimeZone();
+        if (configuredTimeZone == TimeZone.Local){
+            return firstTime.local().format('MMM D') === secondTime.local().format("MMM D");
+        }
+        else{
+            return firstTime.utc().format('MMM D') === secondTime.utc().format("MMM D");
+        }        
     }
 }
 

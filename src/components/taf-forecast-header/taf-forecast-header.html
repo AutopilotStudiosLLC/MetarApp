@@ -1,13 +1,13 @@
 <div class="taf-day">
-		<span class="from-day">{{ forecast.fromTime.local().format("MMM D") }}</span>
-		<span class="to-day" *ngIf="!sameDay(forecast.fromTime, forecast.toTime)">
-			to {{ forecast.toTime.local().format("MMM D") }}
+		<span class="from-day">{{ forecastFromDay() }}</span>
+		<span class="to-day" *ngIf="!forecastSameDay()">
+			to {{ forecastToDay() }}
 		</span>
 </div>
 <div class="taf-time">
-{{ forecast.fromTime.local().format("h:mm A") }}
+{{ forecastFromTime() }}
 to
-{{ forecast.toTime.local().format("h:mm A") }}
+{{ forecastToTime() }}
 </div>
 <div class="change-indicator-tempo" *ngIf="forecast?.changeIndicator === 'TEMPO'">
 	(TEMPORARY)

@@ -15,13 +15,31 @@ export class TafForecastHeader {
 		
 	 }
 
+	forecastFromDay(): string {
+		if(this.forecast != null && this.forecast.fromTime != null){
+			return this.conversionService.convertTimeToConfiguredCustomFormat(this.forecast.fromTime, 'MMM D');
+		}
+	}
+
+	forecastToDay(): string {
+		if(this.forecast != null && this.forecast.toTime != null){
+			return this.conversionService.convertTimeToConfiguredCustomFormat(this.forecast.toTime, 'MMM D');
+		}
+	}
+
 	forecastFromTime(): string {
 		if(this.forecast != null && this.forecast.fromTime != null){
 			return this.conversionService.convertTimeToConfigured(this.forecast.fromTime);
 		}
 	}
 
-	sameDay(fromTime:Moment, toTime:Moment) {
-		return fromTime.local().format('MMM D') === toTime.local().format("MMM D");
+	forecastToTime(): string {
+		if(this.forecast != null && this.forecast.toTime != null){
+			return this.conversionService.convertTimeToConfigured(this.forecast.toTime);
+		}
+	}
+
+	forecastSameDay() {
+		return this.conversionService.sameDay(this.forecast.fromTime, this.forecast.toTime);
 	}
 }
