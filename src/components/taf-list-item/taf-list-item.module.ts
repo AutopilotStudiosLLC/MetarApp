@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { TafListItem } from './taf-list-item';
+import { TafForecastHeaderModule } from '../taf-forecast-header/taf-forecast-header.module'
 
 @NgModule({
 	declarations: [
@@ -8,6 +9,7 @@ import { TafListItem } from './taf-list-item';
 	],
 	imports: [
 		IonicPageModule.forChild(TafListItem),
+		TafForecastHeaderModule
 	],
 	exports: [
 		TafListItem
