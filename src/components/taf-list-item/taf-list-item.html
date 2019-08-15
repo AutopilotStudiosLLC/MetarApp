@@ -4,10 +4,10 @@
 			<h1>
 				{{ station.ident }}
 				<span class="issue-time" *ngIf="taf?.issueTime != ''">
-					(Issued: {{ taf?.issueTime.local().format('h:mm a') }})
+					(Issued: {{ tafIssueTime() }})
 				</span>
 			</h1>
-			<span *ngIf="station.getDistance()">({{ station.getDistanceInStatuteMiles(1) | number }} sm)</span>
+			<span *ngIf="station.getDistance()">({{ stationDistance() }})</span>
 		</ion-col>
 	</ion-row>
 	<ion-row>
