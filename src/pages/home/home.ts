@@ -1,5 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, LoadingController, NavController, Platform, ToastController} from 'ionic-angular';
+import {Storage} from "@ionic/storage";
 import {Station} from "../../models/station.model";
 import {MetarDetailsPage} from "../metar/metar-details/metar-details";
 import {StationService} from "../../services/station.service";
@@ -29,37 +30,40 @@ export class HomePage {
 	constructor(public navCtrl: NavController, private stationService: StationService,
 				private loadingCtrl: LoadingController, private alertCtrl: AlertController,
 				private addsService: AddsService, private platform: Platform,
-				private flightPlanService: FlightPlanService, private toastController: ToastController) {
+				private flightPlanService: FlightPlanService, private toastController: ToastController,
+				private storage: Storage) {
 
 	}
 
 	ngOnInit() {
 		//Display Disclaimer when the app is launched, unless already dismissed.
-		if(localStorage.getItem('disclaimer') !== Constants.BUILD_VERSION) {
-			const alert = this.alertCtrl.create({
-				title: 'Important',
-				message: 'Although we try our best to provide the most up to date and accurate information, the accuracy of ' +
-					'the information presented cannot be guaranteed. The information retrieved through this application is for ' +
-					'reference only. For official flight weather information please contact flight service. \n\nFly safe!',
-				inputs: [
-					{
-						name: 'dismissDisclaimer',
-						label: 'I understand, hide disclaimer.',
-						value: 'Dismissed',
-						type: 'checkbox'
-					}
-				],
-				buttons: [{
-					text: 'Agree',
-					handler: data => {
-						if (Array.isArray(data) && data.pop() === 'Dismissed') {
-							localStorage.setItem('disclaimer', Constants.BUILD_VERSION);
+		this.storage.get('disclaimer').then((disclaimerBuildVersion: string) => {
+			if(disclaimerBuildVersion !== Constants.BUILD_VERSION) {
+				const alert = this.alertCtrl.create({
+					title: 'Important',
+					message: 'Although we try our best to provide the most up to date and accurate information, the accuracy of ' +
+						'the information presented cannot be guaranteed. The information retrieved through this application is for ' +
+						'reference only. For official flight weather information please contact flight service. \n\nFly safe!',
+					inputs: [
+						{
+							name: 'dismissDisclaimer',
+							label: 'I understand, hide disclaimer.',
+							value: 'Dismissed',
+							type: 'checkbox'
 						}
-					}
-				}]
-			});
-			alert.present();
-		}
+					],
+					buttons: [{
+						text: 'Agree',
+						handler: data => {
+							if (Array.isArray(data) && data.pop() === 'Dismissed') {
+								this.storage.set('disclaimer', Constants.BUILD_VERSION);
+							}
+						}
+					}]
+				});
+				alert.present();
+			}
+		});		
 	}
 
 	ionViewWillEnter() {
