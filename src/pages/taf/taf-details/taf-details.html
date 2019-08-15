@@ -30,7 +30,7 @@
 									Issued
 								</ion-col>
 								<ion-col>
-									{{ taf.issueTime.local().format("MMM Do, h:mm A") }}
+									{{ tafIssueTime() }}
 								</ion-col>
 							</ion-row>
 						</ion-grid>
@@ -43,7 +43,7 @@
 									Bulletin Time
 								</ion-col>
 								<ion-col>
-									{{ taf.bulletinTime.local().format("MMM Do, h:mm A") }}
+									{{ tafBulletinTime() }}
 								</ion-col>
 							</ion-row>
 						</ion-grid>
@@ -56,7 +56,7 @@
 									From
 								</ion-col>
 								<ion-col>
-									{{ taf.validFrom.local().format("MMM Do, h:mm A") }}
+									{{ tafValidFrom() }}
 								</ion-col>
 							</ion-row>
 							<ion-row>
@@ -64,7 +64,7 @@
 									To
 								</ion-col>
 								<ion-col>
-									{{ taf.validTo.local().format("MMM Do, h:mm A") }}
+									{{ tafValidTo() }}
 								</ion-col>
 							</ion-row>
 						</ion-grid>
@@ -83,7 +83,7 @@
 						Remarks {{ taf.remarks }}
 					</ion-item>
 					<ion-item>
-						Elevation {{ (taf.elevation * 3.28).toFixed(0) }} ft
+						Elevation {{ tafElevation() }}
 					</ion-item>
 				</ion-list>
 
