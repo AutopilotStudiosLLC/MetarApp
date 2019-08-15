@@ -35,8 +35,8 @@
 						[navPush]="tafDetailsPage"
 						[navParams]="{station: station, taf: station.getLatestTaf()}">
 					<h2>{{ station.ident | uppercase }}</h2>					
-					<taf-short-forecast *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
-					</taf-short-forecast>
+					<taf-forecast-short *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
+					</taf-forecast-short>
 				</button>
 				<ion-item-options>
 					<button ion-button
@@ -61,8 +61,8 @@
 					[navPush]="tafDetailsPage"
 					[navParams]="{station: station, taf: station.getLatestTaf()}">
 				<h2>{{ station.ident | uppercase }}</h2>
-				<taf-short-forecast *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
-				</taf-short-forecast>
+				<taf-forecast-short *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
+				</taf-forecast-short>
 			</button>
 			<ion-item-options>
 				<button ion-button color="danger"
@@ -81,8 +81,8 @@
 					[navPush]="tafDetailsPage"
 					[navParams]="{station: station, taf: station.getLatestTaf()}">
 				<h2>{{ station.ident | uppercase }}</h2>
-				<taf-short-forecast *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
-				</taf-short-forecast>
+				<taf-forecast-short *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
+				</taf-forecast-short>
 			</button>
 			<ion-item-options>
 				<button ion-button

@@ -30,7 +30,7 @@ import {StationCardModule} from "../components/station-card/station-card.module"
 import {MetarListItemModule} from "../components/metar-list-item/metar-list-item.module";
 import {MetarHistoryListItemModule} from "../components/metar-history-list-item/metar-history-list-item.module";
 import {TafListItemModule} from "../components/taf-list-item/taf-list-item.module";
-import {TafShortForecastModule} from "../components/taf-short-forecast/taf-short-forecast.module";
+import {TafForecastShortModule} from "../components/taf-forecast-short/taf-forecast-short.module";
 import {TafForecastHeaderModule} from "../components/taf-forecast-header/taf-forecast-header.module";
 import {TafForecastContentModule} from "../components/taf-forecast-content/taf-forecast-content.module";
 import {PirepListItemModule} from "../components/pirep-list-item/pirep-list-item.module";
@@ -86,7 +86,7 @@ export class MyErrorHandler implements ErrorHandler {
 		SearchBarLayout1Module,
 		StationCardModule,
 		TafListItemModule,
-		TafShortForecastModule,
+		TafForecastShortModule,
 		TafForecastHeaderModule,
 		TafForecastContentModule,
 		AirsigmetListItemModule,

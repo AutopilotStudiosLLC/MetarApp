@@ -1,18 +1,18 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { TafShortForecast } from './taf-short-forecast';
+import { TafForecastShort } from './taf-forecast-short';
 
 @NgModule({
 	declarations: [
-		TafShortForecast,
+		TafForecastShort,
 	],
 	imports: [
-		IonicPageModule.forChild(TafShortForecast),
+		IonicPageModule.forChild(TafForecastShort),
 	],
 	exports: [
-		TafShortForecast
+		TafForecastShort
 	],
 	schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 
-export class TafShortForecastModule { }
+export class TafForecastShortModule { }

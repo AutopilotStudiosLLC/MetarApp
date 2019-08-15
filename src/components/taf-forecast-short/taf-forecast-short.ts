@@ -3,11 +3,11 @@ import {ConversionService} from "../../services/conversion.service";
 import {Taf} from "../../models/taf.model";
 
 @Component({
-	selector: 'taf-short-forecast',
-	templateUrl: 'taf-short-forecast.html'
+	selector: 'taf-forecast-short',
+	templateUrl: 'taf-forecast-short.html'
 })
 
-export class TafShortForecast { 
+export class TafForecastShort { 
 	@Input() taf: Taf;
 
 	constructor(private conversionService: ConversionService) {
