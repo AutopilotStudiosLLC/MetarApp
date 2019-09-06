@@ -1,0 +1,20 @@
+<div class="taf-day">
+		<span class="from-day">{{ forecastFromDay() }}</span>
+		<span class="to-day" *ngIf="!forecastSameDay()">
+			to {{ forecastToDay() }}
+		</span>
+</div>
+<div class="taf-time">
+{{ forecastFromTime() }}
+to
+{{ forecastToTime() }}
+</div>
+<div class="change-indicator-tempo" *ngIf="forecast?.changeIndicator === 'TEMPO'">
+	(TEMPORARY)
+</div>
+<div class="change-indicator-becmg" *ngIf="forecast?.changeIndicator === 'BECMG'">
+	(BECOMING)
+</div>
+<div class="change-indicator-prob40" *ngIf="forecast?.changeIndicator === 'PROB40'">
+	(CHANCE)
+</div>

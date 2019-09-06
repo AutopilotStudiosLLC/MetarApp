@@ -4,6 +4,7 @@ import {Station} from "../../../models/station.model";
 import {Taf} from "../../../models/taf.model";
 import {SkyCondition} from "../../../models/sky-condition.model";
 import {StationService} from "../../../services/station.service";
+import {ConversionService} from "../../../services/conversion.service";
 import {Moment} from "moment";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 
@@ -21,7 +22,7 @@ export class TafDetailsPage {
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private alertCtrl: AlertController, private stationService: StationService,
-				private inAppBrowser: InAppBrowser) {
+				private conversionService: ConversionService, private inAppBrowser: InAppBrowser) {
 	}
 
 	ionViewWillLoad() {
@@ -57,10 +58,35 @@ export class TafDetailsPage {
 		alert.present();
 	}
 
-	sameDay(fromTime:Moment, toTime:Moment) {
-		return fromTime.local().format('MMM D') === toTime.local().format("MMM D");
+	tafIssueTime(){
+		if (this.taf != null && this.taf.issueTime != null){
+			return this.conversionService.convertTimeToConfigured(this.taf.issueTime, 'MMM Do ')
+		}
 	}
 
+	tafValidFrom(){
+		if (this.taf != null && this.taf.validFrom != null){
+			return this.conversionService.convertTimeToConfigured(this.taf.validFrom, 'MMM Do ')
+		}
+	}
+
+	tafValidTo(){
+		if (this.taf != null && this.taf.validTo != null){
+			return this.conversionService.convertTimeToConfigured(this.taf.validTo, 'MMM Do ')
+		}
+	}
+
+	tafBulletinTime(){
+		if (this.taf != null && this.taf.bulletinTime != null){
+			return this.conversionService.convertTimeToConfigured(this.taf.bulletinTime, 'MMM Do ')
+		}
+	}
+
+	tafElevation(){
+		if (this.taf != null && this.taf.elevation != null){
+			return this.conversionService.convertMetersToConfigured(Number(this.taf.elevation)).measurementAndUnit;
+		}		
+	}
 	onViewStationInfo() {
 		this.inAppBrowser.create('https://skyvector.com/airport/' + this.station.ident);
 	}

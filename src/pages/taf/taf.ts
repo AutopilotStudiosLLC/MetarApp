@@ -50,7 +50,7 @@ export class TafPage {
 					} else {
 						const alert = this.alertCtrl.create({
 							title: 'Not Found',
-							message: 'Unable to find forecast for the requested station. It\'s possible that forcasts are not supported by this station.',
+							message: 'Unable to find forecast for the requested station. It\'s possible that forecasts are not supported by this station.',
 							buttons: ['Ok']
 						});
 						alert.present();

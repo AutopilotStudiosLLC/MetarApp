@@ -34,13 +34,9 @@
 				<button ion-item
 						[navPush]="tafDetailsPage"
 						[navParams]="{station: station, taf: station.getLatestTaf()}">
-					<h2>{{ station.ident | uppercase }}</h2>
-					<p *ngIf="station.getLatestTaf()?.forecasts[0]">
-						FROM {{ station.getLatestTaf()?.forecasts[0]?.fromTime.local().format('HH:mm')}} &ndash;
-						VIS {{ station.getLatestTaf()?.forecasts[0]?.visibility }} &ndash;
-						WIND {{ station.getLatestTaf()?.forecasts[0]?.windSpeed }} kts @
-						{{ station.getLatestTaf()?.forecasts[0]?.windDirection }} &deg;
-					</p>
+					<h2>{{ station.ident | uppercase }}</h2>					
+					<taf-forecast-short *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
+					</taf-forecast-short>
 				</button>
 				<ion-item-options>
 					<button ion-button
@@ -65,12 +61,8 @@
 					[navPush]="tafDetailsPage"
 					[navParams]="{station: station, taf: station.getLatestTaf()}">
 				<h2>{{ station.ident | uppercase }}</h2>
-				<p *ngIf="station.getLatestTaf()?.forecasts[0]">
-					FROM {{ station.getLatestTaf()?.forecasts[0]?.fromTime.local().format('HH:mm')}} &ndash;
-					VIS {{ station.getLatestTaf()?.forecasts[0]?.visibility }} &ndash;
-					WIND {{ station.getLatestTaf()?.forecasts[0]?.windSpeed }} kts @
-					{{ station.getLatestTaf()?.forecasts[0]?.windDirection }} &deg;
-				</p>
+				<taf-forecast-short *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
+				</taf-forecast-short>
 			</button>
 			<ion-item-options>
 				<button ion-button color="danger"
@@ -88,13 +80,9 @@
 
 					[navPush]="tafDetailsPage"
 					[navParams]="{station: station, taf: station.getLatestTaf()}">
-				<h2>{{ station.ident }}</h2>
-				<p *ngIf="station.getLatestTaf()?.forecasts[0]">
-					FROM {{ station.getLatestTaf()?.forecasts[0]?.fromTime.local().format('HH:mm')}} &ndash;
-					VIS {{ station.getLatestTaf()?.forecasts[0]?.visibility }} &ndash;
-					WIND {{ station.getLatestTaf()?.forecasts[0]?.windSpeed }} kts @
-					{{ station.getLatestTaf()?.forecasts[0]?.windDirection }} &deg;
-				</p>
+				<h2>{{ station.ident | uppercase }}</h2>
+				<taf-forecast-short *ngIf="station.getLatestTaf()?.forecasts[0]" [taf]="station.getLatestTaf()">
+				</taf-forecast-short>
 			</button>
 			<ion-item-options>
 				<button ion-button
