@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.autopilotstudios.weather" version="1.0.190804.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.autopilotstudios.weather" version="1.0.190923" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Aviation Weather</name>
     <description>An application for Aviation Weather and Planning.</description>
     <author email="support@autopilotstudios.com" href="http://aviationweather.autopilotstudios.com/">Ionic Framework Team</author>
@@ -98,6 +98,12 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^1.1.16" />
     <plugin name="cordova-plugin-geolocation" spec="^4.0.1">
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To locate weather stations close to you." />
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+            <string>We use your location to find weather stations near you.</string>
+        </edit-config>
+        <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription ">
+            <string>We use your location to find weather stations near you.</string>
+        </edit-config>
     </plugin>
     <plugin name="cordova-plugin-ionic" spec="^2.0.4">
         <variable name="APP_ID" value="f377509b" />
@@ -107,6 +113,9 @@
         <variable name="MAX_STORE" value="2" />
     </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription ">
+        <string>We use your location to find weather stations near you.</string>
+    </edit-config>
     <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="^7.1.4" />
 </widget>
