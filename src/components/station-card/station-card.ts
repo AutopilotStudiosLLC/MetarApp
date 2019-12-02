@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Station} from "../../models/station.model";
 import {ConversionService} from "../../services/conversion.service";
 import {MetarConversions} from "../../architecture/metarConversions";
+import {ConfigService} from "../../services/config.service";
 
 @Component({
 	selector: 'station-card',
@@ -18,15 +19,8 @@ export class StationCard extends MetarConversions {
 	@Output() viewCurrentConditions = new EventEmitter();
 	@Output() viewForecastConditions = new EventEmitter();
 
-	
-	stationDistance(){
-		if(this.station != null && this.station.getDistance()){
-			return this.conversionService.convertKilometersToConfigured(Number(this.station.getDistanceInKm())).measurementAndUnit;
-		}
-	}	
-
-	constructor(conversionService: ConversionService) {
-		super(conversionService);
+	constructor(conversionService: ConversionService, protected configService: ConfigService) {
+		super(conversionService, configService);
 	 }
 
 	onAddToFavorites(station:Station) {

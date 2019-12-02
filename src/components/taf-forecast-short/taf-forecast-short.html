@@ -1,5 +1,5 @@
 <p *ngIf="taf.forecasts[0]">
-	FROM {{ forecastFromTime() }} &ndash;
+	FROM {{ fromTime() }} &ndash;
 	VIS {{ visibility() }} &ndash;
 	WIND {{ windSpeed() }} @
 	{{ taf.forecasts[0].windDirection }} &deg;

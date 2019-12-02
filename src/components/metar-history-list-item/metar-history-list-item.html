@@ -16,7 +16,7 @@
 				<ion-icon name="flag" item-start></ion-icon>
 				<span *ngIf="metar?.windSpeed > 0">
 					{{ metarWindSpeedMeasurement() }}
-					<sup>{{ metarWindSpeedUnit() }}</sup>
+					<sup>{{ speedUnit() }}</sup>
 				</span>
 				<span *ngIf="metar?.windSpeed == 0">Calm</span>
 			</ion-col>
@@ -27,7 +27,7 @@
 			</ion-col>
 			<ion-col class="wind-gusts" col-12 col-lg-4 *ngIf="metar?.windGusts">
 				Gusts {{ metarWindGustsMeasurement() }}
-				<sup>{{ metarWindGustsUnit() }}</sup>
+				<sup>{{ speedUnit() }}</sup>
 			</ion-col>
 		</ion-row>
 	</ion-col>

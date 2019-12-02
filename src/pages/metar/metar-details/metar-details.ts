@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {AlertController, IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
 import {Metar} from "../../../models/metar.model";
-import {Station} from "../../../models/station.model";
 import {MetarHistoryPage} from "../metar-history/metar-history";
 import {StationService} from "../../../services/station.service";
 import {AddsService} from "../../../services/adds.service";
@@ -9,6 +8,7 @@ import {Observable, Observer} from "rxjs";
 import {ConversionService} from "../../../services/conversion.service";
 import {MetarConversions} from "../../../architecture/metarConversions";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
+import {ConfigService} from "../../../services/config.service";
 
 @IonicPage()
 @Component({
@@ -16,17 +16,15 @@ import {InAppBrowser} from "@ionic-native/in-app-browser";
 	templateUrl: 'metar-details.html',
 })
 export class MetarDetailsPage extends MetarConversions {
-	station: Station;
-	metar: Metar;
 	inFavorites: boolean;
 
 	constructor(public navCtrl: NavController, public navParams: NavParams,
 				private alertCtrl: AlertController, private stationService: StationService,
 				private addsService: AddsService, private toastController:ToastController,
 				private platform: Platform, protected conversionService: ConversionService,
-				private inAppBrowser: InAppBrowser) {
+				private inAppBrowser: InAppBrowser, protected configService: ConfigService) {
 
-		super(conversionService);
+		super(conversionService, configService);
 
 		//On Resume
 		platform.resume.subscribe(() => {
