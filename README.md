@@ -58,3 +58,15 @@ jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore my-release-key.
 ~/Library/Android/sdk/build-tools/VERSION/zipalign -v 4 app-release-unsigned.apk AviationWeather.apk
 ~/Library/Android/sdk/build-tools/VERSION/apksigner verify AviationWeather.apk
 ```
+
+### Troubleshooting
+
+## Java Location Mac OSX
+```
+/usr/libexec/java_home -v 1.8
+```
+
+## Set JAVA_HOME OSX
+```
+export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.8.0_221.jdk/Contents/Home
+```

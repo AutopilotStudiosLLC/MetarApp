@@ -5,7 +5,6 @@ import {Taf} from "../../../models/taf.model";
 import {SkyCondition} from "../../../models/sky-condition.model";
 import {StationService} from "../../../services/station.service";
 import {ConversionService} from "../../../services/conversion.service";
-import {Moment} from "moment";
 import {InAppBrowser} from "@ionic-native/in-app-browser";
 
 @IonicPage()
