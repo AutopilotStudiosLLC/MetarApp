@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.autopilotstudios.weather" version="1.0.190923" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.autopilotstudios.weather" version="1.0.191203" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Aviation Weather</name>
     <description>An application for Aviation Weather and Planning.</description>
     <author email="support@autopilotstudios.com" href="http://aviationweather.autopilotstudios.com/">Ionic Framework Team</author>
