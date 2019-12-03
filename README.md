@@ -38,7 +38,7 @@ ionic cordova resources ios
 sudo npm install -g ios-deploy --unsafe-perm=true
 ```
 
-## Theme Documenation
+## Theme Documentation
 ```
 http://csform.com/documentation-for-ionic-3-ui-template-app-blue-light/#!
 ```
