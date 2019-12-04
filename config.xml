@@ -105,13 +105,6 @@
             <string>We use your location to find weather stations near you.</string>
         </edit-config>
     </plugin>
-    <plugin name="cordova-plugin-ionic" spec="^2.0.4">
-        <variable name="APP_ID" value="f377509b" />
-        <variable name="CHANNEL_NAME" value="Master" />
-        <variable name="UPDATE_METHOD" value="auto" />
-        <variable name="UPDATE_API" value="https://api.ionicjs.com" />
-        <variable name="MAX_STORE" value="2" />
-    </plugin>
     <plugin name="cordova-plugin-inappbrowser" spec="3.0.0" />
     <edit-config file="*-Info.plist" mode="merge" target="NSLocationAlwaysUsageDescription ">
         <string>We use your location to find weather stations near you.</string>
