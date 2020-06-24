@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {Station} from "../models/station.model";
 import {AddsService} from "./adds.service";
 import {Geolocation} from "@ionic-native/geolocation";
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 import {Storage} from "@ionic/storage";
 
 @Injectable()
