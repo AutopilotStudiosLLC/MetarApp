@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicPageModule } from '@ionic/angular';
 import { ParallaxLayout2 } from './parallax-layout-2';
 import { ElasticHeaderModule } from '../../elastic-header/elastic-header.module';
 

@@ -1,6 +1,6 @@
 import {NgModule, ErrorHandler, Injectable, Injector} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {IonicApp, IonicModule, IonicErrorHandler} from 'ionic-angular';
+import {IonicApp, IonicModule, IonicErrorHandler} from '@ionic/angular';
 import {MyApp} from './app.component';
 
 import {ContactPage} from '../pages/contact/contact';
@@ -113,8 +113,8 @@ export class MyErrorHandler implements ErrorHandler {
 		StationService,
 		FlightPlanService,
 		AddsService,
-		ConfigService,	
-		ConversionService,		
+		ConfigService,
+		ConversionService,
 		IonicErrorHandler,
 		InAppBrowser,
 		[{ provide: ErrorHandler, useClass: MyErrorHandler }]

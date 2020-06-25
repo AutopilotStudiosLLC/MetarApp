@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Station} from "../models/station.model";
 import {AddsService} from "./adds.service";
-import {Geolocation} from "@ionic-native/geolocation";
+import {Geolocation} from "@ionic-native/geolocation/ngx";
 import {Observable} from "rxjs";
+import { map } from 'rxjs/operators';
 import {Storage} from "@ionic/storage";
 
 @Injectable()
@@ -122,8 +123,8 @@ export class StationService {
 		return this.geolocation.getCurrentPosition().then((resp) => {
 			const latitude = resp.coords.latitude;
 			const longitude = resp.coords.longitude;
-			return this.addsService.getLocalStations(resp.coords.latitude, resp.coords.longitude, 50)
-				.map((stations)=>{
+			return this.addsService.getLocalStations(resp.coords.latitude, resp.coords.longitude, 50).pipe(
+				map((stations)=>{
 					stations.forEach((station) => {
 						let master = this.getStation(station.ident);
 						master.updateWith(station);
@@ -142,7 +143,7 @@ export class StationService {
 							this.localStations.splice(index, 1);
 					});
 					return this.localStations;
-				});
+				}));
 		});
 	}
 

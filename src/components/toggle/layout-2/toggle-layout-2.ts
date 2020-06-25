@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage } from '@ionic/angular';
 
 @IonicPage()
 @Component({
@@ -15,7 +15,7 @@ export class ToggleLayout2 implements OnChanges {
     ngOnChanges(changes: { [propKey: string]: any }) {
         this.data = changes['data'].currentValue;
     }
-    
+
     onEvent = (event: string, item: any): void => {
         if (this.events[event]) {
             this.events[event](item);

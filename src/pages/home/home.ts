@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, LoadingController, NavController, Platform, ToastController} from 'ionic-angular';
+import {AlertController, LoadingController, NavController, Platform, ToastController} from '@ionic/angular';
 import {Storage} from "@ionic/storage";
 import {Station} from "../../models/station.model";
 import {MetarDetailsPage} from "../metar/metar-details/metar-details";
@@ -63,7 +63,7 @@ export class HomePage {
 				});
 				alert.present();
 			}
-		});		
+		});
 	}
 
 	ionViewWillEnter() {

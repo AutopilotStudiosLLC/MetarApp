@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicPageModule } from '@ionic/angular';
 import { ActionSheetLayout1 } from './action-sheet-layout-1';
 import { ElasticHeaderModule } from '../../elastic-header/elastic-header.module';
 

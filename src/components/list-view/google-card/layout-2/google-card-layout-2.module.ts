@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicPageModule } from '@ionic/angular';
 import { GoogleCardLayout2 } from './google-card-layout-2';
 
 @NgModule({

@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage } from '@ionic/angular';
 
 @IonicPage()
 @Component({
@@ -11,7 +11,7 @@ export class RangeLayout4 implements OnChanges {
   @Input('events') events: any;
 
   constructor() {}
-  
+
   ngOnChanges(changes: { [propKey: string]: any }) {
     this.data = changes['data'].currentValue;
   }

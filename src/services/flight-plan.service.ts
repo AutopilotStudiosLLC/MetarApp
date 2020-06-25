@@ -1,5 +1,5 @@
 import {Station} from "../models/station.model";
-import {reorderArray} from "ionic-angular";
+//import {reorderArray} from "@ionic/angular";
 
 export class FlightPlanService {
 	private stations: Station[] = [];
@@ -55,6 +55,7 @@ export class FlightPlanService {
 	}
 
 	public reorderStations(indexes) {
-		this.stations = reorderArray(this.stations, indexes);
+		//@todo fix this method
+		//this.stations = reorderArray(this.stations, indexes);
 	}
 }

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, ItemSliding, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, ItemSliding, LoadingController, NavController, NavParams} from '@ionic/angular';
 import {TafDetailsPage} from "./taf-details/taf-details";
 import {Station} from "../../models/station.model";
 import {AddsService} from "../../services/adds.service";

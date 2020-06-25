@@ -1,5 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
-import { IonicPage, AlertController } from 'ionic-angular';
+import { IonicPage, AlertController } from '@ionic/angular';
 
 @IonicPage()
 @Component({

@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, AfterViewInit } from '@angular/core';
-import { IonicPage, Content, FabButton, reorderArray } from 'ionic-angular';
+import { IonicPage, Content, FabButton, reorderArray } from '@ionic/angular';
 
 @IonicPage()
 @Component({

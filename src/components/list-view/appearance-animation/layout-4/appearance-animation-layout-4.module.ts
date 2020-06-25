@@ -1,5 +1,5 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { IonicPageModule } from 'ionic-angular';
+import { IonicPageModule } from '@ionic/angular';
 import { AppearanceAnimationLayout4 } from './appearance-animation-layout-4';
 
 @NgModule({

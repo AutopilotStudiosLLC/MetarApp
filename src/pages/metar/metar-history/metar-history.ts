@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {IonicPage, NavController, NavParams} from 'ionic-angular';
+import {IonicPage, NavController, NavParams} from '@ionic/angular';
 import {Station} from "../../../models/station.model";
 import {Metar} from "../../../models/metar.model";
 

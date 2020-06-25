@@ -1,5 +1,5 @@
 import { Component, Input, AfterViewInit } from '@angular/core';
-import { IonicPage, NavController, NavParams, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Slides } from '@ionic/angular';
 import { ViewChild } from '@angular/core';
 
 @IonicPage()
@@ -34,7 +34,7 @@ export class FullScreenGallery implements AfterViewInit {
       this.isLocked = !this.isLocked;
       slides.lockSwipes(this.isLocked);
     }
-    
+
     ngAfterViewInit() {
       this.sliderOptions = {
         pager:true,

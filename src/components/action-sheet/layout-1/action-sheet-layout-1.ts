@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, OnChanges, AfterViewInit } from '@angular/core';
-import { IonicPage, Content, ActionSheetController } from 'ionic-angular';
+import { IonicPage, Content, ActionSheetController } from '@ionic/angular';
 
 @IonicPage()
 @Component({

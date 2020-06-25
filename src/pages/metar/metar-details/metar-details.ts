@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams, Platform, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams, Platform, ToastController} from '@ionic/angular';
 import {Metar} from "../../../models/metar.model";
 import {MetarHistoryPage} from "../metar-history/metar-history";
 import {StationService} from "../../../services/station.service";

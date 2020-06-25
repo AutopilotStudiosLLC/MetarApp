@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage } from '@ionic/angular';
 
 @IonicPage()
 @Component({
@@ -40,7 +40,7 @@ export class LoginLayout1 {
     if (!this.password || this.password.length == 0) {
         this.isPasswordValid = false;
     }
-    
+
     return this.isPasswordValid && this.isUsernameValid;
  }
 }

@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, NavController, NavParams} from 'ionic-angular';
+import {AlertController, IonicPage, NavController, NavParams} from '@ionic/angular';
 import {Station} from "../../../models/station.model";
 import {Taf} from "../../../models/taf.model";
 import {SkyCondition} from "../../../models/sky-condition.model";
@@ -84,7 +84,7 @@ export class TafDetailsPage {
 	tafElevation(){
 		if (this.taf != null && this.taf.elevation != null){
 			return this.conversionService.convertMetersToConfigured(Number(this.taf.elevation)).measurementAndUnit;
-		}		
+		}
 	}
 	onViewStationInfo() {
 		this.inAppBrowser.create('https://skyvector.com/airport/' + this.station.ident);

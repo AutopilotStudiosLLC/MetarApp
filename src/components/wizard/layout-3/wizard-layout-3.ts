@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild } from '@angular/core';
-import { IonicPage, Slides } from 'ionic-angular';
+import { IonicPage, Slides } from '@ionic/angular';
 
 @IonicPage()
 @Component({

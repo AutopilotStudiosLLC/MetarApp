@@ -1,12 +1,12 @@
 import {Component} from '@angular/core';
-import {IonicPage} from 'ionic-angular';
+import {IonicPage} from '@ionic/angular';
 import {
-	ConfigService, 
-	TimeZone, 
-	TemperatureUnits, 
+	ConfigService,
+	TimeZone,
+	TemperatureUnits,
 	SpeedUnits,
-	DistanceUnits, 
-	AltitudeUnits, 
+	DistanceUnits,
+	AltitudeUnits,
 	PressureUnits
 } from "../../services/config.service";
 
@@ -53,7 +53,7 @@ export class SettingsPage {
 		}
 		this.configuredTemperatureUnit = this.configService.getConfiguredTemperatureUnit().toString();
 	}
-	
+
 	getDistanceUnits(){
 		return Object.keys(DistanceUnits).map(key => DistanceUnits[key]);
 	}

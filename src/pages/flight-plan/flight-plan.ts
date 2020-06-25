@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {AlertController, IonicPage, LoadingController, NavController, NavParams, ToastController} from '@ionic/angular';
 import {FlightPlanService} from "../../services/flight-plan.service";
 import {Utility} from "../../models/utility.model";
 import {AddsService} from "../../services/adds.service";

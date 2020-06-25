@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Config} from 'ionic-angular';
+import {Config} from '@ionic/angular';
 import {Storage} from "@ionic/storage";
 
 @Injectable()
@@ -43,7 +43,7 @@ export class ConfigService {
 
         this.storage.get(this.pressureKey).then((value: PressureUnits) =>{
             this.setConfiguredPressureUnit(value != null ? value : this.defaultPressureUnit);
-        }).catch();        
+        }).catch();
     }
 
     setConfiguredTemperatureUnit(temperatureUnit: TemperatureUnits){

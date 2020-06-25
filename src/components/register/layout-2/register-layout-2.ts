@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage } from '@ionic/angular';
 
 @IonicPage()
 @Component({
@@ -22,7 +22,7 @@ export class RegisterLayout2 {
     private isPasswordValid: boolean = true;
     private isCityValid: boolean = true;
     private isCountryValid: boolean = true;
-    
+
     private regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
     constructor() { }
@@ -52,7 +52,7 @@ export class RegisterLayout2 {
         if (!this.username ||this.username.length == 0) {
             this.isUsernameValid = false;
         }
-    
+
         if (!this.password || this.password.length == 0) {
             this.isPasswordValid = false;
         }
@@ -70,12 +70,12 @@ export class RegisterLayout2 {
         }
 
         this.isEmailValid = this.regex.test(this.email);
-        
-        return this.isEmailValid && 
-            this.isPasswordValid && 
-            this.isUsernameValid && 
-            this.isCityValid && 
+
+        return this.isEmailValid &&
+            this.isPasswordValid &&
+            this.isUsernameValid &&
+            this.isCityValid &&
             this.isCountryValid;
     }
-    
+
 }
